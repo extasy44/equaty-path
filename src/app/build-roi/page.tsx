@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 export default function BuildRoiPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-8 md:py-10">
-      <header className="mb-8 text-center md:text-left mx-auto max-w-3xl md:max-w-none">
+      <header className="mb-6 md:mb-8 text-center md:text-left mx-auto max-w-3xl md:max-w-none">
         <h1 className="text-4xl font-semibold tracking-tight text-[color:var(--color-primary)]">
           EquityPath Build ROI
         </h1>

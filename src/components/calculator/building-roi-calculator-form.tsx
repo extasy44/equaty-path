@@ -80,6 +80,153 @@ export function BuildRoiCalculatorForm({
   const isProgrammatic = useRef(false)
   const [region, setRegion] = useState<'nsw' | 'vic'>('nsw')
 
+  // Reusable field config and helpers
+  interface FieldConfig {
+    label: string
+    name: keyof CalculatorInputs
+    registerAs: 'number' | 'checkbox'
+    hint?: string
+  }
+
+  function FieldsGrid({
+    fields,
+    form,
+  }: {
+    fields: FieldConfig[]
+    form: ReturnType<typeof useForm<CalculatorInputs>>
+  }) {
+    return (
+      <div className="grid md:grid-cols-2 gap-4">
+        {fields.map((f) => (
+          <Field
+            key={String(f.name)}
+            label={f.label}
+            name={f.name}
+            registerAs={f.registerAs}
+            hint={f.hint}
+            form={form}
+          />
+        ))}
+      </div>
+    )
+  }
+
+  function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
+    return (
+      <Card className="ring-1 ring-black/5">
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+        <CardContent>{children}</CardContent>
+      </Card>
+    )
+  }
+
+  const basicsFields: FieldConfig[] = [
+    {
+      label: 'Land price',
+      name: 'land_price',
+      registerAs: 'number',
+      hint: 'Purchase price of the land',
+    },
+    {
+      label: 'Existing house value',
+      name: 'existing_house_value',
+      registerAs: 'number',
+      hint: 'Value before demolition (0 if vacant)',
+    },
+    { label: 'Hold years', name: 'hold_years', registerAs: 'number' },
+    {
+      label: 'Annual market growth',
+      name: 'annual_market_growth',
+      registerAs: 'number',
+      hint: 'Expected annual growth as decimal (e.g. 0.04 = 4%)',
+    },
+  ]
+
+  const constructionFields: FieldConfig[] = [
+    {
+      label: 'Build cost (ex GST)',
+      name: 'build_cost',
+      registerAs: 'number',
+      hint: 'Builder contract excluding GST',
+    },
+    { label: 'Demolition cost', name: 'demolition_cost', registerAs: 'number' },
+    { label: 'Excavation', name: 'excavation_cost', registerAs: 'number' },
+    { label: 'Tree removal', name: 'tree_removal_cost', registerAs: 'number' },
+    { label: 'Rock removal', name: 'rock_removal_cost', registerAs: 'number' },
+    {
+      label: 'Traffic control',
+      name: 'traffic_control_cost',
+      registerAs: 'number',
+      hint: 'Road closures, pedestrian management',
+    },
+    {
+      label: 'Site remediation',
+      name: 'site_remediation_cost',
+      registerAs: 'number',
+      hint: 'Contamination, asbestos removal',
+    },
+    { label: 'Geotech', name: 'geotech_cost', registerAs: 'number' },
+    { label: 'Energy compliance', name: 'basix_and_sustainability_cost', registerAs: 'number' },
+    {
+      label: 'Utility connections',
+      name: 'utility_connection_cost',
+      registerAs: 'number',
+      hint: 'Sewer, water, power, gas',
+    },
+    { label: 'Driveway & landscaping', name: 'driveway_landscaping_cost', registerAs: 'number' },
+    { label: 'Variations allowance', name: 'allowance_variations', registerAs: 'number' },
+  ]
+
+  const professionalFields: FieldConfig[] = [
+    { label: 'Architect/design', name: 'architect_design_fees', registerAs: 'number' },
+    { label: 'Engineering', name: 'engineering_fees', registerAs: 'number' },
+    { label: 'Council approvals', name: 'council_approval_costs', registerAs: 'number' },
+    { label: 'Certifier', name: 'certifier_fees', registerAs: 'number' },
+    { label: 'Surveyors', name: 'surveyors_fees', registerAs: 'number' },
+    { label: 'Legal (purchase)', name: 'legal_fees_purchase', registerAs: 'number' },
+  ]
+
+  const financeHoldingFields: FieldConfig[] = [
+    { label: 'Deposit', name: 'deposit', registerAs: 'number' },
+    { label: 'Loan interest rate', name: 'loan_interest_rate', registerAs: 'number' },
+    { label: 'Loan term (years)', name: 'loan_term_years', registerAs: 'number' },
+    {
+      label: 'Interest during construction (months)',
+      name: 'interest_during_construction_months',
+      registerAs: 'number',
+    },
+    { label: 'Bank fee upfront', name: 'bank_fee_upfront', registerAs: 'number' },
+    { label: 'Valuation fee', name: 'valuation_fee', registerAs: 'number' },
+    { label: 'Mortgage insurance', name: 'mortgage_insurance', registerAs: 'number' },
+  ]
+
+  const holdingOperatingFields: FieldConfig[] = [
+    { label: 'Rates per year', name: 'rates_per_year', registerAs: 'number' },
+    { label: 'Insurance per year', name: 'insurance_per_year', registerAs: 'number' },
+    { label: 'Utilities per month', name: 'utilities_per_month', registerAs: 'number' },
+    {
+      label: 'Property management per year',
+      name: 'property_management_per_year',
+      registerAs: 'number',
+    },
+  ]
+
+  const sellingTaxFields: FieldConfig[] = [
+    { label: 'Agent commission % (0.02)', name: 'agent_commission_pct', registerAs: 'number' },
+    { label: 'Sales legal fees', name: 'sales_legal_fees', registerAs: 'number' },
+    { label: 'Marketing costs', name: 'marketing_costs', registerAs: 'number' },
+    { label: 'Owner occupied (true/false)', name: 'is_owner_occupied', registerAs: 'checkbox' },
+    { label: 'Owner-occupied share (0-1)', name: 'owner_occupied_share_pct', registerAs: 'number' },
+    { label: 'Apply CGT 50% discount', name: 'apply_cgt_discount', registerAs: 'checkbox' },
+    {
+      label: 'Effective tax rate on gain (0.25)',
+      name: 'taxable_profit_rate',
+      registerAs: 'number',
+    },
+  ]
+
   interface DutyBracket {
     upTo: number
     base: number
@@ -193,35 +340,9 @@ export function BuildRoiCalculatorForm({
             className="mt-4"
             style={{ display: showAll ? 'block' : undefined }}
           >
-            <Card className="ring-1 ring-black/5">
-              <CardHeader>
-                <CardTitle>Project basics</CardTitle>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                <Field
-                  label="Land price"
-                  name="land_price"
-                  registerAs="number"
-                  form={form}
-                  hint="Purchase price of the land"
-                />
-                <Field
-                  label="Existing house value"
-                  name="existing_house_value"
-                  registerAs="number"
-                  form={form}
-                  hint="Value before demolition (0 if vacant)"
-                />
-                <Field label="Hold years" name="hold_years" registerAs="number" form={form} />
-                <Field
-                  label="Annual market growth"
-                  name="annual_market_growth"
-                  registerAs="number"
-                  form={form}
-                  hint="Expected annual growth as decimal (e.g. 0.04 = 4%)"
-                />
-              </CardContent>
-            </Card>
+            <SectionCard title="Project basics">
+              <FieldsGrid fields={basicsFields} form={form} />
+            </SectionCard>
           </TabsContent>
 
           <TabsContent
@@ -229,79 +350,9 @@ export function BuildRoiCalculatorForm({
             className="mt-4"
             style={{ display: showAll ? 'block' : undefined }}
           >
-            <Card className="ring-1 ring-black/5">
-              <CardHeader>
-                <CardTitle>Construction & site</CardTitle>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                <Field
-                  label="Build cost (ex GST)"
-                  name="build_cost"
-                  registerAs="number"
-                  form={form}
-                  hint="Builder contract excluding GST"
-                />
-                <Field
-                  label="Demolition cost"
-                  name="demolition_cost"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field label="Excavation" name="excavation_cost" registerAs="number" form={form} />
-                <Field
-                  label="Tree removal"
-                  name="tree_removal_cost"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Rock removal"
-                  name="rock_removal_cost"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Traffic control"
-                  name="traffic_control_cost"
-                  registerAs="number"
-                  form={form}
-                  hint="Road closures, pedestrian management"
-                />
-                <Field
-                  label="Site remediation"
-                  name="site_remediation_cost"
-                  registerAs="number"
-                  form={form}
-                  hint="Contamination, asbestos removal"
-                />
-                <Field label="Geotech" name="geotech_cost" registerAs="number" form={form} />
-                <Field
-                  label="Energy compliance"
-                  name="basix_and_sustainability_cost"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Utility connections"
-                  name="utility_connection_cost"
-                  registerAs="number"
-                  form={form}
-                  hint="Sewer, water, power, gas"
-                />
-                <Field
-                  label="Driveway & landscaping"
-                  name="driveway_landscaping_cost"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Variations allowance"
-                  name="allowance_variations"
-                  registerAs="number"
-                  form={form}
-                />
-              </CardContent>
-            </Card>
+            <SectionCard title="Construction & site">
+              <FieldsGrid fields={constructionFields} form={form} />
+            </SectionCard>
           </TabsContent>
 
           <TabsContent
@@ -309,39 +360,9 @@ export function BuildRoiCalculatorForm({
             className="mt-4"
             style={{ display: showAll ? 'block' : undefined }}
           >
-            <Card className="ring-1 ring-black/5">
-              <CardHeader>
-                <CardTitle>Professional & approvals</CardTitle>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                <Field
-                  label="Architect/design"
-                  name="architect_design_fees"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Engineering"
-                  name="engineering_fees"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Council approvals"
-                  name="council_approval_costs"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field label="Certifier" name="certifier_fees" registerAs="number" form={form} />
-                <Field label="Surveyors" name="surveyors_fees" registerAs="number" form={form} />
-                <Field
-                  label="Legal (purchase)"
-                  name="legal_fees_purchase"
-                  registerAs="number"
-                  form={form}
-                />
-              </CardContent>
-            </Card>
+            <SectionCard title="Professional & approvals">
+              <FieldsGrid fields={professionalFields} form={form} />
+            </SectionCard>
           </TabsContent>
 
           <TabsContent
@@ -387,115 +408,17 @@ export function BuildRoiCalculatorForm({
               </CardContent>
             </Card>
 
-            <Card className="ring-1 ring-black/5 mt-4">
-              <CardHeader>
-                <CardTitle>Finance & holding</CardTitle>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                <Field label="Deposit" name="deposit" registerAs="number" form={form} />
-                <Field
-                  label="Loan interest rate"
-                  name="loan_interest_rate"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Loan term (years)"
-                  name="loan_term_years"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Interest during construction (months)"
-                  name="interest_during_construction_months"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Bank fee upfront"
-                  name="bank_fee_upfront"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field label="Valuation fee" name="valuation_fee" registerAs="number" form={form} />
-                <Field
-                  label="Mortgage insurance"
-                  name="mortgage_insurance"
-                  registerAs="number"
-                  form={form}
-                />
-              </CardContent>
-            </Card>
+            <SectionCard title="Finance & holding">
+              <FieldsGrid fields={financeHoldingFields} form={form} />
+            </SectionCard>
 
-            <Card className="ring-1 ring-black/5 mt-4">
-              <CardHeader>
-                <CardTitle>Holding & operating</CardTitle>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                <Field
-                  label="Rates per year"
-                  name="rates_per_year"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Insurance per year"
-                  name="insurance_per_year"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Utilities per month"
-                  name="utilities_per_month"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Property management per year"
-                  name="property_management_per_year"
-                  registerAs="number"
-                  form={form}
-                />
-              </CardContent>
-            </Card>
+            <SectionCard title="Holding & operating">
+              <FieldsGrid fields={holdingOperatingFields} form={form} />
+            </SectionCard>
 
-            <Card className="ring-1 ring-black/5 mt-4">
-              <CardHeader>
-                <CardTitle>Selling & taxation</CardTitle>
-              </CardHeader>
-              <CardContent className="grid md:grid-cols-2 gap-4">
-                <Field
-                  label="Agent commission % (0.02)"
-                  name="agent_commission_pct"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Sales legal fees"
-                  name="sales_legal_fees"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Marketing costs"
-                  name="marketing_costs"
-                  registerAs="number"
-                  form={form}
-                />
-                <Field
-                  label="Owner occupied (true/false)"
-                  name="is_owner_occupied"
-                  registerAs="checkbox"
-                  form={form}
-                />
-                <Field
-                  label="Effective tax rate on gain (0.25)"
-                  name="taxable_profit_rate"
-                  registerAs="number"
-                  form={form}
-                />
-              </CardContent>
-            </Card>
+            <SectionCard title="Selling & taxation">
+              <FieldsGrid fields={sellingTaxFields} form={form} />
+            </SectionCard>
 
             <Card className="ring-1 ring-black/5 mt-4">
               <CardHeader>
@@ -516,134 +439,17 @@ export function BuildRoiCalculatorForm({
 
       {showAll && (
         <div className="grid gap-6">
-          <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle>Project basics</CardTitle>
-            </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-4">
-              <Field
-                label="Land price"
-                name="land_price"
-                registerAs="number"
-                form={form}
-                hint="Purchase price of the land"
-              />
-              <Field
-                label="Existing house value"
-                name="existing_house_value"
-                registerAs="number"
-                form={form}
-                hint="Value before demolition (0 if vacant)"
-              />
-              <Field label="Hold years" name="hold_years" registerAs="number" form={form} />
-              <Field
-                label="Annual market growth"
-                name="annual_market_growth"
-                registerAs="number"
-                form={form}
-                hint="Decimal or % accepted"
-              />
-            </CardContent>
-          </Card>
+          <SectionCard title="Project basics">
+            <FieldsGrid fields={basicsFields} form={form} />
+          </SectionCard>
 
-          <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle>Construction & site</CardTitle>
-            </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-4">
-              <Field
-                label="Build cost (ex GST)"
-                name="build_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Demolition cost"
-                name="demolition_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field label="Excavation" name="excavation_cost" registerAs="number" form={form} />
-              <Field
-                label="Tree removal"
-                name="tree_removal_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Rock removal"
-                name="rock_removal_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Traffic control"
-                name="traffic_control_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Site remediation"
-                name="site_remediation_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field label="Geotech" name="geotech_cost" registerAs="number" form={form} />
-              <Field
-                label="Energy compliance"
-                name="basix_and_sustainability_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Utility connections"
-                name="utility_connection_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Driveway & landscaping"
-                name="driveway_landscaping_cost"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Variations allowance"
-                name="allowance_variations"
-                registerAs="number"
-                form={form}
-              />
-            </CardContent>
-          </Card>
+          <SectionCard title="Construction & site">
+            <FieldsGrid fields={constructionFields} form={form} />
+          </SectionCard>
 
-          <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle>Professional & approvals</CardTitle>
-            </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-4">
-              <Field
-                label="Architect/design"
-                name="architect_design_fees"
-                registerAs="number"
-                form={form}
-              />
-              <Field label="Engineering" name="engineering_fees" registerAs="number" form={form} />
-              <Field
-                label="Council approvals"
-                name="council_approval_costs"
-                registerAs="number"
-                form={form}
-              />
-              <Field label="Certifier" name="certifier_fees" registerAs="number" form={form} />
-              <Field label="Surveyors" name="surveyors_fees" registerAs="number" form={form} />
-              <Field
-                label="Legal (purchase)"
-                name="legal_fees_purchase"
-                registerAs="number"
-                form={form}
-              />
-            </CardContent>
-          </Card>
+          <SectionCard title="Professional & approvals">
+            <FieldsGrid fields={professionalFields} form={form} />
+          </SectionCard>
 
           <Card className="ring-1 ring-black/5">
             <CardHeader>
@@ -678,122 +484,17 @@ export function BuildRoiCalculatorForm({
             </CardContent>
           </Card>
 
-          <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle>Finance & holding</CardTitle>
-            </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-4">
-              <Field label="Deposit" name="deposit" registerAs="number" form={form} />
-              <Field
-                label="Loan interest rate"
-                name="loan_interest_rate"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Loan term (years)"
-                name="loan_term_years"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Interest during construction (months)"
-                name="interest_during_construction_months"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Bank fee upfront"
-                name="bank_fee_upfront"
-                registerAs="number"
-                form={form}
-              />
-              <Field label="Valuation fee" name="valuation_fee" registerAs="number" form={form} />
-              <Field
-                label="Mortgage insurance"
-                name="mortgage_insurance"
-                registerAs="number"
-                form={form}
-              />
-            </CardContent>
-          </Card>
+          <SectionCard title="Finance & holding">
+            <FieldsGrid fields={financeHoldingFields} form={form} />
+          </SectionCard>
 
-          <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle>Holding & operating</CardTitle>
-            </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-4">
-              <Field label="Rates per year" name="rates_per_year" registerAs="number" form={form} />
-              <Field
-                label="Insurance per year"
-                name="insurance_per_year"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Utilities per month"
-                name="utilities_per_month"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Property management per year"
-                name="property_management_per_year"
-                registerAs="number"
-                form={form}
-              />
-            </CardContent>
-          </Card>
+          <SectionCard title="Holding & operating">
+            <FieldsGrid fields={holdingOperatingFields} form={form} />
+          </SectionCard>
 
-          <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle>Selling & taxation</CardTitle>
-            </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-4">
-              <Field
-                label="Agent commission % (0.02)"
-                name="agent_commission_pct"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Sales legal fees"
-                name="sales_legal_fees"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Marketing costs"
-                name="marketing_costs"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Owner occupied (true/false)"
-                name="is_owner_occupied"
-                registerAs="checkbox"
-                form={form}
-              />
-              <Field
-                label="Owner-occupied share (0-1)"
-                name="owner_occupied_share_pct"
-                registerAs="number"
-                form={form}
-              />
-              <Field
-                label="Apply CGT 50% discount"
-                name="apply_cgt_discount"
-                registerAs="checkbox"
-                form={form}
-              />
-              <Field
-                label="Effective tax rate on gain (0.25)"
-                name="taxable_profit_rate"
-                registerAs="number"
-                form={form}
-              />
-            </CardContent>
-          </Card>
+          <SectionCard title="Selling & taxation">
+            <FieldsGrid fields={sellingTaxFields} form={form} />
+          </SectionCard>
 
           <Card className="ring-1 ring-black/5">
             <CardHeader>

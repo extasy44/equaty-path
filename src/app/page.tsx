@@ -3,14 +3,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import type { Metadata } from 'next'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import {
-  Calculator,
-  School,
-  FileDown,
-  TrendingUp,
-  Route as RouteIcon,
-  GitCompare,
-} from 'lucide-react'
+import { TOOLS } from '@/lib/tools'
+// Icons imported but not used directly now; keeping minimal footprint
 
 export default function Home() {
   return (
@@ -46,90 +40,22 @@ export default function Home() {
       {/* Tools */}
       <section className="bg-white border-t">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-12 md:py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calculator className="h-5 w-5 text-[color:var(--color-primary)]" />
-                Build ROI
-              </CardTitle>
-              <CardDescription>Knockdown/Rebuild & construction ROI</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline">
-                <Link href="/build-roi">Explore</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-[color:var(--color-primary)]" />
-                Rental ROI
-              </CardTitle>
-              <CardDescription>Rental income, yield and cashflow analysis</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline">
-                <Link href="/rental-roi">Explore</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <School className="h-5 w-5 text-[color:var(--color-primary)]" />
-                Gearing
-              </CardTitle>
-              <CardDescription>Negative & positive gearing simulator</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline">
-                <Link href="/negative-gearing">Explore</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <RouteIcon className="h-5 w-5 text-[color:var(--color-primary)]" />
-                Pathways
-              </CardTitle>
-              <CardDescription>Financial roadmap and savings strategy</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline">
-                <Link href="/pathways">Explore</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <GitCompare className="h-5 w-5 text-[color:var(--color-primary)]" />
-                Compare
-              </CardTitle>
-              <CardDescription>Compare suburbs, builders or projects</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline">
-                <Link href="/compare">Explore</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileDown className="h-5 w-5 text-[color:var(--color-primary)]" />
-                Reports
-              </CardTitle>
-              <CardDescription>Generate lender- or investor-ready PDFs</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline">
-                <Link href="/reports">Explore</Link>
-              </Button>
-            </CardContent>
-          </Card>
+          {Object.values(TOOLS).map((tool) => (
+            <Card key={tool.key} className="hover:shadow-md transition-shadow flex flex-col">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <span className="inline-block h-5 w-5 rounded bg-[color:var(--color-primary)]/10" />
+                  {tool.name.replace('EquityPath ', '')}
+                </CardTitle>
+                <CardDescription>{tool.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="mt-auto">
+                <Button asChild variant="outline">
+                  <Link href={tool.href}>Explore</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 

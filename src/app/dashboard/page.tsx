@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { TOOLS } from '@/lib/tools'
 
 export default function DashboardPage() {
   return (
@@ -14,72 +15,22 @@ export default function DashboardPage() {
         </p>
       </header>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Build ROI</CardTitle>
-            <CardDescription>Knockdown/Rebuild & construction ROI</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/build-roi" className="text-[color:var(--color-primary)] underline">
-              Open Calculator
-            </Link>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Rental ROI</CardTitle>
-            <CardDescription>Rental income, yield and cashflow analysis</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/rental-roi" className="text-[color:var(--color-primary)] underline">
-              Open Tool
-            </Link>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Gearing</CardTitle>
-            <CardDescription>Negative & positive gearing simulator</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/negative-gearing" className="text-[color:var(--color-primary)] underline">
-              Open Tool
-            </Link>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Pathways</CardTitle>
-            <CardDescription>Financial roadmap and savings strategy</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/pathways" className="text-[color:var(--color-primary)] underline">
-              Open Tool
-            </Link>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Compare</CardTitle>
-            <CardDescription>Compare suburbs, builders or projects</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/compare" className="text-[color:var(--color-primary)] underline">
-              Open Tool
-            </Link>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Reports</CardTitle>
-            <CardDescription>Generate lender- or investor-ready PDFs</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Link href="/reports" className="text-[color:var(--color-primary)] underline">
-              Open Tool
-            </Link>
-          </CardContent>
-        </Card>
+        {Object.values(TOOLS).map((tool) => (
+          <Card key={tool.key} className="flex flex-col">
+            <CardHeader>
+              <CardTitle>{tool.name}</CardTitle>
+              <CardDescription>{tool.description}</CardDescription>
+            </CardHeader>
+            <CardContent className="mt-auto">
+              <Link
+                href={tool.href}
+                className="inline-flex items-center justify-center rounded-md border px-3 py-2 text-sm text-[color:var(--color-primary)] hover:underline"
+              >
+                Open Tool
+              </Link>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )

@@ -41,14 +41,14 @@ export function CalculatorClient() {
   const latestInputs = defaultInputs
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-8 md:py-12 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-start">
-      <div className="space-y-6 min-w-0">
+    <div className="mx-auto max-w-6xl px-3 md:px-8 py-6 md:py-12 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 items-start">
+      <div className="space-y-4 md:space-y-6 min-w-0">
         <BuildRoiCalculatorForm
           isCalculating={isCalculating}
           onResult={async (values) => {
             setIsCalculating(true)
             try {
-              const res = await fetch('/api/calculate', {
+              const res = await fetch('/api/build-roi/calculate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(values),
@@ -62,7 +62,7 @@ export function CalculatorClient() {
         />
       </div>
 
-      <div className="space-y-6 min-w-0">
+      <div className="space-y-4 md:space-y-6 min-w-0">
         <Card className="ring-1 ring-black/5">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
