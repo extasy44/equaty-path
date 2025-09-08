@@ -73,8 +73,7 @@ export function BuildRoiCalculatorForm({
     mode: 'onChange',
   })
 
-  const values = form.watch()
-  useMemo(() => calculateFeasibility(values as CalculatorInputs), [values])
+  // Avoid watching entire form to preserve input focus
   const [showAll, setShowAll] = useState(false)
   const [autoStampDuty, setAutoStampDuty] = useState(true)
   const isProgrammatic = useRef(false)
@@ -254,15 +253,7 @@ export function BuildRoiCalculatorForm({
     return Math.max(0, Math.round(bracket.base + (landPrice - bracket.over) * bracket.rate))
   }
 
-  useEffect(() => {
-    if (!autoStampDuty) return
-    const price = Number(values.land_price || 0)
-    const duty = estimateStampDuty(price, region)
-    isProgrammatic.current = true
-    form.setValue('stamp_duty', duty, { shouldDirty: true })
-    isProgrammatic.current = false
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.land_price, autoStampDuty, region])
+  // Removed continuous effect for land_price to prevent focus loss while typing; handled onBlur
 
   useEffect(() => {
     const sub = form.watch((_, { name, type }) => {
@@ -514,7 +505,7 @@ export function BuildRoiCalculatorForm({
 
       <div className="flex justify-end">
         <Button
-          onClick={() => onResult(values as CalculatorInputs)}
+          onClick={() => onResult(form.getValues() as CalculatorInputs)}
           disabled={isCalculating}
           style={{
             cursor: isCalculating ? 'not-allowed' : 'pointer',
