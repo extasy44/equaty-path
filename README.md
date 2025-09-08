@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## EquityPath
 
-## Getting Started
+EquityPath is a Next.js 15 (App Router) app with shadcn/ui, Tailwind v4, and Framer Motion. It provides calculators and reports for property and finance:
 
-First, run the development server:
+- Build ROI: Knockdown/Rebuild & construction feasibility
+- Rental ROI: Rental income, yield and cashflow
+- Gearing: Negative & positive gearing simulator
+- Pathways: Financial roadmap and savings strategy
+- Compare: Compare suburbs, builders or projects
+- Reports: Lender-/investor-ready PDFs
+
+### Tech
+
+- Next.js 15 App Router, React 19
+- TypeScript, Zod + react-hook-form
+- Tailwind CSS v4 with `@theme inline`
+- shadcn/ui, Radix primitives
+- Framer Motion (page transitions)
+
+### Getting Started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# App runs on http://localhost:3030
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/
+    build-roi/            # Build ROI calculator (main)
+    rental-roi/
+    negative-gearing/
+    pathways/
+    compare/
+    reports/
+    api/
+      calculate/         # POST calc endpoint
+      export/{pdf,csv}/  # Exports
+  components/
+    site/                # Header, footer
+    ui/                  # shadcn components
+    calculator/          # Calculator fields
+  lib/
+    build-roi-calc.ts    # Core feasibility logic
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Branding
 
-## Learn More
+- Master brand: EquityPath
+- Logo: `public/assets/equaty-path-logo.png`
 
-To learn more about Next.js, take a look at the following resources:
+### Notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Authentication is coming soon; login/sign up buttons are disabled with explanatory copy
+- Page transitions are disabled on first render and respect reduced motion
+- Mobile: layouts use responsive paddings and grids; Build ROI snapshot is size-optimized for small screens
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Scripts
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run dev       # Start dev server (port 3030)
+npm run build     # Production build
+npm run start     # Start production server
+npm run format    # Prettier format
+```
