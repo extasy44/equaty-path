@@ -34,4 +34,4 @@ export default function SignupPage() {
   )
 }
 
-export interface SignupPageProps {}
+export type SignupPageProps = object

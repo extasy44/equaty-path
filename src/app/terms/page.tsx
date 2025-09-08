@@ -7,4 +7,4 @@ export default function TermsPage() {
   )
 }
 
-export interface TermsPageProps {}
+export type TermsPageProps = object

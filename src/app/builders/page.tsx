@@ -15,4 +15,4 @@ export default function BuildersPage() {
   )
 }
 
-export interface BuildersPageProps {}
+export type BuildersPageProps = object

@@ -34,4 +34,4 @@ export default function FeaturesPage() {
   )
 }
 
-export interface FeaturesPageProps {}
+export type FeaturesPageProps = object

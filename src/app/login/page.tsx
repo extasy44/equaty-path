@@ -35,4 +35,4 @@ export default function LoginPage() {
   )
 }
 
-export interface LoginPageProps {}
+export type LoginPageProps = object

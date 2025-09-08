@@ -28,4 +28,4 @@ export default function PricingPage() {
   )
 }
 
-export interface PricingPageProps {}
+export type PricingPageProps = object

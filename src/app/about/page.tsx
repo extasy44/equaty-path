@@ -9,4 +9,4 @@ export default function AboutPage() {
   )
 }
 
-export interface AboutPageProps {}
+export type AboutPageProps = object

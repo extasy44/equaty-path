@@ -7,4 +7,4 @@ export default function ContactPage() {
   )
 }
 
-export interface ContactPageProps {}
+export type ContactPageProps = object

@@ -7,4 +7,4 @@ export default function PrivacyPage() {
   )
 }
 
-export interface PrivacyPageProps {}
+export type PrivacyPageProps = object
