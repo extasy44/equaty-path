@@ -45,7 +45,13 @@ export async function POST(req: NextRequest) {
   })
 
   const pdfBytes = await pdfDoc.save()
-  return new Response(pdfBytes, {
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(pdfBytes)
+      controller.close()
+    },
+  })
+  return new Response(stream, {
     headers: {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="equitypath-report.pdf"',
