@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Section } from '@/components/section/section'
 import { Button } from '@/components/ui/button'
 import {
   Table,
@@ -22,6 +23,7 @@ import {
 } from '@/components/ui/select'
 import { BarChartHorizontal } from 'lucide-react'
 import { m } from 'framer-motion'
+import { downloadCsvFile } from '@/lib/utils'
 
 export default function ComparePage() {
   const [showToast, setShowToast] = useState(false)
@@ -287,18 +289,7 @@ export default function ComparePage() {
   )
 }
 
-function Section({ children }: { children: React.ReactNode }) {
-  return (
-    <m.div
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
-    >
-      <Card className="ring-1 ring-black/5">{children}</Card>
-    </m.div>
-  )
-}
+// Section now reused from components/section/section
 
 function Row({ label, a, b, c }: { label: string; a: string; b: string; c: string }) {
   return (
@@ -369,19 +360,7 @@ function downloadCsv(options: OptionState) {
     fmt(options.B.projection5y),
     fmt(options.C.projection5y),
   ])
-
-  const csv = [header, ...rows]
-    .map((cols) => cols.map((c) => `"${String(c).replaceAll('"', '""')}"`).join(','))
-    .join('\n')
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `comparison.csv`
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
+  downloadCsvFile('comparison.csv', header, rows)
 }
 
 function Field({

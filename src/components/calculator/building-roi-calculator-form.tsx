@@ -129,6 +129,12 @@ export function BuildRoiCalculatorForm({
       hint: 'What you pay for the land only (exclude stamp duty and fees).',
     },
     {
+      label: 'Deposit',
+      name: 'deposit',
+      registerAs: 'number',
+      hint: 'Initial cash contribution to the project (not borrowed).',
+    },
+    {
       label: 'Existing house value',
       name: 'existing_house_value',
       registerAs: 'number',
@@ -263,12 +269,6 @@ export function BuildRoiCalculatorForm({
   ]
 
   const financeHoldingFields: FieldConfig[] = [
-    {
-      label: 'Deposit',
-      name: 'deposit',
-      registerAs: 'number',
-      hint: 'Initial cash contribution to the project (not borrowed).',
-    },
     {
       label: 'Loan interest rate',
       name: 'loan_interest_rate',

@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { downloadCsvFile, formatCurrencyAUD } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
@@ -125,11 +126,7 @@ const DEFAULTS: LandscapingInputs = {
 }
 
 function currency(n: number): string {
-  return new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    maximumFractionDigits: 0,
-  }).format(n)
+  return formatCurrencyAUD(n)
 }
 
 export function LandscapingCalculator() {
@@ -472,18 +469,7 @@ export function LandscapingCalculator() {
       r.labor.toFixed(2),
       r.total.toFixed(2),
     ])
-    const csv = [header, ...rows]
-      .map((cols) => cols.map((c) => `"${String(c).replaceAll('"', '""')}"`).join(','))
-      .join('\n')
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${projectName || 'estimate'}.csv`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+    downloadCsvFile(`${projectName || 'estimate'}.csv`, header, rows)
   }
 
   return (

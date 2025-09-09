@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Section } from '@/components/section/section'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { FileText, BarChart3, Calculator, TrendingUp } from 'lucide-react'
@@ -101,19 +102,7 @@ export default function ReportsPage() {
   )
 }
 
-function Section({ children }: { children: React.ReactNode }) {
-  return (
-    <m.div
-      suppressHydrationWarning
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
-    >
-      <Card className="ring-1 ring-black/5">{children}</Card>
-    </m.div>
-  )
-}
+// Section now reused from components/section/section
 
 function ReportCard({ icon, title }: { icon: React.ReactNode; title: string }) {
   return (

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { m } from 'framer-motion'
+import { formatCurrencyAUD } from '@/lib/utils'
 
 interface SimulatorInputs {
   currentSavings: number
@@ -42,11 +43,7 @@ const DEFAULTS: SimulatorInputs = {
 
 function formatCurrency(value: number) {
   if (!Number.isFinite(value)) return '—'
-  return new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    maximumFractionDigits: 0,
-  }).format(value)
+  return formatCurrencyAUD(value)
 }
 
 function formatNumber(value: number) {

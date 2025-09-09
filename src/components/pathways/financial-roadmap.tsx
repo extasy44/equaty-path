@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { m } from 'framer-motion'
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
+import { formatCurrencyAUD } from '@/lib/utils'
 import type { SavingsSnapshot } from './savings-planner'
 import type { LoanSnapshot } from './loan-readiness'
 import type { StrategySnapshot } from './strategy-simulator'
@@ -52,10 +53,10 @@ export function FinancialRoadmap({
     line('1) Savings & Runway', true, 14)
     if (savings) {
       line(
-        `- Current: ${fmtCurrency(savings.inputs.currentSavings)}  Monthly: ${fmtCurrency(savings.inputs.monthlySavings)}`
+        `- Current: ${formatCurrencyAUD(savings.inputs.currentSavings)}  Monthly: ${formatCurrencyAUD(savings.inputs.monthlySavings)}`
       )
       line(
-        `- Target: ${fmtCurrency(savings.inputs.targetAmount)}  Months to target: ${Number.isFinite(savings.outputs.monthsToTarget) ? savings.outputs.monthsToTarget : '—'}`
+        `- Target: ${formatCurrencyAUD(savings.inputs.targetAmount)}  Months to target: ${Number.isFinite(savings.outputs.monthsToTarget) ? savings.outputs.monthsToTarget : '—'}`
       )
     } else {
       line('- Current savings, monthly savings, target deposit, months to target')
@@ -64,10 +65,10 @@ export function FinancialRoadmap({
     line('2) Loan Readiness', true, 14)
     if (loan) {
       line(
-        `- Assess: ${(loan.outputs.assessmentRate * 100).toFixed(2)}%  Eligible loan: ${fmtCurrency(loan.outputs.eligibleLoan)}`
+        `- Assess: ${(loan.outputs.assessmentRate * 100).toFixed(2)}%  Eligible loan: ${formatCurrencyAUD(loan.outputs.eligibleLoan)}`
       )
       line(
-        `- Deposit req: ${fmtCurrency(loan.outputs.depositRequired)}  Gap: ${fmtCurrency(loan.outputs.depositGap)}  DTI: ${loan.outputs.dti.toFixed(2)}x`
+        `- Deposit req: ${formatCurrencyAUD(loan.outputs.depositRequired)}  Gap: ${formatCurrencyAUD(loan.outputs.depositGap)}  DTI: ${loan.outputs.dti.toFixed(2)}x`
       )
     } else {
       line('- Assessment rate, borrowing capacity, deposit/LVR checks, DTI')
@@ -76,12 +77,12 @@ export function FinancialRoadmap({
     line('3) Strategy Simulator', true, 14)
     if (strategy) {
       line(
-        `- Purchase: ${fmtCurrency(strategy.inputs.purchasePrice)}  Growth: ${(strategy.inputs.annualGrowthRate * 100).toFixed(1)}%  Years: ${strategy.inputs.years}`
+        `- Purchase: ${formatCurrencyAUD(strategy.inputs.purchasePrice)}  Growth: ${(strategy.inputs.annualGrowthRate * 100).toFixed(1)}%  Years: ${strategy.inputs.years}`
       )
       line(
-        `- Equity now: ${fmtCurrency(strategy.outputs.initialEquity)}  In ${strategy.inputs.years}y: ${fmtCurrency(strategy.outputs.equityAfterYears)}`
+        `- Equity now: ${formatCurrencyAUD(strategy.outputs.initialEquity)}  In ${strategy.inputs.years}y: ${formatCurrencyAUD(strategy.outputs.equityAfterYears)}`
       )
-      line(`- Est. annual rent: ${fmtCurrency(strategy.outputs.rentalIncomeYear)}`)
+      line(`- Est. annual rent: ${formatCurrencyAUD(strategy.outputs.rentalIncomeYear)}`)
     } else {
       line('- Purchase price, growth assumptions, equity projection, annual rent')
     }
@@ -101,13 +102,7 @@ export function FinancialRoadmap({
     URL.revokeObjectURL(url)
   }
 
-  function fmtCurrency(value: number): string {
-    return new Intl.NumberFormat('en-AU', {
-      style: 'currency',
-      currency: 'AUD',
-      maximumFractionDigits: 0,
-    }).format(value)
-  }
+  // uses shared formatCurrencyAUD
 
   return (
     <Card className="ring-1 ring-black/5">

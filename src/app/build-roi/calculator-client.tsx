@@ -21,15 +21,11 @@ import {
   type CalculatorInputs,
 } from '@/lib/build-roi-calc'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { LandscapingCalculator } from '@/components/compare/landscaping-calculator'
+import { formatCurrencyAUD } from '@/lib/utils'
 
 function formatCurrency(value: number) {
   if (!Number.isFinite(value)) return '—'
-  return new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    maximumFractionDigits: 0,
-  }).format(value)
+  return formatCurrencyAUD(value)
 }
 
 function formatPercent(value: number) {
