@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm, type Resolver } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -23,6 +24,7 @@ const schema = z.object({
   interest_rate: z.coerce.number().min(0).max(1),
   marginal_tax_rate: z.coerce.number().min(0).max(1).optional(),
   depreciation_per_year: z.coerce.number().min(0).optional(),
+  current_taxable_income: z.coerce.number().min(0).optional(),
 })
 
 export function RentalRoiForm({
@@ -35,6 +37,11 @@ export function RentalRoiForm({
     defaultValues,
     mode: 'onChange',
   })
+
+  useEffect(() => {
+    // Reset form when presets/defaultValues change
+    form.reset(defaultValues)
+  }, [defaultValues, form])
 
   const fractionalIds: Array<keyof RentalInputs> = ['property_management_pct', 'interest_rate']
 
@@ -160,6 +167,11 @@ export function RentalRoiForm({
           id="depreciation_per_year"
           label="Depreciation per year"
           hint="Capital allowances and building depreciation."
+        />
+        <Field
+          id="current_taxable_income"
+          label="Current taxable income"
+          hint="Your other taxable income before this investment."
         />
       </div>
       <button

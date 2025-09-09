@@ -13,6 +13,7 @@ export interface RentalInputs {
   interest_rate: number
   marginal_tax_rate?: number
   depreciation_per_year?: number
+  current_taxable_income?: number
 }
 
 export interface RentalOutputs {
@@ -27,6 +28,8 @@ export interface RentalOutputs {
   taxable_profit: number
   tax_effect: number
   cashflow_after_tax: number
+  taxable_income_before: number
+  taxable_income_after: number
 }
 
 export const defaultRentalInputs: RentalInputs = {
@@ -44,6 +47,7 @@ export const defaultRentalInputs: RentalInputs = {
   interest_rate: 0.065,
   marginal_tax_rate: 0.37,
   depreciation_per_year: 2500,
+  current_taxable_income: 140000,
 }
 
 export function calculateRentalRoi(i: RentalInputs): RentalOutputs {
@@ -64,6 +68,8 @@ export function calculateRentalRoi(i: RentalInputs): RentalOutputs {
   const taxable_profit = net_operating_income - annual_debt_service - depreciation
   const tax_effect = -taxable_profit * mtr
   const cashflow_after_tax = cashflow_before_tax + tax_effect
+  const taxable_income_before = i.current_taxable_income ?? 0
+  const taxable_income_after = taxable_income_before + taxable_profit
 
   const total_initial_cash = i.purchase_price + i.stamp_duty + i.closing_costs - i.loan_amount
   const gross_yield_pct = (gross_rental_income / i.purchase_price) * 100
@@ -83,6 +89,8 @@ export function calculateRentalRoi(i: RentalInputs): RentalOutputs {
     taxable_profit,
     tax_effect,
     cashflow_after_tax,
+    taxable_income_before,
+    taxable_income_after,
   }
 }
 
