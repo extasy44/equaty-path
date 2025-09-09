@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
     existing_house_value: coerce(body.existing_house_value ?? 0),
     hold_years: coerce(body.hold_years ?? 0),
     annual_market_growth: coerce(body.annual_market_growth ?? 0),
+    new_home_premium_pct: coerce(body.new_home_premium_pct ?? 0),
     // Construction & site
     build_cost: coerce(body.build_cost ?? 0),
     demolition_cost: coerce(body.demolition_cost ?? 0),

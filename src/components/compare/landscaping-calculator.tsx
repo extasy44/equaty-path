@@ -1017,11 +1017,11 @@ export function LandscapingCalculator() {
             {lines.length === 0 ? (
               <div className="text-muted-foreground">No items entered.</div>
             ) : null}
-            <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 text-xs text-muted-foreground">
+            <div className="grid grid-cols-[1fr_120px_120px_120px] items-center gap-3 text-xs text-muted-foreground">
               <div>Item</div>
-              <div>Material</div>
-              <div>Labor</div>
-              <div>Total</div>
+              <div className="text-right">Material</div>
+              <div className="text-right">Labor</div>
+              <div className="text-right">Total</div>
             </div>
             {['Land covering', 'Fences & walls', 'Driveway', 'Major features', 'Other items'].map(
               (section) => {
@@ -1035,7 +1035,7 @@ export function LandscapingCalculator() {
                     {rows.map((r, idx) => (
                       <div
                         key={`${r.item}-${idx}`}
-                        className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3"
+                        className="grid grid-cols-[1fr_120px_120px_120px] items-center gap-3"
                       >
                         <div className="truncate">{r.item}</div>
                         <div className="tabular-nums text-right">{currency(r.material)}</div>
@@ -1050,7 +1050,7 @@ export function LandscapingCalculator() {
               }
             )}
             <div className="h-px bg-border my-2" />
-            <div className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 font-semibold">
+            <div className="grid grid-cols-[1fr_120px_120px_120px] items-center gap-3 font-semibold">
               <div>Total</div>
               <div className="tabular-nums text-right">{currency(totals.material)}</div>
               <div className="tabular-nums text-right">{currency(totals.labor)}</div>
