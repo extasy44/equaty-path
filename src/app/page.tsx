@@ -4,35 +4,53 @@ import { Button } from '@/components/ui/button'
 import type { Metadata } from 'next'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { TOOLS } from '@/lib/tools'
+import { Input } from '@/components/ui/input'
 // Icons imported but not used directly now; keeping minimal footprint
 
 export default function Home() {
   return (
     <div className="font-sans">
       {/* Hero */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 pt-12 md:pt-20 pb-10 md:pb-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_-10%_-20%,#1e293b_0%,#0f172a_60%,#0b1220_100%)]" />
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 md:px-8 pt-12 md:pt-20 pb-10 md:pb-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
           <div>
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-[color:var(--color-primary)]">
-              EquityPath — your journey to wealth
+            <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white ring-1 ring-white/15">
+              Actionable insights for property & finance
+            </span>
+            <h1 className="mt-4 text-5xl md:text-6xl font-bold tracking-tight text-white">
+              Driving clarity for every property decision
             </h1>
-            <p className="mt-3 md:mt-4 text-muted-foreground text-lg md:text-xl">
-              Property and finance tools for every step: Build ROI, Rental ROI, Gearing, Reports.
+            <p className="mt-4 text-slate-300 text-lg md:text-xl">
+              One workspace to model ROI, forecast cashflow and generate lender-ready reports.
             </p>
-            <div className="mt-6 md:mt-8 flex flex-wrap gap-3">
+            <form className="mt-6 md:mt-8 flex w-full max-w-lg items-center gap-2" action="/signup">
+              <Input
+                name="email"
+                type="email"
+                required
+                placeholder="Enter your work email"
+                className="h-11 bg-white/95 text-slate-900 placeholder:text-slate-500"
+              />
               <Button
-                asChild
-                className="bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary)]/90"
+                type="submit"
+                className="h-11 bg-[color:var(--color-primary)] hover:bg-[color:var(--color-primary)]/90"
               >
-                <Link href="/build-roi">Try Build ROI</Link>
+                Create account
               </Button>
-              <Button asChild variant="outline">
-                <Link href="/pricing">See Pricing</Link>
-              </Button>
+            </form>
+            <p className="mt-2 text-xs text-slate-400">No credit card required</p>
+            <div className="mt-6 flex items-center gap-4 opacity-80">
+              <Image src="/vercel.svg" alt="Vercel" width={84} height={18} />
+              <Image src="/next.svg" alt="Next.js" width={84} height={18} />
+              <Image src="/globe.svg" alt="Global" width={84} height={18} />
             </div>
           </div>
-          <div className="relative aspect-[16/9] md:aspect-[4/3] w-full rounded-xl md:rounded-2xl overflow-hidden shadow-sm ring-1 ring-black/5">
-            <Image src="/window.svg" alt="Modern house" fill className="object-contain" />
+          <div className="relative aspect-[16/10] md:aspect-[4/3] w-full">
+            <div className="absolute inset-0 rounded-2xl bg-white/5 ring-1 ring-white/10 shadow-2xl backdrop-blur-sm" />
+            <div className="absolute inset-0 m-3 rounded-xl bg-white p-4 shadow-xl">
+              <Image src="/window.svg" alt="Dashboard preview" fill className="object-contain" />
+            </div>
           </div>
         </div>
       </section>
@@ -74,5 +92,18 @@ export default function Home() {
 
 export const metadata: Metadata = {
   title: 'EquityPath — Property & Finance Tools',
-  description: 'EquityPath: Build ROI, Rental ROI, Gearing, and lender-ready reports.',
+  description:
+    'Model ROI, forecast cashflow and generate lender-ready reports. Build ROI, Rental ROI, Gearing, Compare and Reports.',
+  alternates: { canonical: '/' },
+  openGraph: {
+    title: 'EquityPath — Property & Finance Tools',
+    description: 'Model ROI, forecast cashflow and generate lender-ready reports.',
+    url: '/',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'EquityPath — Property & Finance Tools',
+    description: 'Property calculators, simulators and reports',
+  },
 }
