@@ -3,12 +3,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { UpgradeRoiGuide } from '@/components/upgrade/upgrade-roi-guide'
 import { LandscapingCalculator } from '@/components/compare/landscaping-calculator'
 
-export default function BuildRoiPage({ searchParams }: { searchParams?: { tab?: string } }) {
+export default function BuildRoiPage({
+  searchParams,
+}: {
+  searchParams?: Record<string, string | string[] | undefined>
+}) {
+  const tabParam = Array.isArray(searchParams?.tab)
+    ? searchParams?.tab[0]
+    : (searchParams?.tab as string | undefined)
   const initialTab =
-    searchParams?.tab === 'feasibility' ||
-    searchParams?.tab === 'landscaping' ||
-    searchParams?.tab === 'upgrades'
-      ? (searchParams.tab as 'feasibility' | 'landscaping' | 'upgrades')
+    tabParam === 'feasibility' || tabParam === 'landscaping' || tabParam === 'upgrades'
+      ? (tabParam as 'feasibility' | 'landscaping' | 'upgrades')
       : 'feasibility'
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-8 md:py-10">

@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SiteHeader />
-        <main className="min-h-[calc(100dvh-56px-120px)] bg-white">
+        <main className="min-h-[calc(100dvh-56px-120px)] bg-[color:var(--color-background)]">
           <RouteTransition>{children}</RouteTransition>
         </main>
         <SiteFooter />

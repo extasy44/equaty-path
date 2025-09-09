@@ -4,6 +4,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --bg1: #f9fafb;
+  --bg2: #f6f7fb;
+  color-scheme: light dark;
 }
 
 @theme inline {
@@ -23,11 +26,13 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --bg1: #0b0b0b;
+    --bg2: #0f1115;
   }
 }
 
 body {
-  background: linear-gradient(180deg, #f9fafb 0%, #f6f7fb 100%);
+  background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
