@@ -21,6 +21,7 @@ import {
   type CalculatorInputs,
 } from '@/lib/build-roi-calc'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { LandscapingCalculator } from '@/components/compare/landscaping-calculator'
 
 function formatCurrency(value: number) {
   if (!Number.isFinite(value)) return '—'

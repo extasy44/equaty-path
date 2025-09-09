@@ -1,8 +1,15 @@
 import { CalculatorClient } from './calculator-client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { UpgradeRoiGuide } from '@/components/upgrade/upgrade-roi-guide'
+import { LandscapingCalculator } from '@/components/compare/landscaping-calculator'
 
-export default function BuildRoiPage() {
+export default function BuildRoiPage({ searchParams }: { searchParams?: { tab?: string } }) {
+  const initialTab =
+    searchParams?.tab === 'feasibility' ||
+    searchParams?.tab === 'landscaping' ||
+    searchParams?.tab === 'upgrades'
+      ? (searchParams.tab as 'feasibility' | 'landscaping' | 'upgrades')
+      : 'feasibility'
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-8 md:py-10">
       <header className="mb-6 md:mb-8 text-center md:text-left mx-auto max-w-3xl md:max-w-none">
@@ -16,7 +23,7 @@ export default function BuildRoiPage() {
         </p>
         {/* Link removed; Upgrades are now available as a tab below */}
       </header>
-      <Tabs defaultValue="feasibility">
+      <Tabs defaultValue={initialTab}>
         <TabsList className="w-full md:w-auto mx-auto grid grid-cols-3 bg-white shadow-[var(--shadow-soft)] rounded-md p-1 overflow-x-auto">
           <TabsTrigger
             value="feasibility"
@@ -24,11 +31,11 @@ export default function BuildRoiPage() {
           >
             Feasibility
           </TabsTrigger>
-          <TabsTrigger value="upgrades" className="cursor-pointer">
-            Upgrades
+          <TabsTrigger value="landscaping" className="cursor-pointer">
+            Landscaping
           </TabsTrigger>
-          <TabsTrigger value="references" className="cursor-pointer">
-            References
+          <TabsTrigger value="upgrades" className="cursor-pointer">
+            Upgrades Guide
           </TabsTrigger>
         </TabsList>
         <TabsContent value="feasibility" className="mt-4 md:mt-6">
@@ -44,6 +51,22 @@ export default function BuildRoiPage() {
         </TabsContent>
         <TabsContent value="upgrades" className="mt-6">
           <UpgradeRoiGuide showHeader={false} />
+        </TabsContent>
+        <TabsContent value="landscaping" className="mt-6">
+          <div className="mb-2 text-sm text-muted-foreground">
+            Estimate costs for concrete, turf, paving, fencing, walls, driveway, pool, pergola and
+            more.
+          </div>
+          <div className="mb-4 text-sm">
+            Map results back to your form (for example Driveway & landscaping):{' '}
+            <a
+              className="underline text-[color:var(--color-primary)]"
+              href="/build-roi?tab=feasibility#driveway_landscaping_cost"
+            >
+              Go to Feasibility → Construction & site → Driveway & landscaping
+            </a>
+          </div>
+          <LandscapingCalculator />
         </TabsContent>
       </Tabs>
     </div>

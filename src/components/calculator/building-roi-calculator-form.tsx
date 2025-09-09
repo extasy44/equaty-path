@@ -112,7 +112,7 @@ export function BuildRoiCalculatorForm({
 
   function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
     return (
-      <Card className="ring-1 ring-black/5">
+      <Card className="ring-1 ring-black/5 mt-4">
         <CardHeader>
           <CardTitle>{title}</CardTitle>
         </CardHeader>

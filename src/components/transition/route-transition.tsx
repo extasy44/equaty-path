@@ -8,16 +8,11 @@ import {
   useReducedMotion,
   cubicBezier,
 } from 'framer-motion'
-import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
 export function RouteTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const isFirstLoad = useRef(true)
   const prefersReducedMotion = useReducedMotion()
-  useEffect(() => {
-    isFirstLoad.current = false
-  }, [])
 
   const easeBezier = cubicBezier(0.22, 1, 0.36, 1)
   const variants = {
@@ -26,16 +21,30 @@ export function RouteTransition({ children }: { children: React.ReactNode }) {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      transition: { duration: 0.28, ease: easeBezier },
+      transition: { duration: 0.2, ease: easeBezier },
+    },
+    exit: {
+      opacity: 0,
+      y: -6,
+      filter: 'blur(4px)',
+      transition: { duration: 0.14, ease: easeBezier },
     },
   }
 
-  if (prefersReducedMotion || isFirstLoad.current) return <>{children}</>
+  if (prefersReducedMotion) return <>{children}</>
 
   return (
     <LazyMotion features={domAnimation} strict>
       <AnimatePresence mode="wait" initial={false}>
-        <m.div key={pathname} variants={variants} initial={'initial'} animate="enter" exit="exit">
+        <m.div
+          key={pathname}
+          variants={variants}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          className="relative isolate bg-white"
+          style={{ willChange: 'opacity, transform, filter' }}
+        >
           {children}
         </m.div>
       </AnimatePresence>
