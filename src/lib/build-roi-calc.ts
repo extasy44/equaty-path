@@ -4,6 +4,7 @@ export interface CalculatorInputs {
   existing_house_value: number
   hold_years: number
   annual_market_growth: number
+  new_home_premium_pct: number
 
   // Construction & site costs
   build_cost: number
@@ -90,6 +91,7 @@ export function calculateFeasibility(inputs: CalculatorInputs): CalculatorOutput
   }
 
   const annualGrowth = normalizeFraction(inputs.annual_market_growth)
+  const newHomePremium = normalizeFraction(inputs.new_home_premium_pct)
   const gstRate = normalizeFraction(inputs.gst_rate)
   const agentPct = normalizeFraction(inputs.agent_commission_pct)
   const effectiveTaxRate = normalizeFraction(inputs.taxable_profit_rate)
@@ -157,7 +159,8 @@ export function calculateFeasibility(inputs: CalculatorInputs): CalculatorOutput
 
   const resale_after_hold_years =
     (inputs.land_price + subtotal_construction) *
-    Math.pow(1 + annualGrowth, Math.max(0, inputs.hold_years))
+    Math.pow(1 + annualGrowth, Math.max(0, inputs.hold_years)) *
+    (1 + newHomePremium)
 
   const agent_commission = resale_after_hold_years * agentPct
   const selling_costs = agent_commission + inputs.sales_legal_fees + inputs.marketing_costs
@@ -201,6 +204,7 @@ export const defaultInputs: CalculatorInputs = {
   existing_house_value: 0,
   hold_years: 3,
   annual_market_growth: 0.05,
+  new_home_premium_pct: 0.05,
   build_cost: 750000,
   demolition_cost: 20000,
   excavation_cost: 0,

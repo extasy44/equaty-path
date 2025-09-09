@@ -14,7 +14,12 @@ import {
 import { BuildRoiCalculatorForm } from '@/components/calculator/building-roi-calculator-form'
 // import { ReportExportDialog } from '@/components/calculator/report-export-dialog'
 import { FileDown, Landmark } from 'lucide-react'
-import { calculateFeasibility, defaultInputs, type CalculatorOutputs } from '@/lib/build-roi-calc'
+import {
+  calculateFeasibility,
+  defaultInputs,
+  type CalculatorOutputs,
+  type CalculatorInputs,
+} from '@/lib/build-roi-calc'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 function formatCurrency(value: number) {
@@ -36,9 +41,9 @@ export function CalculatorClient() {
     calculateFeasibility(defaultInputs)
   )
   const [isCalculating, setIsCalculating] = useState(false)
+  const [latestInputs, setLatestInputs] = useState<CalculatorInputs>(defaultInputs)
 
   const memoOutputs = useMemo(() => outputs, [outputs])
-  const latestInputs = defaultInputs
 
   return (
     <div className="mx-auto max-w-6xl px-3 md:px-8 py-6 md:py-12 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 items-start">
@@ -48,6 +53,7 @@ export function CalculatorClient() {
           onResult={async (values) => {
             setIsCalculating(true)
             try {
+              setLatestInputs(values)
               const res = await fetch('/api/build-roi/calculate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -74,7 +80,13 @@ export function CalculatorClient() {
             <div className="text-2xl sm:text-3xl font-semibold">
               {formatCurrency(memoOutputs.resale_after_hold_years)}
             </div>
-            <div className="text-xs text-muted-foreground">Projected resale after hold years</div>
+            <div className="text-xs text-muted-foreground">
+              Projected resale after hold years
+              <span className="ml-1 rounded bg-[color:var(--color-primary)]/10 px-1.5 py-0.5">
+                includes new home premium (+
+                {formatPercent((latestInputs?.new_home_premium_pct ?? 0) * 100)})
+              </span>
+            </div>
             <div className="flex justify-between">
               <span>Total Project Cost (all-in)</span>
               <span>{formatCurrency(memoOutputs.total_project_cost_all_in)}</span>
