@@ -3,14 +3,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { UpgradeRoiGuide } from '@/components/upgrade/upgrade-roi-guide'
 import { LandscapingCalculator } from '@/components/compare/landscaping-calculator'
 
-export default function BuildRoiPage({
+export default async function BuildRoiPage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const tabParam = Array.isArray(searchParams?.tab)
-    ? searchParams?.tab[0]
-    : (searchParams?.tab as string | undefined)
+  const sp = (await searchParams) ?? {}
+  const tabParam = Array.isArray(sp.tab) ? sp.tab[0] : (sp.tab as string | undefined)
   const initialTab =
     tabParam === 'feasibility' || tabParam === 'landscaping' || tabParam === 'upgrades'
       ? (tabParam as 'feasibility' | 'landscaping' | 'upgrades')
