@@ -90,7 +90,7 @@ export function FinancialRoadmap({
     line('- Tasks, buffers, review dates, and supporting documents')
 
     const pdfBytes = await doc.save()
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' })
+    const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
