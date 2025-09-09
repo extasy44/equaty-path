@@ -1,5 +1,6 @@
 import { CalculatorClient } from './calculator-client'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { UpgradeRoiGuide } from '@/components/upgrade/upgrade-roi-guide'
 
 export default function BuildRoiPage() {
   return (
@@ -13,6 +14,7 @@ export default function BuildRoiPage() {
           purchase. Work through the sections below, click Calculate, then review the Snapshot on
           the right. Export a lender-friendly PDF when you’re ready.
         </p>
+        {/* Link removed; Upgrades are now available as a tab below */}
       </header>
       <Tabs defaultValue="feasibility">
         <TabsList className="w-full md:w-auto mx-auto grid grid-cols-3 bg-white shadow-[var(--shadow-soft)] rounded-md p-1 overflow-x-auto">
@@ -22,11 +24,11 @@ export default function BuildRoiPage() {
           >
             Feasibility
           </TabsTrigger>
+          <TabsTrigger value="upgrades" className="cursor-pointer">
+            Upgrades
+          </TabsTrigger>
           <TabsTrigger value="references" className="cursor-pointer">
             References
-          </TabsTrigger>
-          <TabsTrigger value="exports" className="cursor-pointer">
-            Exports
           </TabsTrigger>
         </TabsList>
         <TabsContent value="feasibility" className="mt-4 md:mt-6">
@@ -40,8 +42,8 @@ export default function BuildRoiPage() {
           Schools and Lifestyle information are available under the tabs on the right column. These
           sections currently show placeholder sample data.
         </TabsContent>
-        <TabsContent value="exports" className="mt-8 text-sm text-muted-foreground">
-          Use the Snapshot actions to export PDF or CSV.
+        <TabsContent value="upgrades" className="mt-6">
+          <UpgradeRoiGuide showHeader={false} />
         </TabsContent>
       </Tabs>
     </div>

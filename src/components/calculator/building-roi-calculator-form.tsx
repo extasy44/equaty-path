@@ -126,20 +126,25 @@ export function BuildRoiCalculatorForm({
       label: 'Land price',
       name: 'land_price',
       registerAs: 'number',
-      hint: 'Purchase price of the land',
+      hint: 'What you pay for the land only (exclude stamp duty and fees).',
     },
     {
       label: 'Existing house value',
       name: 'existing_house_value',
       registerAs: 'number',
-      hint: 'Value before demolition (0 if vacant)',
+      hint: 'Estimated value of any existing dwelling before demolition. Use 0 if vacant land.',
     },
-    { label: 'Hold years', name: 'hold_years', registerAs: 'number' },
+    {
+      label: 'Hold years',
+      name: 'hold_years',
+      registerAs: 'number',
+      hint: 'How long you plan to hold before selling (years).',
+    },
     {
       label: 'Annual market growth',
       name: 'annual_market_growth',
       registerAs: 'number',
-      hint: 'Expected annual growth as decimal (e.g. 0.04 = 4%)',
+      hint: 'Expected annual price growth (e.g. enter 0.04 for 4% per year).',
     },
   ]
 
@@ -148,81 +153,229 @@ export function BuildRoiCalculatorForm({
       label: 'Build cost (ex GST)',
       name: 'build_cost',
       registerAs: 'number',
-      hint: 'Builder contract excluding GST',
+      hint: 'Total builder contract amount excluding GST.',
     },
-    { label: 'Demolition cost', name: 'demolition_cost', registerAs: 'number' },
-    { label: 'Excavation', name: 'excavation_cost', registerAs: 'number' },
-    { label: 'Tree removal', name: 'tree_removal_cost', registerAs: 'number' },
-    { label: 'Rock removal', name: 'rock_removal_cost', registerAs: 'number' },
+    {
+      label: 'Demolition cost',
+      name: 'demolition_cost',
+      registerAs: 'number',
+      hint: 'Removal of existing dwelling and disposal fees.',
+    },
+    {
+      label: 'Excavation',
+      name: 'excavation_cost',
+      registerAs: 'number',
+      hint: 'Bulk earthworks, cut and fill, spoil removal.',
+    },
+    {
+      label: 'Tree removal',
+      name: 'tree_removal_cost',
+      registerAs: 'number',
+      hint: 'Arborist works and stump grinding where required.',
+    },
+    {
+      label: 'Rock removal',
+      name: 'rock_removal_cost',
+      registerAs: 'number',
+      hint: 'Hammering/blasting of rock and disposal.',
+    },
     {
       label: 'Traffic control',
       name: 'traffic_control_cost',
       registerAs: 'number',
-      hint: 'Road closures, pedestrian management',
+      hint: 'Council-compliant traffic management during works.',
     },
     {
       label: 'Site remediation',
       name: 'site_remediation_cost',
       registerAs: 'number',
-      hint: 'Contamination, asbestos removal',
+      hint: 'Contamination cleanup, asbestos removal and validation.',
     },
-    { label: 'Geotech', name: 'geotech_cost', registerAs: 'number' },
-    { label: 'Energy compliance', name: 'basix_and_sustainability_cost', registerAs: 'number' },
+    {
+      label: 'Geotech',
+      name: 'geotech_cost',
+      registerAs: 'number',
+      hint: 'Geotechnical investigations, bore logs and reports.',
+    },
+    {
+      label: 'Energy compliance',
+      name: 'basix_and_sustainability_cost',
+      registerAs: 'number',
+      hint: 'BASIX/NatHERS and sustainability assessments and upgrades.',
+    },
     {
       label: 'Utility connections',
       name: 'utility_connection_cost',
       registerAs: 'number',
-      hint: 'Sewer, water, power, gas',
+      hint: 'New connections or upgrades for sewer, water, power, gas, NBN.',
     },
-    { label: 'Driveway & landscaping', name: 'driveway_landscaping_cost', registerAs: 'number' },
-    { label: 'Variations allowance', name: 'allowance_variations', registerAs: 'number' },
+    {
+      label: 'Driveway & landscaping',
+      name: 'driveway_landscaping_cost',
+      registerAs: 'number',
+      hint: 'Driveway, paths, turf, garden beds and basic fencing.',
+    },
+    {
+      label: 'Variations allowance',
+      name: 'allowance_variations',
+      registerAs: 'number',
+      hint: 'Buffer for spec changes and unexpected site conditions.',
+    },
   ]
 
   const professionalFields: FieldConfig[] = [
-    { label: 'Architect/design', name: 'architect_design_fees', registerAs: 'number' },
-    { label: 'Engineering', name: 'engineering_fees', registerAs: 'number' },
-    { label: 'Council approvals', name: 'council_approval_costs', registerAs: 'number' },
-    { label: 'Certifier', name: 'certifier_fees', registerAs: 'number' },
-    { label: 'Surveyors', name: 'surveyors_fees', registerAs: 'number' },
-    { label: 'Legal (purchase)', name: 'legal_fees_purchase', registerAs: 'number' },
+    {
+      label: 'Architect/design',
+      name: 'architect_design_fees',
+      registerAs: 'number',
+      hint: 'Concept design, DA/CDC drawings, interiors package if applicable.',
+    },
+    {
+      label: 'Engineering',
+      name: 'engineering_fees',
+      registerAs: 'number',
+      hint: 'Structural, civil, hydraulic and other consultant fees.',
+    },
+    {
+      label: 'Council approvals',
+      name: 'council_approval_costs',
+      registerAs: 'number',
+      hint: 'DA/CDC fees, contributions and compliance certificates.',
+    },
+    {
+      label: 'Certifier',
+      name: 'certifier_fees',
+      registerAs: 'number',
+      hint: 'PCA/Building Surveyor inspections and occupation certificate.',
+    },
+    {
+      label: 'Surveyors',
+      name: 'surveyors_fees',
+      registerAs: 'number',
+      hint: 'Detail and level surveys, pegging, final identification survey.',
+    },
+    {
+      label: 'Legal (purchase)',
+      name: 'legal_fees_purchase',
+      registerAs: 'number',
+      hint: 'Conveyancing and legal advice related to purchase.',
+    },
   ]
 
   const financeHoldingFields: FieldConfig[] = [
-    { label: 'Deposit', name: 'deposit', registerAs: 'number' },
-    { label: 'Loan interest rate', name: 'loan_interest_rate', registerAs: 'number' },
-    { label: 'Loan term (years)', name: 'loan_term_years', registerAs: 'number' },
+    {
+      label: 'Deposit',
+      name: 'deposit',
+      registerAs: 'number',
+      hint: 'Initial cash contribution to the project (not borrowed).',
+    },
+    {
+      label: 'Loan interest rate',
+      name: 'loan_interest_rate',
+      registerAs: 'number',
+      hint: 'Annual interest rate on borrowings (e.g. 0.065 for 6.5%).',
+    },
+    {
+      label: 'Loan term (years)',
+      name: 'loan_term_years',
+      registerAs: 'number',
+      hint: 'Total loan term. Used for reference, not amortisation here.',
+    },
     {
       label: 'Interest during construction (months)',
       name: 'interest_during_construction_months',
       registerAs: 'number',
+      hint: 'Months you expect to pay interest before completion.',
     },
-    { label: 'Bank fee upfront', name: 'bank_fee_upfront', registerAs: 'number' },
-    { label: 'Valuation fee', name: 'valuation_fee', registerAs: 'number' },
-    { label: 'Mortgage insurance', name: 'mortgage_insurance', registerAs: 'number' },
+    {
+      label: 'Bank fee upfront',
+      name: 'bank_fee_upfront',
+      registerAs: 'number',
+      hint: 'Application, establishment and line fees at settlement.',
+    },
+    {
+      label: 'Valuation fee',
+      name: 'valuation_fee',
+      registerAs: 'number',
+      hint: 'Bank valuation for security property.',
+    },
+    {
+      label: 'Mortgage insurance',
+      name: 'mortgage_insurance',
+      registerAs: 'number',
+      hint: 'LMI if deposit/LVR triggers it. Enter 0 if not applicable.',
+    },
   ]
 
   const holdingOperatingFields: FieldConfig[] = [
-    { label: 'Rates per year', name: 'rates_per_year', registerAs: 'number' },
-    { label: 'Insurance per year', name: 'insurance_per_year', registerAs: 'number' },
-    { label: 'Utilities per month', name: 'utilities_per_month', registerAs: 'number' },
+    {
+      label: 'Rates per year',
+      name: 'rates_per_year',
+      registerAs: 'number',
+      hint: 'Council rates and any state levies while holding.',
+    },
+    {
+      label: 'Insurance per year',
+      name: 'insurance_per_year',
+      registerAs: 'number',
+      hint: 'Building and contents/landlord insurance.',
+    },
+    {
+      label: 'Utilities per month',
+      name: 'utilities_per_month',
+      registerAs: 'number',
+      hint: 'Average electricity, gas, water and internet while vacant.',
+    },
     {
       label: 'Property management per year',
       name: 'property_management_per_year',
       registerAs: 'number',
+      hint: 'If renting, annual agent fees and leasing costs.',
     },
   ]
 
   const sellingTaxFields: FieldConfig[] = [
-    { label: 'Agent commission % (0.02)', name: 'agent_commission_pct', registerAs: 'number' },
-    { label: 'Sales legal fees', name: 'sales_legal_fees', registerAs: 'number' },
-    { label: 'Marketing costs', name: 'marketing_costs', registerAs: 'number' },
-    { label: 'Owner occupied (true/false)', name: 'is_owner_occupied', registerAs: 'checkbox' },
-    { label: 'Owner-occupied share (0-1)', name: 'owner_occupied_share_pct', registerAs: 'number' },
-    { label: 'Apply CGT 50% discount', name: 'apply_cgt_discount', registerAs: 'checkbox' },
+    {
+      label: 'Agent commission % (0.02)',
+      name: 'agent_commission_pct',
+      registerAs: 'number',
+      hint: 'Selling agent fee as a fraction (e.g. 0.02 = 2%).',
+    },
+    {
+      label: 'Sales legal fees',
+      name: 'sales_legal_fees',
+      registerAs: 'number',
+      hint: 'Conveyancing and legal costs at sale.',
+    },
+    {
+      label: 'Marketing costs',
+      name: 'marketing_costs',
+      registerAs: 'number',
+      hint: 'Photography, staging, advertising and auction fees.',
+    },
+    {
+      label: 'Owner occupied (true/false)',
+      name: 'is_owner_occupied',
+      registerAs: 'checkbox',
+      hint: 'Tick if any share is your primary residence (affects CGT).',
+    },
+    {
+      label: 'Owner-occupied share (0-1)',
+      name: 'owner_occupied_share_pct',
+      registerAs: 'number',
+      hint: 'Fraction of time/area as PPOR (e.g. 0.5 = 50%).',
+    },
+    {
+      label: 'Apply CGT 50% discount',
+      name: 'apply_cgt_discount',
+      registerAs: 'checkbox',
+      hint: 'For assets held >12 months (investor rules vary by jurisdiction).',
+    },
     {
       label: 'Effective tax rate on gain (0.25)',
       name: 'taxable_profit_rate',
       registerAs: 'number',
+      hint: 'Blended effective tax rate applied to taxable gain.',
     },
   ]
 
@@ -279,7 +432,19 @@ export function BuildRoiCalculatorForm({
         </label>
       </div>
       <div className="flex items-center gap-3 text-sm">
-        <Label htmlFor="state">State</Label>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="state">State</Label>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-muted text-xs cursor-help">
+                  i
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>Used to estimate stamp duty automatically.</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
         <select
           id="state"
           className="h-9 rounded-md border border-black/10 bg-background px-2 shadow-sm focus:border-black/15"
@@ -375,7 +540,6 @@ export function BuildRoiCalculatorForm({
                 <Field label="GST rate" name="gst_rate" registerAs="number" form={form} />
                 <div className="grid gap-1.5">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="stamp_duty">Stamp duty</Label>
                     <label className="flex items-center gap-2 text-xs text-muted-foreground">
                       <input
                         type="checkbox"
@@ -456,7 +620,32 @@ export function BuildRoiCalculatorForm({
               <Field label="GST rate" name="gst_rate" registerAs="number" form={form} />
               <div className="grid gap-1.5 md:col-span-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="stamp_duty">Stamp duty</Label>
+                  <div className="flex items-center gap-2">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipContent>
+                          Government transfer duty on land purchase. You can override.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Label htmlFor="stamp_duty">Stamp duty</Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-muted text-xs cursor-help">
+                            i
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Government transfer duty on land purchase. You can override.
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                   <label className="flex items-center gap-2 text-xs text-muted-foreground">
                     <input
                       type="checkbox"
