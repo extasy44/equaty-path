@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { RentalClient } from './client'
 
 export default function RentalRoiPage() {
   return (
@@ -7,9 +8,10 @@ export default function RentalRoiPage() {
         Rental ROI Calculator
       </h1>
       <p className="mt-3 text-muted-foreground max-w-2xl">
-        Estimate rental yield, expenses and cash-on-cash returns. This is a placeholder page for the
-        calculator and strategy tools.
+        Estimate rental yield, expenses, tax impact and cash‑on‑cash returns. Review the snapshot
+        and invest ideas after calculating.
       </p>
+      <RentalClient />
     </div>
   )
 }
@@ -17,5 +19,5 @@ export type RentalRoiPageProps = object
 
 export const metadata: Metadata = {
   title: 'EquityPath Rental ROI',
-  description: 'Analyze rental yield, expenses, and cash-on-cash returns.',
+  description: 'Analyze rental yield, expenses, tax impact, and cash-on-cash returns.',
 }
