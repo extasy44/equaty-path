@@ -39,13 +39,13 @@ export default function FeaturesPage() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
                 href="/build-roi"
-                className="inline-flex items-center rounded-md bg-[color:var(--color-primary)] px-4 py-2 text-white"
+                className="inline-flex items-center rounded-md bg-[color:var(--color-secondary)] px-4 py-2 text-white"
               >
                 Start with Build ROI
               </Link>
               <Link
                 href="/rental-roi"
-                className="inline-flex items-center rounded-md border px-4 py-2 text-[color:var(--color-primary)]"
+                className="inline-flex items-center rounded-md border px-4 py-2 text-[color:var(--color-foreground)]"
               >
                 Explore Rental ROI
               </Link>
@@ -94,7 +94,7 @@ export default function FeaturesPage() {
                 <div className="mt-4">
                   <Link
                     href={tool.href}
-                    className="inline-flex items-center justify-center rounded-md bg-[color:var(--color-primary)] px-3 py-2 text-sm text-white hover:opacity-95"
+                    className="inline-flex items-center justify-center rounded-md bg-[color:var(--color-secondary)] px-3 py-2 text-sm text-white hover:opacity-95"
                   >
                     Open {tool.name}
                   </Link>

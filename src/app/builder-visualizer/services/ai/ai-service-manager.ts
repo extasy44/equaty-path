@@ -4,7 +4,6 @@ import type {
   AIServiceConfig,
   AIConfig,
 } from '../../types/ai'
-import { OpenAIService } from './openai-service'
 import { OllamaService } from './ollama-service'
 import { aiConfig } from '../../config/ai'
 
@@ -27,15 +26,6 @@ export class AIServiceManager implements IAIServiceManager {
    * Initialize AI services based on configuration
    */
   private initializeServices(): void {
-    // Initialize OpenAI service if configured
-    if (this.config.providers.openai) {
-      try {
-        this.services.set('openai', new OpenAIService(this.config.providers.openai))
-      } catch (error) {
-        console.warn('Failed to initialize OpenAI service:', error)
-      }
-    }
-
     // Initialize Ollama service if configured
     if (this.config.providers.ollama) {
       try {
@@ -198,16 +188,13 @@ export class AIServiceManager implements IAIServiceManager {
     }
 
     // Update configuration
-    Object.assign(this.config.providers[provider as keyof typeof this.config.providers], config)
+    const providerConfig = this.config.providers[provider as keyof typeof this.config.providers]
+    if (providerConfig) {
+      Object.assign(providerConfig, config)
+    }
 
     // Reinitialize the service with new config
-    if (provider === 'openai' && this.config.providers.openai) {
-      try {
-        this.services.set('openai', new OpenAIService(this.config.providers.openai))
-      } catch (error) {
-        console.error('Failed to reinitialize OpenAI service:', error)
-      }
-    } else if (provider === 'ollama' && this.config.providers.ollama) {
+    if (provider === 'ollama' && this.config.providers.ollama) {
       try {
         this.services.set('ollama', new OllamaService(this.config.providers.ollama))
       } catch (error) {

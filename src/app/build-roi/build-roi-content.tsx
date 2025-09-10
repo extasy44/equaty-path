@@ -67,10 +67,7 @@ export default function BuildRoiContent() {
           }
         >
           <TabsList className="w-full md:w-auto mx-auto grid grid-cols-3 bg-[color:var(--surface)] shadow-[var(--shadow-soft)] rounded-md p-1 overflow-x-auto">
-            <TabsTrigger
-              value="feasibility"
-              className="cursor-pointer data-[state=active]:bg-[color:var(--color-primary)] data-[state=active]:text-white"
-            >
+            <TabsTrigger value="feasibility" className="cursor-pointer">
               Feasibility
             </TabsTrigger>
             <TabsTrigger value="landscaping" className="cursor-pointer">

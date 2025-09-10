@@ -27,14 +27,13 @@
     "lucide-react": "^0.542.0",
     "next": "15.5.2",
     "ollama": "^0.5.17",
-    "openai": "^5.20.0",
     "pdf-lib": "^1.17.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hook-form": "^7.62.0",
     "tailwind-merge": "^3.3.1",
     "three": "^0.180.0",
-    "zod": "^4.1.5"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

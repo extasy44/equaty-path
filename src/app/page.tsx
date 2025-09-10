@@ -35,7 +35,7 @@ function HomeContent() {
 
           <div className="relative mx-auto max-w-6xl px-4 sm:px-6 md:px-8 pt-16 md:pt-24 pb-12 md:pb-20">
             <div className="text-center">
-              <div className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 px-4 py-2 text-sm font-medium ring-1 ring-blue-500/20 mb-6 text-[color:var(--color-foreground)]">
+              <div className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 px-4 py-2 text-sm font-medium ring-1 ring-blue-500/20 mb-6 text-[color:var(--color-primary)]">
                 🤖 AI-Powered Property Intelligence
               </div>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6">

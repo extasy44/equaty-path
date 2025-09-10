@@ -33,7 +33,7 @@ export class PlanTo3DGenerator {
       scale?: number
       quality?: 'draft' | 'standard' | 'high'
       includeMetadata?: boolean
-      aiProvider?: 'openai' | 'ollama'
+      aiProvider?: 'ollama'
     } = {}
   ): Promise<PlanTo3DResponse> {
     const startTime = Date.now()
@@ -113,22 +113,25 @@ export class PlanTo3DGenerator {
 
       if (!analysisResponse.success || !analysisResponse.data) {
         console.warn('AI analysis failed, falling back to mock data:', analysisResponse.error)
-        return this.simulateFloorPlanAnalysis(imageFile)
+        return await this.simulateFloorPlanAnalysis(imageFile)
       }
 
       // Convert AI response to FloorPlanAnalysis format
-      return this.convertAIAnalysisToFloorPlan(analysisResponse.data, imageFile)
+      return await this.convertAIAnalysisToFloorPlan(analysisResponse.data, imageFile)
     } catch (error) {
       console.error('AI floor plan analysis failed:', error)
       // Fallback to mock analysis
-      return this.simulateFloorPlanAnalysis(imageFile)
+      return await this.simulateFloorPlanAnalysis(imageFile)
     }
   }
 
   /**
    * Convert AI vision analysis response to FloorPlanAnalysis format
    */
-  private convertAIAnalysisToFloorPlan(aiAnalysis: any, imageFile: File): FloorPlanAnalysis {
+  private async convertAIAnalysisToFloorPlan(
+    aiAnalysis: any,
+    imageFile: File
+  ): Promise<FloorPlanAnalysis> {
     const elements: ArchitecturalElement[] = []
     const rooms: Room[] = []
     const structuralElements: StructuralElement[] = []
@@ -195,7 +198,7 @@ export class PlanTo3DGenerator {
     // Ensure we have at least basic elements if AI didn't detect any
     if (elements.length === 0) {
       console.warn('No architectural elements detected by AI, using fallback elements')
-      return this.simulateFloorPlanAnalysis(imageFile)
+      return await this.simulateFloorPlanAnalysis(imageFile)
     }
 
     return {

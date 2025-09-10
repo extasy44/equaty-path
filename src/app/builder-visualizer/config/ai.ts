@@ -2,17 +2,8 @@ import type { AIConfig } from '../types/ai'
 
 // AI Service Configuration
 export const aiConfig: AIConfig = {
-  defaultProvider: process.env.NEXT_PUBLIC_AI_PROVIDER === 'ollama' ? 'ollama' : 'openai',
+  defaultProvider: 'ollama',
   providers: {
-    openai: {
-      provider: 'openai',
-      apiKey: process.env.OPENAI_API_KEY,
-      model: process.env.NEXT_PUBLIC_OPENAI_MODEL || 'gpt-4o',
-      timeout: 30000,
-      maxRetries: 3,
-      temperature: 0.7,
-      maxTokens: 4096,
-    },
     ollama: {
       provider: 'ollama',
       baseUrl: process.env.NEXT_PUBLIC_OLLAMA_BASE_URL || 'http://localhost:11434',
@@ -25,7 +16,7 @@ export const aiConfig: AIConfig = {
   },
   fallback: {
     enabled: true,
-    order: ['openai', 'ollama'],
+    order: ['ollama'],
   },
   caching: {
     enabled: true,

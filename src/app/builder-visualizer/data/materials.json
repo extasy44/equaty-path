@@ -1,0 +1,255 @@
+{
+  "roof": [
+    {
+      "id": "concrete-silver",
+      "name": "Silver Gum (Designer)",
+      "category": "roof",
+      "color": "#C0C0C0",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Modern silver concrete roof tiles with excellent durability"
+    },
+    {
+      "id": "concrete-linen",
+      "name": "Linen (Designer)",
+      "category": "roof",
+      "color": "#F5E6D3",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Warm linen-colored concrete tiles for a classic look"
+    },
+    {
+      "id": "concrete-alabaster",
+      "name": "Alabaster (Designer)",
+      "category": "roof",
+      "color": "#F8F8FF",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Pure white concrete tiles for a clean, modern aesthetic"
+    },
+    {
+      "id": "concrete-aspen",
+      "name": "Aspen (Designer)",
+      "category": "roof",
+      "color": "#F0E68C",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Light golden concrete tiles inspired by aspen trees"
+    },
+    {
+      "id": "concrete-vanilla",
+      "name": "Vanilla (Designer)",
+      "category": "roof",
+      "color": "#F3E5AB",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Soft vanilla-colored concrete tiles for warmth"
+    },
+    {
+      "id": "concrete-late-mist",
+      "name": "Late Mist (Designer)",
+      "category": "roof",
+      "color": "#E6E6FA",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Subtle lavender-grey concrete tiles"
+    },
+    {
+      "id": "concrete-chestnut",
+      "name": "Chestnut (Designer)",
+      "category": "roof",
+      "color": "#954535",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Rich chestnut brown concrete tiles"
+    },
+    {
+      "id": "concrete-storm-grey",
+      "name": "Storm Grey (Designer)",
+      "category": "roof",
+      "color": "#708090",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Dramatic storm grey concrete tiles"
+    },
+    {
+      "id": "concrete-cool-smoke",
+      "name": "Cool Smoke (Designer)",
+      "category": "roof",
+      "color": "#848884",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Cool-toned smoke grey concrete tiles"
+    },
+    {
+      "id": "concrete-deep-shadow",
+      "name": "Deep Shadow (Designer)",
+      "category": "roof",
+      "color": "#2F4F4F",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Deep dark concrete tiles for dramatic contrast"
+    },
+    {
+      "id": "concrete-earth-red",
+      "name": "Earth Red (Designer)",
+      "category": "roof",
+      "color": "#8B4513",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Warm earth red concrete tiles"
+    },
+    {
+      "id": "concrete-bronze-duo",
+      "name": "Bronze Duo (Designer)",
+      "category": "roof",
+      "color": "#CD7F32",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Rich bronze concrete tiles with metallic finish"
+    },
+    {
+      "id": "concrete-sunset-duo",
+      "name": "Sunset Duo (Designer)",
+      "category": "roof",
+      "color": "#FF7F50",
+      "texture": "concrete",
+      "cost": 45,
+      "description": "Warm sunset orange concrete tiles"
+    }
+  ],
+  "walls": [
+    {
+      "id": "brick-char",
+      "name": "Char Brick",
+      "category": "walls",
+      "color": "#36454F",
+      "texture": "brick",
+      "cost": 35,
+      "description": "Dark charcoal brick for modern exteriors"
+    },
+    {
+      "id": "render-lexicon",
+      "name": "Lexicon Half",
+      "category": "walls",
+      "color": "#F5F5F5",
+      "texture": "render",
+      "cost": 25,
+      "description": "Light grey render finish"
+    },
+    {
+      "id": "render-whisper",
+      "name": "Whisper White",
+      "category": "walls",
+      "color": "#FFFFFF",
+      "texture": "render",
+      "cost": 25,
+      "description": "Pure white render for clean modern look"
+    },
+    {
+      "id": "brick-terracotta",
+      "name": "Terracotta Brick",
+      "category": "walls",
+      "color": "#E2725B",
+      "texture": "brick",
+      "cost": 35,
+      "description": "Warm terracotta brick with traditional appeal"
+    },
+    {
+      "id": "cladding-cedar",
+      "name": "Cedar Cladding",
+      "category": "walls",
+      "color": "#8B4513",
+      "texture": "wood",
+      "cost": 55,
+      "description": "Natural cedar wood cladding"
+    }
+  ],
+  "trim": [
+    {
+      "id": "trim-dover-white",
+      "name": "Dover White",
+      "category": "trim",
+      "color": "#F8F8FF",
+      "texture": "paint",
+      "cost": 15,
+      "description": "Clean white trim paint"
+    },
+    {
+      "id": "trim-wallaby",
+      "name": "Wallaby",
+      "category": "trim",
+      "color": "#8B7355",
+      "texture": "paint",
+      "cost": 15,
+      "description": "Warm wallaby brown trim"
+    },
+    {
+      "id": "trim-surfmist",
+      "name": "Surfmist",
+      "category": "trim",
+      "color": "#C0C0C0",
+      "texture": "paint",
+      "cost": 15,
+      "description": "Light grey trim paint"
+    }
+  ],
+  "doors": [
+    {
+      "id": "door-white",
+      "name": "White Door",
+      "category": "doors",
+      "color": "#FFFFFF",
+      "texture": "paint",
+      "cost": 200,
+      "description": "Classic white painted door"
+    },
+    {
+      "id": "door-charcoal",
+      "name": "Charcoal Door",
+      "category": "doors",
+      "color": "#36454F",
+      "texture": "paint",
+      "cost": 200,
+      "description": "Modern charcoal painted door"
+    },
+    {
+      "id": "door-wood",
+      "name": "Wood Door",
+      "category": "doors",
+      "color": "#8B4513",
+      "texture": "wood",
+      "cost": 300,
+      "description": "Natural wood finish door"
+    }
+  ],
+  "windows": [
+    {
+      "id": "window-white",
+      "name": "White Frame",
+      "category": "windows",
+      "color": "#FFFFFF",
+      "texture": "metal",
+      "cost": 150,
+      "description": "White aluminum window frames"
+    },
+    {
+      "id": "window-black",
+      "name": "Black Frame",
+      "category": "windows",
+      "color": "#000000",
+      "texture": "metal",
+      "cost": 150,
+      "description": "Black aluminum window frames"
+    },
+    {
+      "id": "window-wood",
+      "name": "Wood Frame",
+      "category": "windows",
+      "color": "#8B4513",
+      "texture": "wood",
+      "cost": 200,
+      "description": "Natural wood window frames"
+    }
+  ]
+}

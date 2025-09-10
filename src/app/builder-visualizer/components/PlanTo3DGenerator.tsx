@@ -13,7 +13,7 @@ import type { PlanTo3DResponse, Model3D } from '../types'
 
 interface PlanTo3DGeneratorProps {
   onModelGenerated: (model: Model3D) => void
-  aiProvider?: 'openai' | 'ollama'
+  aiProvider?: 'ollama'
   className?: string
 }
 
@@ -98,7 +98,7 @@ export function PlanTo3DGenerator({
         scale: 1,
         quality: 'high',
         includeMetadata: true,
-        aiProvider: aiProvider || 'openai',
+        aiProvider: aiProvider || 'ollama',
       })
 
       clearInterval(progressInterval)

@@ -76,6 +76,12 @@ export const pageMetadata = {
     title: 'Home',
     description:
       'AI-powered property intelligence platform. Transform 2D plans into 3D models, analyze markets, and generate institutional-grade reports.',
+    openGraph: {
+      title: 'Build ROI Calculator - EquityPath',
+      description:
+        'Estimate total project cost, resale value and ROI for your next knockdown rebuild or land purchase.',
+      images: [{ url: '/og-build-roi.jpg', width: 1200, height: 630 }],
+    },
   },
 
   // Free Tools
@@ -343,12 +349,12 @@ export function generatePageMetadata(pageKey: keyof typeof pageMetadata): Metada
     ...baseMetadata,
     title: pageMeta.title,
     description: pageMeta.description,
-    keywords: pageMeta.keywords,
+    keywords: pageMeta?.keywords,
     openGraph: {
       ...baseMetadata.openGraph,
-      title: pageMeta.openGraph?.title || pageMeta.title,
-      description: pageMeta.openGraph?.description || pageMeta.description,
-      images: pageMeta.openGraph?.images || baseMetadata.openGraph?.images,
+      title: pageMeta?.openGraph?.title || pageMeta.title,
+      description: pageMeta?.openGraph?.description || pageMeta.description,
+      images: pageMeta?.openGraph?.images || baseMetadata.openGraph?.images,
     },
     twitter: {
       ...baseMetadata.twitter,

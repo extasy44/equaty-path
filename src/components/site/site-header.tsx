@@ -62,7 +62,7 @@ export function SiteHeader() {
               <div className="w-80 rounded-xl border bg-[color:var(--surface)] p-4 shadow-[var(--shadow-large)]">
                 {/* AI-Powered Tools */}
                 <div className="mb-3">
-                  <div className="px-2 py-1 text-xs font-semibold text-sm font-medium text-[color:var(--color-foreground)] uppercase tracking-wide">
+                  <div className="px-2 py-1 text-xs font-semibold text-sm font-medium text-[color:var(--color-muted-foreground)] uppercase tracking-wide">
                     🤖 AI-Powered Tools
                   </div>
                   <div className="mt-2 space-y-1">
@@ -119,7 +119,7 @@ export function SiteHeader() {
 
                 {/* Financial Calculators */}
                 <div className="mb-3">
-                  <div className="px-2 py-1 text-xs font-semibold text-[color:var(--color-foreground)] uppercase tracking-wide">
+                  <div className="px-2 py-1 text-xs font-semibold text-[color:var(--color-muted-foreground)] uppercase tracking-wide">
                     🧮 Financial Calculators
                   </div>
                   <div className="mt-2 space-y-1">
@@ -167,7 +167,7 @@ export function SiteHeader() {
 
                 {/* Planning & Strategy */}
                 <div className="mb-3">
-                  <div className="px-2 py-1 text-xs font-semibold text-[color:var(--color-primary)] uppercase tracking-wide">
+                  <div className="px-2 py-1 text-xs font-semibold text-[color:var(--color-muted-foreground)] uppercase tracking-wide">
                     📊 Planning & Strategy
                   </div>
                   <div className="mt-2 space-y-1">
@@ -202,7 +202,7 @@ export function SiteHeader() {
 
                 {/* Reports & Export */}
                 <div>
-                  <div className="px-2 py-1 text-xs font-semibold text-[color:var(--color-foreground)] uppercase tracking-wide">
+                  <div className="px-2 py-1 text-xs font-semibold text-[color:var(--color-muted-foreground)] uppercase tracking-wide">
                     📄 Reports & Export
                   </div>
                   <div className="mt-2 space-y-1">
@@ -239,7 +239,7 @@ export function SiteHeader() {
           </div>
           <Link
             href="/pricing"
-            className="text-[color:var(--color-muted-foreground)] hover:text-foreground cursor-pointer"
+            className="text-[color:var(--color-foreground)] hover:text-[color:var(--color-muted-foreground)] cursor-pointer"
           >
             Pricing
           </Link>
@@ -362,7 +362,7 @@ export function SiteHeader() {
             </Link>
 
             {/* Planning & Strategy */}
-            <div className="mt-2 px-1 text-xs font-semibold text-[color:var(--color-primary)]">
+            <div className="mt-2 px-1 text-xs font-semibold text-[color:var(--color-foreground)]">
               📊 Planning & Strategy
             </div>
             <Link

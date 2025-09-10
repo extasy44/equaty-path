@@ -1,0 +1,84 @@
+{
+  "viewPresets": {
+    "exterior": {
+      "front": {
+        "name": "Front View",
+        "position": [0, 2, 8],
+        "target": [0, 2, 0],
+        "description": "Main entrance view"
+      },
+      "back": {
+        "name": "Back View",
+        "position": [0, 2, -8],
+        "target": [0, 2, 0],
+        "description": "Rear elevation view"
+      },
+      "left": {
+        "name": "Left View",
+        "position": [-8, 2, 0],
+        "target": [0, 2, 0],
+        "description": "Left side elevation"
+      },
+      "right": {
+        "name": "Right View",
+        "position": [8, 2, 0],
+        "target": [0, 2, 0],
+        "description": "Right side elevation"
+      },
+      "aerial": {
+        "name": "Aerial View",
+        "position": [0, 12, 0],
+        "target": [0, 0, 0],
+        "description": "Top-down view"
+      }
+    },
+    "interior": {
+      "living-room": {
+        "name": "Living Room",
+        "position": [0, 1.5, 3],
+        "target": [0, 1.5, 0],
+        "description": "Main living space"
+      },
+      "kitchen": {
+        "name": "Kitchen",
+        "position": [-3, 1.5, 0],
+        "target": [0, 1.5, 0],
+        "description": "Kitchen area view"
+      },
+      "bedroom": {
+        "name": "Bedroom",
+        "position": [3, 1.5, 0],
+        "target": [0, 1.5, 0],
+        "description": "Bedroom view"
+      },
+      "entrance": {
+        "name": "Entrance",
+        "position": [0, 1.5, 2],
+        "target": [0, 1.5, 0],
+        "description": "Entry foyer"
+      }
+    }
+  },
+  "cameraSettings": {
+    "defaultFov": 45,
+    "minPolarAngle": 0.1,
+    "maxPolarAngle": 3.0,
+    "enableDamping": true,
+    "dampingFactor": 0.05,
+    "enablePan": true,
+    "enableZoom": true
+  },
+  "lighting": {
+    "ambient": {
+      "intensity": 0.6,
+      "color": "#ffffff"
+    },
+    "directional": {
+      "position": [10, 10, 5],
+      "intensity": 1,
+      "color": "#ffffff",
+      "castShadow": true
+    },
+    "environment": "city"
+  }
+}

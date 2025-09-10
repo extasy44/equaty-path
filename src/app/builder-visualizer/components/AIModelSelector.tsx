@@ -126,8 +126,6 @@ export function AIModelSelector({ onModelChange, className }: AIModelSelectorPro
 
   const getProviderIcon = (provider: string) => {
     switch (provider) {
-      case 'openai':
-        return <Brain className="h-4 w-4" />
       case 'ollama':
         return <Server className="h-4 w-4" />
       default:
@@ -280,13 +278,9 @@ export function AIModelSelector({ onModelChange, className }: AIModelSelectorPro
 
         {/* Instructions */}
         <Alert>
-          <Brain className="h-4 w-4" />
+          <Server className="h-4 w-4" />
           <AlertDescription>
-            <strong>OpenAI</strong> provides advanced vision and text capabilities but requires an
-            API key.
-            <br />
-            <strong>Ollama</strong> runs locally and offers privacy but may have limited vision
-            support.
+            <strong>Ollama</strong> runs locally and offers privacy with AI capabilities.
           </AlertDescription>
         </Alert>
       </CardContent>

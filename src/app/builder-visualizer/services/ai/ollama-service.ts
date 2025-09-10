@@ -33,7 +33,10 @@ export class OllamaService implements AIServiceProvider {
   }
 
   readonly provider = 'ollama'
-  readonly model = this.config.model
+
+  get model() {
+    return this.config.model
+  }
 
   /**
    * Test connection to Ollama API

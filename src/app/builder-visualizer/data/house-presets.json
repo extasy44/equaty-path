@@ -1,0 +1,221 @@
+{
+  "defaultHouse": {
+    "id": "default-house",
+    "name": "Modern Family Home",
+    "description": "A contemporary two-story family home with modern materials and clean lines",
+    "style": "modern",
+    "budget": "medium",
+    "sections": [
+      {
+        "id": "wall-front",
+        "name": "Front Wall",
+        "type": "wall",
+        "material": {
+          "id": "render-lexicon",
+          "color": "#f5f5f5",
+          "name": "Modern Render",
+          "roughness": 0.8,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "wall-back",
+        "name": "Back Wall",
+        "type": "wall",
+        "material": {
+          "id": "render-lexicon",
+          "color": "#f5f5f5",
+          "name": "Modern Render",
+          "roughness": 0.8,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "wall-left",
+        "name": "Left Wall",
+        "type": "wall",
+        "material": {
+          "id": "brick-char",
+          "color": "#36454f",
+          "name": "Char Brick",
+          "roughness": 0.9,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "wall-right",
+        "name": "Right Wall",
+        "type": "wall",
+        "material": {
+          "id": "render-lexicon",
+          "color": "#f5f5f5",
+          "name": "Modern Render",
+          "roughness": 0.8,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "roof-main",
+        "name": "Main Roof",
+        "type": "roof",
+        "material": {
+          "id": "concrete-storm-grey",
+          "color": "#708090",
+          "name": "Metal Roof",
+          "roughness": 0.7,
+          "metalness": 0.1
+        }
+      },
+      {
+        "id": "trim-fascia",
+        "name": "Fascia Trim",
+        "type": "trim",
+        "material": {
+          "id": "trim-dover-white",
+          "color": "#ffffff",
+          "name": "White Trim",
+          "roughness": 0.6,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "trim-gutters",
+        "name": "Gutters",
+        "type": "trim",
+        "material": {
+          "id": "concrete-storm-grey",
+          "color": "#708090",
+          "name": "Metal Gutters",
+          "roughness": 0.5,
+          "metalness": 0.8
+        }
+      },
+      {
+        "id": "door-main",
+        "name": "Main Door",
+        "type": "door",
+        "material": {
+          "id": "door-wood",
+          "color": "#8b4513",
+          "name": "Wood Door",
+          "roughness": 0.6,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "door-garage",
+        "name": "Garage Door",
+        "type": "door",
+        "material": {
+          "id": "door-white",
+          "color": "#ffffff",
+          "name": "White Garage Door",
+          "roughness": 0.7,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "windows-front",
+        "name": "Front Windows",
+        "type": "window",
+        "material": {
+          "id": "window-white",
+          "color": "#87ceeb",
+          "name": "Large Windows",
+          "roughness": 0.1,
+          "metalness": 0.8
+        }
+      },
+      {
+        "id": "floor-ground",
+        "name": "Ground Floor",
+        "type": "floor",
+        "material": {
+          "id": "floor-concrete",
+          "color": "#d1d5db",
+          "name": "Concrete Floor",
+          "roughness": 0.9,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "floor-first",
+        "name": "First Floor",
+        "type": "floor",
+        "material": {
+          "id": "floor-hardwood",
+          "color": "#8b4513",
+          "name": "Hardwood Floor",
+          "roughness": 0.8,
+          "metalness": 0.0
+        }
+      },
+      {
+        "id": "wall-interior",
+        "name": "Interior Walls",
+        "type": "wall",
+        "material": {
+          "id": "render-whisper",
+          "color": "#ffffff",
+          "name": "White Interior",
+          "roughness": 0.7,
+          "metalness": 0.0
+        }
+      }
+    ],
+    "metadata": {
+      "vertices": 2000,
+      "faces": 1000,
+      "materials": 12,
+      "dimensions": {
+        "width": 10,
+        "height": 6.5,
+        "depth": 8
+      }
+    }
+  },
+  "presets": [
+    {
+      "id": "modern-minimalist",
+      "name": "Modern Minimalist",
+      "description": "Clean lines, white walls, metal roof",
+      "style": "minimalist",
+      "budget": "medium",
+      "materials": {
+        "walls": "render-whisper",
+        "roof": "concrete-alabaster",
+        "trim": "trim-dover-white",
+        "doors": "door-white",
+        "windows": "window-white"
+      }
+    },
+    {
+      "id": "traditional-family",
+      "name": "Traditional Family Home",
+      "description": "Classic brick and render combination",
+      "style": "traditional",
+      "budget": "medium",
+      "materials": {
+        "walls": "brick-terracotta",
+        "roof": "concrete-chestnut",
+        "trim": "trim-wallaby",
+        "doors": "door-wood",
+        "windows": "window-wood"
+      }
+    },
+    {
+      "id": "contemporary-luxury",
+      "name": "Contemporary Luxury",
+      "description": "High-end materials with premium finishes",
+      "style": "contemporary",
+      "budget": "premium",
+      "materials": {
+        "walls": "cladding-cedar",
+        "roof": "concrete-bronze-duo",
+        "trim": "trim-surfmist",
+        "doors": "door-charcoal",
+        "windows": "window-black"
+      }
+    }
+  ]
+}

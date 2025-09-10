@@ -1,7 +1,6 @@
 // AI Service Types
 export interface AIServiceConfig {
-  provider: 'openai' | 'ollama'
-  apiKey?: string
+  provider: 'ollama'
   baseUrl?: string
   model: string
   timeout: number
@@ -135,14 +134,13 @@ export interface AIServiceError extends Error {
 
 // Configuration Types
 export interface AIConfig {
-  defaultProvider: 'openai' | 'ollama'
+  defaultProvider: 'ollama'
   providers: {
-    openai?: AIServiceConfig
     ollama?: AIServiceConfig
   }
   fallback: {
     enabled: boolean
-    order: ('openai' | 'ollama')[]
+    order: 'ollama'[]
   }
   caching: {
     enabled: boolean

@@ -52,7 +52,7 @@ function BuilderVisualizerContent() {
           </section>
 
           <section id="app" className="mt-10">
-            <div className="rounded-xl border bg-white shadow-sm ring-1 ring-black/5 p-4 md:p-6">
+            <div className="h-[800px] rounded-xl border bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
               <BuilderClient />
             </div>
           </section>
