@@ -94,8 +94,15 @@ export function getViewPresets(mode: 'exterior' | 'interior'): Record<string, Vi
   return viewSettingsData.viewPresets[mode] as unknown as Record<string, ViewPreset>
 }
 
-export function getViewPreset(mode: 'exterior' | 'interior', presetId: string): ViewPreset | null {
-  return (viewSettingsData.viewPresets[mode][presetId] as unknown as ViewPreset) || null
+export function getViewPreset(
+  mode: 'exterior' | 'interior',
+  presetId: string | number
+): ViewPreset | null {
+  return (
+    (viewSettingsData.viewPresets[mode][
+      presetId as keyof (typeof viewSettingsData.viewPresets)[typeof mode]
+    ] as ViewPreset) || null
+  )
 }
 
 // Utility functions

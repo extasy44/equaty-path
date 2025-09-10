@@ -9,7 +9,7 @@ import { Upload, FileImage, Loader2, CheckCircle, XCircle } from 'lucide-react'
 import { planTo3DGenerator } from '../services/plan-to-3d-generator'
 import { uploadConstraints, statusMessages } from '../config/services'
 import { formatFileSize, formatProcessingTime } from '../utils'
-import type { PlanTo3DResponse, Model3D } from '../types'
+import type { PlanTo3DResponse, Model3D, FloorPlanAnalysis } from '../types'
 
 interface PlanTo3DGeneratorProps {
   onModelGenerated: (model: Model3D) => void
@@ -40,16 +40,19 @@ export function PlanTo3DGenerator({
     }
   }, [])
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      setDragActive(false)
 
-    const files = e.dataTransfer.files
-    if (files && files[0]) {
-      handleFileSelect(files[0])
-    }
-  }, [])
+      const files = e.dataTransfer.files
+      if (files && files[0]) {
+        handleFileSelect(files[0])
+      }
+    },
+    [handleFileSelect]
+  )
 
   const handleFileSelect = useCallback((file: File) => {
     // Validate file
@@ -115,7 +118,7 @@ export function PlanTo3DGenerator({
       setResponse({
         success: false,
         model: {} as Model3D,
-        analysis: {} as any,
+        analysis: {} as FloorPlanAnalysis,
         message: 'Failed to generate 3D model',
         processingTime: 0,
       })

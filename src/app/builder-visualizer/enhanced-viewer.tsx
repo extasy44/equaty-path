@@ -5,9 +5,8 @@ import { useState, useRef, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Environment, CameraControls } from '@react-three/drei'
+import { Environment, CameraControls } from '@react-three/drei'
 import {
-  RotateCcw,
   Share2,
   Palette,
   Eye,
@@ -19,10 +18,6 @@ import {
   Layers,
   Maximize,
   Minimize,
-  Move3D,
-  ZoomIn,
-  ZoomOut,
-  RotateCw,
 } from 'lucide-react'
 import { useAIHouseGenerator } from './services/ai-house-generator'
 import { getDefaultHouse, calculateTotalCost, type MaterialSelection } from './data'
@@ -37,9 +32,8 @@ interface ViewPreset {
 }
 
 export default function EnhancedBuilderViewer() {
-  const [currentModel, setCurrentModel] = useState<Model3D | null>(null)
+  const [currentModel, setCurrentModel] = useState<any | Model3D | null>(null)
   const [renders, setRenders] = useState<RenderResult[]>([])
-  const [activeTab, setActiveTab] = useState('design')
   const [selectedMaterialCategory, setSelectedMaterialCategory] = useState<
     'roof' | 'walls' | 'trim' | 'doors' | 'windows'
   >('roof')
@@ -53,7 +47,6 @@ export default function EnhancedBuilderViewer() {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [viewMode, setViewMode] = useState<'exterior' | 'interior'>('exterior')
 
-  const controlsRef = useRef<any>(null)
   const cameraControlsRef = useRef<any>(null)
   const { generateHouse, enhanceRender, generateVariations, isGenerating, isEnhancing, error } =
     useAIHouseGenerator()
@@ -343,35 +336,16 @@ export default function EnhancedBuilderViewer() {
     }))
   }, [])
 
-  const handleViewPresetChange = useCallback((preset: string) => {
-    setCameraPreset(preset)
-    if (cameraControlsRef.current) {
-      const view = viewPresets[preset]
-      cameraControlsRef.current.setLookAt(...view.position, ...view.target, true)
-    }
-  }, [])
-
-  const handleCameraAction = useCallback((action: string) => {
-    if (!cameraControlsRef.current) return
-
-    switch (action) {
-      case 'reset':
-        cameraControlsRef.current.reset(true)
-        break
-      case 'zoomIn':
-        cameraControlsRef.current.dolly(-2, true)
-        break
-      case 'zoomOut':
-        cameraControlsRef.current.dolly(2, true)
-        break
-      case 'rotateLeft':
-        cameraControlsRef.current.rotate(0.5, 0, true)
-        break
-      case 'rotateRight':
-        cameraControlsRef.current.rotate(-0.5, 0, true)
-        break
-    }
-  }, [])
+  const handleViewPresetChange = useCallback(
+    (preset: string) => {
+      setCameraPreset(preset)
+      if (cameraControlsRef.current) {
+        const view = viewPresets[preset]
+        cameraControlsRef.current.setLookAt(...view.position, ...view.target, true)
+      }
+    },
+    [viewPresets]
+  )
 
   const handleAIGenerate = useCallback(async () => {
     if (!aiPrompt.trim()) return
@@ -388,7 +362,7 @@ export default function EnhancedBuilderViewer() {
     }
 
     if (result?.renders) {
-      setRenders(result.renders)
+      setRenders(result.renders as RenderResult[])
     }
   }, [aiPrompt, selectedMaterials, aiStyle, aiBudget, generateHouse])
 
@@ -398,7 +372,7 @@ export default function EnhancedBuilderViewer() {
 
       const result = await enhanceRender(currentModel.id, viewpoint)
       if (result?.renders) {
-        setRenders((prev) => [...prev, ...result.renders!])
+        setRenders((prev) => [...prev, ...(result.renders! as RenderResult[])])
       }
     },
     [currentModel, enhanceRender]
@@ -409,7 +383,7 @@ export default function EnhancedBuilderViewer() {
 
     const result = await generateVariations(currentModel, 3)
     if (result?.renders) {
-      setRenders((prev) => [...prev, ...result.renders!])
+      setRenders((prev) => [...prev, ...(result.renders! as unknown as RenderResult[])])
     }
   }, [currentModel, generateVariations])
 
@@ -737,7 +711,7 @@ function EnhancedModelViewer({
   viewMode: 'exterior' | 'interior'
 }) {
   if (viewMode === 'interior') {
-    return <InteriorView model={model} materials={materials} />
+    return <InteriorView materials={materials} />
   }
 
   return (
@@ -842,13 +816,7 @@ function EnhancedModelViewer({
 }
 
 // Interior View Component
-function InteriorView({
-  model,
-  materials,
-}: {
-  model: Model3D
-  materials: Record<string, MaterialSelection>
-}) {
+function InteriorView({ materials }: { materials: Record<string, MaterialSelection> }) {
   return (
     <group position={[0, 0, 0]}>
       {/* Interior Walls */}

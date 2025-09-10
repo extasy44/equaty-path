@@ -13,9 +13,8 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Progress } from '@/components/ui/progress'
-import { Palette, Loader2, CheckCircle, XCircle, Wand2 } from 'lucide-react'
+import { Loader2, CheckCircle, XCircle, Wand2 } from 'lucide-react'
 import { materialApplier } from '../services/material-applier'
-import { formatProcessingTime } from '../utils'
 import type { Model3D, Material, MaterialSelection, MaterialApplicationResponse } from '../types'
 
 interface MaterialApplierProps {
