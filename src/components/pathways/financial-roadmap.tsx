@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { m } from 'framer-motion'
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 import { formatCurrencyAUD } from '@/lib/utils'
 import type { SavingsSnapshot } from './savings-planner'
@@ -21,7 +20,7 @@ export function FinancialRoadmap({
   async function generatePdf() {
     const doc = await PDFDocument.create()
     const page = doc.addPage([595.28, 841.89])
-    const { width, height } = page.getSize()
+    const { height } = page.getSize()
     const margin = 48
     const font = await doc.embedFont(StandardFonts.Helvetica)
     const fontBold = await doc.embedFont(StandardFonts.HelveticaBold)
@@ -112,14 +111,9 @@ export function FinancialRoadmap({
       <CardContent className="text-sm text-muted-foreground grid gap-2">
         <div>Summarize your Savings, Loan Readiness, and Strategy into a shareable report.</div>
         <div>Use Export PDF to generate a simple roadmap you can send to stakeholders.</div>
-        <m.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="pt-2"
-        >
+        <div className="pt-2">
           <Button onClick={generatePdf}>Export your Financial Roadmap as PDF</Button>
-        </m.div>
+        </div>
       </CardContent>
     </Card>
   )

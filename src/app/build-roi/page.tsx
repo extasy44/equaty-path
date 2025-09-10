@@ -1,79 +1,56 @@
-import { CalculatorClient } from './calculator-client'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { UpgradeRoiGuide } from '@/components/upgrade/upgrade-roi-guide'
-import { LandscapingCalculator } from '@/components/compare/landscaping-calculator'
+'use client'
 
-export default async function BuildRoiPage({
-  searchParams,
-}: {
-  searchParams?: Promise<Record<string, string | string[] | undefined>>
-}) {
-  const sp = (await searchParams) ?? {}
-  const tabParam = Array.isArray(sp.tab) ? sp.tab[0] : (sp.tab as string | undefined)
-  const initialTab =
-    tabParam === 'feasibility' || tabParam === 'landscaping' || tabParam === 'upgrades'
-      ? (tabParam as 'feasibility' | 'landscaping' | 'upgrades')
-      : 'feasibility'
+import { Suspense } from 'react'
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+
+import { CalculatorLoader } from '@/components/ui/feature-loader'
+import { pageMetadata } from '@/lib/metadata'
+
+// Dynamically import the client component to avoid hydration issues
+const BuildRoiContent = dynamic(() => import('./build-roi-content'), {
+  loading: () => (
+    <CalculatorLoader>
+      <div />
+    </CalculatorLoader>
+  ),
+})
+
+function BuildRoiPage() {
+  const meta = pageMetadata.buildRoi
+
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-8 md:py-10">
-      <header className="mb-6 md:mb-8 text-center md:text-left mx-auto max-w-3xl md:max-w-none">
-        <h1 className="text-4xl font-semibold tracking-tight text-[color:var(--color-primary)]">
-          EquityPath Build ROI
-        </h1>
-        <p className="mt-3 text-muted-foreground md:max-w-2xl mx-auto md:mx-0">
-          Estimate total project cost, resale value and ROI for your next knockdown rebuild or land
-          purchase. Work through the sections below, click Calculate, then review the Snapshot on
-          the right. Export a lender-friendly PDF when you’re ready.
-        </p>
-        {/* Link removed; Upgrades are now available as a tab below */}
-      </header>
-      <Tabs defaultValue={initialTab}>
-        <TabsList className="w-full md:w-auto mx-auto grid grid-cols-3 bg-white shadow-[var(--shadow-soft)] rounded-md p-1 overflow-x-auto">
-          <TabsTrigger
-            value="feasibility"
-            className="cursor-pointer data-[state=active]:bg-[color:var(--color-primary)] data-[state=active]:text-white"
-          >
-            Feasibility
-          </TabsTrigger>
-          <TabsTrigger value="landscaping" className="cursor-pointer">
-            Landscaping
-          </TabsTrigger>
-          <TabsTrigger value="upgrades" className="cursor-pointer">
-            Upgrades Guide
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="feasibility" className="mt-4 md:mt-6">
-          <div className="mb-4 text-sm text-muted-foreground">
-            Complete Basics, Construction, Fees and Finance. Press{' '}
-            <span className="font-medium">Calculate ROI</span> to refresh the Snapshot.
-          </div>
-          <CalculatorClient />
-        </TabsContent>
-        <TabsContent value="references" className="mt-8 text-sm text-muted-foreground">
-          Schools and Lifestyle information are available under the tabs on the right column. These
-          sections currently show placeholder sample data.
-        </TabsContent>
-        <TabsContent value="upgrades" className="mt-6">
-          <UpgradeRoiGuide showHeader={false} />
-        </TabsContent>
-        <TabsContent value="landscaping" className="mt-6">
-          <div className="mb-2 text-sm text-muted-foreground">
-            Estimate costs for concrete, turf, paving, fencing, walls, driveway, pool, pergola and
-            more.
-          </div>
-          <div className="mb-4 text-sm">
-            Map results back to your form (for example Driveway & landscaping):{' '}
-            <a
-              className="underline text-[color:var(--color-primary)]"
-              href="/build-roi?tab=feasibility#driveway_landscaping_cost"
-            >
-              Go to Feasibility → Construction & site → Driveway & landscaping
-            </a>
-          </div>
-          <LandscapingCalculator />
-        </TabsContent>
-      </Tabs>
-    </div>
+    <>
+      <Head>
+        <title>{meta.title} | EquityPath</title>
+        <meta name="description" content={meta.description} />
+        {meta.keywords && <meta name="keywords" content={meta.keywords.join(', ')} />}
+        <meta property="og:title" content={meta.openGraph?.title || meta.title} />
+        <meta property="og:description" content={meta.openGraph?.description || meta.description} />
+        {meta.openGraph?.images && (
+          <meta property="og:image" content={meta.openGraph.images[0].url} />
+        )}
+        <meta name="twitter:title" content={meta.openGraph?.title || meta.title} />
+        <meta
+          name="twitter:description"
+          content={meta.openGraph?.description || meta.description}
+        />
+        {meta.openGraph?.images && (
+          <meta name="twitter:image" content={meta.openGraph.images[0].url} />
+        )}
+      </Head>
+      <Suspense
+        fallback={
+          <CalculatorLoader>
+            <div />
+          </CalculatorLoader>
+        }
+      >
+        <BuildRoiContent />
+      </Suspense>
+    </>
   )
 }
+
+export default BuildRoiPage
 export type BuildRoiPageProps = object

@@ -6,7 +6,6 @@ import { Section } from '@/components/section/section'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { FileText, BarChart3, Calculator, TrendingUp } from 'lucide-react'
-import { m } from 'framer-motion'
 
 export default function ReportsPage() {
   const [showToast, setShowToast] = useState(false)
@@ -74,29 +73,17 @@ export default function ReportsPage() {
           </CardContent>
         </Section>
 
-        <m.div
-          suppressHydrationWarning
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="text-center"
-        >
+        <div className="text-center">
           <Button onClick={() => setShowToast(true)}>Generate Report</Button>
-        </m.div>
+        </div>
       </div>
 
       {showToast ? (
-        <m.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          className="fixed left-1/2 -translate-x-1/2 bottom-6 z-50"
-        >
+        <div className="fixed left-1/2 -translate-x-1/2 bottom-6 z-50">
           <div className="rounded-md bg-black text-white px-4 py-2 text-sm shadow-[var(--shadow-soft)]">
             Report generation coming soon.
           </div>
-        </m.div>
+        </div>
       ) : null}
     </div>
   )

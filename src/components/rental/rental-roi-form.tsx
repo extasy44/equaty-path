@@ -176,7 +176,7 @@ export function RentalRoiForm({
       </div>
       <button
         type="submit"
-        className="h-9 px-4 rounded-md bg-[color:var(--color-primary)] text-white disabled:opacity-60 cursor-pointer"
+        className="h-9 px-4 rounded-md bg-[color:var(--color-foreground)] text-white disabled:opacity-60 cursor-pointer"
         disabled={isSubmitting}
       >
         {isSubmitting ? 'Calculating…' : 'Calculate'}

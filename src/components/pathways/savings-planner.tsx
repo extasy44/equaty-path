@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { m } from 'framer-motion'
 
 interface PlannerInputs {
   currentSavings: number
@@ -157,32 +156,22 @@ export function SavingsPlanner({ onSnapshot }: { onSnapshot?: (s: SavingsSnapsho
                 <span>Now</span>
                 <span>{formatCurrency(inputs.currentSavings)}</span>
               </div>
-              <m.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="mt-1 h-2 w-full rounded-full bg-black/10"
-              >
+              <div className="mt-1 h-2 w-full rounded-full bg-black/10">
                 <div
                   className="h-2 rounded-full bg-[color:var(--color-secondary)]"
                   style={{ width: `${outputs.progressNowPct}%` }}
                 />
-              </m.div>
+              </div>
               <div className="flex justify-between">
                 <span>Projected in {inputs.months} mo</span>
                 <span>{formatCurrency(outputs.projectedBalance)}</span>
               </div>
-              <m.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="mt-1 h-2 w-full rounded-full bg-black/10"
-              >
+              <div className="mt-1 h-2 w-full rounded-full bg-black/10">
                 <div
                   className="h-2 rounded-full bg-[color:var(--color-primary)]"
                   style={{ width: `${outputs.progressProjectedPct}%` }}
                 />
-              </m.div>
+              </div>
               <div className="flex justify-between">
                 <span>Months to reach target</span>
                 <span>

@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Table,
@@ -13,7 +12,7 @@ import {
 } from '@/components/ui/table'
 import { BuildRoiCalculatorForm } from '@/components/calculator/building-roi-calculator-form'
 // import { ReportExportDialog } from '@/components/calculator/report-export-dialog'
-import { FileDown, Landmark } from 'lucide-react'
+import { Landmark } from 'lucide-react'
 import {
   calculateFeasibility,
   defaultInputs,
@@ -106,52 +105,10 @@ export function CalculatorClient() {
                 style={{ width: `${Math.min(Math.max(memoOutputs.roi_percent, 0), 100)}%` }}
               />
             </div>
-            <div className="mt-4 flex flex-col sm:flex-row gap-2">
-              <Button
-                onClick={async () => {
-                  const res = await fetch('/api/export/pdf', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(latestInputs),
-                  })
-                  const blob = await res.blob()
-                  const url = URL.createObjectURL(blob)
-                  const a = document.createElement('a')
-                  a.href = url
-                  a.download = 'equitypath-report.pdf'
-                  document.body.appendChild(a)
-                  a.click()
-                  a.remove()
-                  URL.revokeObjectURL(url)
-                }}
-                style={{
-                  cursor: isCalculating ? 'not-allowed' : 'pointer',
-                  color: isCalculating ? 'gray' : 'white',
-                }}
-              >
-                <FileDown className="h-4 w-4 mr-2" /> Download PDF Report
-              </Button>
-              <Button
-                variant="outline"
-                onClick={async () => {
-                  const res = await fetch('/api/export/csv', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(latestInputs),
-                  })
-                  const blob = await res.blob()
-                  const url = URL.createObjectURL(blob)
-                  const a = document.createElement('a')
-                  a.href = url
-                  a.download = 'equitypath-export.csv'
-                  document.body.appendChild(a)
-                  a.click()
-                  a.remove()
-                  URL.revokeObjectURL(url)
-                }}
-              >
-                Export CSV
-              </Button>
+            <div className="mt-4">
+              <p className="text-xs text-muted-foreground mb-2">
+                💡 Premium reports available in the Reports section
+              </p>
             </div>
           </CardContent>
         </Card>

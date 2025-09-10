@@ -379,33 +379,6 @@ export function BuildRoiCalculatorForm({
     },
   ]
 
-  interface DutyBracket {
-    upTo: number
-    base: number
-    rate: number
-    over: number
-  }
-  function estimateStampDuty(landPrice: number, state: 'nsw' | 'vic'): number {
-    // Simplified schedules (illustrative only)
-    const nsw: DutyBracket[] = [
-      { upTo: 14000, base: 0, rate: 0.01125, over: 0 },
-      { upTo: 32000, base: 157, rate: 0.0125, over: 14000 },
-      { upTo: 85000, base: 345, rate: 0.015, over: 32000 },
-      { upTo: 319000, base: 1307, rate: 0.0175, over: 85000 },
-      { upTo: 1060000, base: 4480, rate: 0.035, over: 319000 },
-      { upTo: Number.POSITIVE_INFINITY, base: 40390, rate: 0.045, over: 1060000 },
-    ]
-    const vic: DutyBracket[] = [
-      { upTo: 25000, base: 0, rate: 0.014, over: 0 },
-      { upTo: 130000, base: 350, rate: 0.024, over: 25000 },
-      { upTo: 960000, base: 2870, rate: 0.06, over: 130000 },
-      { upTo: Number.POSITIVE_INFINITY, base: 0.055 * 960000 - 0.0000001, rate: 0.055, over: 0 },
-    ]
-    const table = state === 'vic' ? vic : nsw
-    const bracket = table.find((br) => landPrice <= br.upTo) as DutyBracket
-    return Math.max(0, Math.round(bracket.base + (landPrice - bracket.over) * bracket.rate))
-  }
-
   // Removed continuous effect for land_price to prevent focus loss while typing; handled onBlur
 
   useEffect(() => {

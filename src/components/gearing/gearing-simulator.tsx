@@ -97,9 +97,11 @@ export function GearingSimulator() {
             </Button>
             <Button
               variant="outline"
-              onClick={() =>
-                typeof window !== 'undefined' && prefillFromSearch(window.location.search)
-              }
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  prefillFromSearch(window.location.search)
+                }
+              }}
               className="h-7 px-2"
             >
               Prefill from URL

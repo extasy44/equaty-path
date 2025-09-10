@@ -5,8 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { m } from 'framer-motion'
-import { formatCurrencyAUD } from '@/lib/utils'
 
 interface SimulatorInputs {
   currentSavings: number
@@ -43,7 +41,11 @@ const DEFAULTS: SimulatorInputs = {
 
 function formatCurrency(value: number) {
   if (!Number.isFinite(value)) return '—'
-  return formatCurrencyAUD(value)
+  return new Intl.NumberFormat('en-AU', {
+    style: 'currency',
+    currency: 'AUD',
+    maximumFractionDigits: 0,
+  }).format(value)
 }
 
 function formatNumber(value: number) {
@@ -207,17 +209,12 @@ export function StrategySimulator({ onSnapshot }: { onSnapshot?: (s: StrategySna
                 <span>Current savings</span>
                 <span>{formatCurrency(inputs.currentSavings)}</span>
               </div>
-              <m.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="mt-1 h-2 w-full rounded-full bg-black/10"
-              >
+              <div className="mt-1 h-2 w-full rounded-full bg-black/10">
                 <div
                   className="h-2 rounded-full bg-[color:var(--color-secondary)]"
                   style={{ width: `${depositProgress}%` }}
                 />
-              </m.div>
+              </div>
               <div className="flex justify-between mt-1">
                 <span>Gap</span>
                 <span>{formatCurrency(outputs.depositGap)}</span>
@@ -252,17 +249,12 @@ export function StrategySimulator({ onSnapshot }: { onSnapshot?: (s: StrategySna
                 <span>Equity in {inputs.years}y</span>
                 <span>{formatCurrency(outputs.equityAfterYears)}</span>
               </div>
-              <m.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="mt-1 h-2 w-full rounded-full bg-black/10"
-              >
+              <div className="mt-1 h-2 w-full rounded-full bg-black/10">
                 <div
                   className="h-2 rounded-full bg-[color:var(--color-primary)]"
                   style={{ width: `${equityProgress}%` }}
                 />
-              </m.div>
+              </div>
               <div className="flex justify-between">
                 <span>Value after {inputs.years}y</span>
                 <span>{formatCurrency(outputs.valueAfterYears)}</span>

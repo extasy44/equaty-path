@@ -1,0 +1,149 @@
+{
+  "Oak_Hardwood": {
+    "name": "Oak Hardwood",
+    "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+    "reflection": 0.3,
+    "roughness": 0.7,
+    "metalness": 0.0,
+    "color": "#8B4513",
+    "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+    "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+    "properties": {
+      "finish": "matte",
+      "grain": "prominent",
+      "durability": "high"
+    }
+  },
+  "Cream_Render": {
+    "name": "Cream Render",
+    "texture_url": "/textures/cream_render_diffuse.jpg",
+    "reflection": 0.1,
+    "roughness": 0.8,
+    "metalness": 0.0,
+    "color": "#F5F1E8",
+    "normalMapUrl": "/textures/cream_render_normal.jpg",
+    "properties": {
+      "finish": "smooth",
+      "texture": "subtle",
+      "durability": "medium"
+    }
+  },
+  "Dark_Gray_Tiles": {
+    "name": "Dark Gray Tiles",
+    "texture_url": "/textures/dark_gray_tiles_diffuse.jpg",
+    "reflection": 0.4,
+    "roughness": 0.6,
+    "metalness": 0.0,
+    "color": "#4B5563",
+    "normalMapUrl": "/textures/dark_gray_tiles_normal.jpg",
+    "aoMapUrl": "/textures/dark_gray_tiles_ao.jpg",
+    "properties": {
+      "finish": "glossy",
+      "texture": "ceramic",
+      "durability": "high"
+    }
+  },
+  "Light_Wood_Laminate": {
+    "name": "Light Wood Laminate",
+    "texture_url": "/textures/light_wood_laminate_diffuse.jpg",
+    "reflection": 0.2,
+    "roughness": 0.75,
+    "metalness": 0.0,
+    "color": "#D4B08A",
+    "normalMapUrl": "/textures/light_wood_laminate_normal.jpg",
+    "properties": {
+      "finish": "semi-gloss",
+      "texture": "laminate",
+      "durability": "medium"
+    }
+  },
+  "White_Brick": {
+    "name": "White Brick",
+    "texture_url": "/textures/white_brick_diffuse.jpg",
+    "reflection": 0.1,
+    "roughness": 0.9,
+    "metalness": 0.0,
+    "color": "#FFFFFF",
+    "normalMapUrl": "/textures/white_brick_normal.jpg",
+    "aoMapUrl": "/textures/white_brick_ao.jpg",
+    "displacementMapUrl": "/textures/white_brick_displacement.jpg",
+    "properties": {
+      "finish": "matte",
+      "texture": "brick",
+      "durability": "high"
+    }
+  },
+  "Red_Brick": {
+    "name": "Red Brick",
+    "texture_url": "/textures/red_brick_diffuse.jpg",
+    "reflection": 0.1,
+    "roughness": 0.85,
+    "metalness": 0.0,
+    "color": "#9B2C2C",
+    "normalMapUrl": "/textures/red_brick_normal.jpg",
+    "aoMapUrl": "/textures/red_brick_ao.jpg",
+    "displacementMapUrl": "/textures/red_brick_displacement.jpg",
+    "properties": {
+      "finish": "matte",
+      "texture": "brick",
+      "durability": "high"
+    }
+  },
+  "Charcoal_Concrete": {
+    "name": "Charcoal Concrete",
+    "texture_url": "/textures/charcoal_concrete_diffuse.jpg",
+    "reflection": 0.05,
+    "roughness": 0.95,
+    "metalness": 0.0,
+    "color": "#2F3133",
+    "normalMapUrl": "/textures/charcoal_concrete_normal.jpg",
+    "aoMapUrl": "/textures/charcoal_concrete_ao.jpg",
+    "properties": {
+      "finish": "rough",
+      "texture": "concrete",
+      "durability": "very_high"
+    }
+  },
+  "Stainless_Steel": {
+    "name": "Stainless Steel",
+    "texture_url": "/textures/stainless_steel_diffuse.jpg",
+    "reflection": 0.8,
+    "roughness": 0.2,
+    "metalness": 0.9,
+    "color": "#C0C0C0",
+    "normalMapUrl": "/textures/stainless_steel_normal.jpg",
+    "properties": {
+      "finish": "mirror",
+      "texture": "metal",
+      "durability": "very_high"
+    }
+  },
+  "Glass_Clear": {
+    "name": "Clear Glass",
+    "texture_url": "/textures/clear_glass_diffuse.jpg",
+    "reflection": 0.9,
+    "roughness": 0.1,
+    "metalness": 0.0,
+    "color": "#FFFFFF",
+    "properties": {
+      "finish": "transparent",
+      "texture": "glass",
+      "durability": "medium"
+    }
+  },
+  "Marble_White": {
+    "name": "White Marble",
+    "texture_url": "/textures/white_marble_diffuse.jpg",
+    "reflection": 0.6,
+    "roughness": 0.3,
+    "metalness": 0.0,
+    "color": "#F8F8F8",
+    "normalMapUrl": "/textures/white_marble_normal.jpg",
+    "aoMapUrl": "/textures/white_marble_ao.jpg",
+    "properties": {
+      "finish": "polished",
+      "texture": "natural_stone",
+      "durability": "high"
+    }
+  }
+}

@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { m } from 'framer-motion'
 import { formatCurrencyAUD } from '@/lib/utils'
 
 interface LoanInputs {
@@ -250,17 +249,12 @@ export function LoanReadiness({ onSnapshot }: { onSnapshot?: (s: LoanSnapshot) =
                 <span>Eligible loan</span>
                 <span>{formatCurrency(o.eligibleLoan)}</span>
               </div>
-              <m.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="mt-1 h-2 w-full rounded-full bg-black/10"
-              >
+              <div className="mt-1 h-2 w-full rounded-full bg-black/10">
                 <div
                   className="h-2 rounded-full bg-[color:var(--color-primary)]"
                   style={{ width: `${capacityFill}%` }}
                 />
-              </m.div>
+              </div>
               <div className="flex justify-between">
                 <span>DTI (eligible loan / income)</span>
                 <span>{o.dti.toFixed(2)}×</span>
@@ -281,17 +275,12 @@ export function LoanReadiness({ onSnapshot }: { onSnapshot?: (s: LoanSnapshot) =
                 <span>Deposit available</span>
                 <span>{formatCurrency(inputs.depositAvailable)}</span>
               </div>
-              <m.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="mt-1 h-2 w-full rounded-full bg-black/10"
-              >
+              <div className="mt-1 h-2 w-full rounded-full bg-black/10">
                 <div
                   className="h-2 rounded-full bg-[color:var(--color-secondary)]"
                   style={{ width: `${depositFill}%` }}
                 />
-              </m.div>
+              </div>
               <div className="flex justify-between">
                 <span>Target LVR</span>
                 <span>{formatPercent(lvrPct)}</span>

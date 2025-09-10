@@ -10,13 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[color:var(--color-primary)] text-white hover:bg-[color:var(--color-primary)]/90 hover:brightness-105',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+          'bg-[color:var(--color-foreground)] text-white hover:bg-[color:var(--color-primary-hover)] hover:brightness-105',
+        destructive:
+          'bg-[color:var(--color-error)] text-white hover:bg-[color:var(--color-error)]/90',
         outline:
-          'border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:border-black/10',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
+          'border border-[color:var(--border)] bg-[color:var(--surface)] text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-hover)] hover:text-[color:var(--color-foreground)] hover:border-[color:var(--border-hover)]',
+        secondary:
+          'bg-[color:var(--color-muted)] text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-hover)]',
+        ghost:
+          'text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-hover)] hover:text-[color:var(--color-foreground)]',
+        link: 'text-[color:var(--color-primary)] underline-offset-4 hover:underline hover:text-[color:var(--color-primary-hover)]',
       },
       size: {
         default: 'h-10 px-4 py-2',
