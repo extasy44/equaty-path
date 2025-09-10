@@ -81,7 +81,7 @@ export function RealisticRenderer({ model, onRenderComplete, className }: Realis
 
     const renderPromises: Promise<RenderResponse>[] = []
 
-    selectedViewpoints.forEach((viewpointKey, index) => {
+    selectedViewpoints.forEach((viewpointKey) => {
       const viewpoint = availableViewpoints[viewpointKey]
       if (!viewpoint) return
 
@@ -191,9 +191,11 @@ export function RealisticRenderer({ model, onRenderComplete, className }: Realis
             <AlertDescription>
               <strong>Model Issues:</strong>
               <ul className="mt-1 ml-4 list-disc text-sm">
-                {realisticRenderer.validateModelForRendering(model).issues.map((issue, index) => (
-                  <li key={index}>{issue}</li>
-                ))}
+                {realisticRenderer
+                  .validateModelForRendering(model)
+                  .issues.map((issue, issueIndex) => (
+                    <li key={issueIndex}>{issue}</li>
+                  ))}
               </ul>
             </AlertDescription>
           </Alert>
@@ -202,7 +204,12 @@ export function RealisticRenderer({ model, onRenderComplete, className }: Realis
         {/* Quality Selection */}
         <div className="space-y-2">
           <Label>Render Quality</Label>
-          <Select value={selectedQuality} onValueChange={(value: any) => setSelectedQuality(value)}>
+          <Select
+            value={selectedQuality}
+            onValueChange={(value: 'draft' | 'standard' | 'high' | 'ultra') =>
+              setSelectedQuality(value)
+            }
+          >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -349,8 +356,8 @@ export function RealisticRenderer({ model, onRenderComplete, className }: Realis
               <ul className="mt-1 ml-4 list-disc text-sm">
                 {responses
                   .filter((r) => !r.success)
-                  .map((response, index) => (
-                    <li key={index}>{response.message}</li>
+                  .map((response, responseIndex) => (
+                    <li key={responseIndex}>{response.message}</li>
                   ))}
               </ul>
             </AlertDescription>

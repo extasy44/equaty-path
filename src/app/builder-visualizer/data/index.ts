@@ -79,23 +79,23 @@ export function getDefaultHouse() {
 }
 
 export function getHousePresets(): HousePreset[] {
-  return housePresetsData.presets
+  return housePresetsData.presets as HousePreset[]
 }
 
 export function getHousePresetById(id: string): HousePreset | null {
-  return housePresetsData.presets.find((preset) => preset.id === id) || null
+  return (housePresetsData.presets.find((preset) => preset.id === id) as HousePreset) || null
 }
 
 export function getViewSettings(): ViewSettings {
-  return viewSettingsData
+  return viewSettingsData as unknown as ViewSettings
 }
 
 export function getViewPresets(mode: 'exterior' | 'interior'): Record<string, ViewPreset> {
-  return viewSettingsData.viewPresets[mode]
+  return viewSettingsData.viewPresets[mode] as unknown as Record<string, ViewPreset>
 }
 
 export function getViewPreset(mode: 'exterior' | 'interior', presetId: string): ViewPreset | null {
-  return viewSettingsData.viewPresets[mode][presetId] || null
+  return (viewSettingsData.viewPresets[mode][presetId] as unknown as ViewPreset) || null
 }
 
 // Utility functions

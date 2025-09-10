@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import type { Model3D } from '../types'
+import type { MaterialSelection } from '../data'
 
 interface AIGenerationRequest {
   prompt: string
-  materials: Record<string, any>
+  materials: Record<string, MaterialSelection>
   style?: 'modern' | 'traditional' | 'contemporary' | 'minimalist'
   budget?: 'low' | 'medium' | 'high' | 'premium'
 }
@@ -16,7 +18,7 @@ interface AIGenerationResponse {
     name: string
     sections: Array<{
       id: string
-      material: any
+      material: MaterialSelection
     }>
     metadata: {
       vertices: number
@@ -171,7 +173,7 @@ export class AIHouseGenerator {
     }
   }
 
-  async generateVariations(baseModel: any, count: number = 3): Promise<AIGenerationResponse> {
+  async generateVariations(baseModel: Model3D, count: number = 3): Promise<AIGenerationResponse> {
     try {
       // Simulate generating variations
       await new Promise((resolve) => setTimeout(resolve, 3000))
@@ -205,62 +207,71 @@ export function useAIHouseGenerator() {
 
   const generator = new AIHouseGenerator()
 
-  const generateHouse = useCallback(async (request: AIGenerationRequest) => {
-    setIsGenerating(true)
-    setError(null)
+  const generateHouse = useCallback(
+    async (request: AIGenerationRequest) => {
+      setIsGenerating(true)
+      setError(null)
 
-    try {
-      const result = await generator.generateHouse(request)
-      if (!result.success) {
-        setError(result.error || 'Generation failed')
+      try {
+        const result = await generator.generateHouse(request)
+        if (!result.success) {
+          setError(result.error || 'Generation failed')
+          return null
+        }
+        return result
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error')
         return null
+      } finally {
+        setIsGenerating(false)
       }
-      return result
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error')
-      return null
-    } finally {
-      setIsGenerating(false)
-    }
-  }, [])
+    },
+    [generator]
+  )
 
-  const enhanceRender = useCallback(async (modelId: string, viewpoint: string) => {
-    setIsEnhancing(true)
-    setError(null)
+  const enhanceRender = useCallback(
+    async (modelId: string, viewpoint: string) => {
+      setIsEnhancing(true)
+      setError(null)
 
-    try {
-      const result = await generator.enhanceRender(modelId, viewpoint)
-      if (!result.success) {
-        setError(result.error || 'Enhancement failed')
+      try {
+        const result = await generator.enhanceRender(modelId, viewpoint)
+        if (!result.success) {
+          setError(result.error || 'Enhancement failed')
+          return null
+        }
+        return result
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error')
         return null
+      } finally {
+        setIsEnhancing(false)
       }
-      return result
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error')
-      return null
-    } finally {
-      setIsEnhancing(false)
-    }
-  }, [])
+    },
+    [generator]
+  )
 
-  const generateVariations = useCallback(async (baseModel: any, count: number = 3) => {
-    setIsGenerating(true)
-    setError(null)
+  const generateVariations = useCallback(
+    async (baseModel: Model3D, count: number = 3) => {
+      setIsGenerating(true)
+      setError(null)
 
-    try {
-      const result = await generator.generateVariations(baseModel, count)
-      if (!result.success) {
-        setError(result.error || 'Variation generation failed')
+      try {
+        const result = await generator.generateVariations(baseModel, count)
+        if (!result.success) {
+          setError(result.error || 'Variation generation failed')
+          return null
+        }
+        return result
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error')
         return null
+      } finally {
+        setIsGenerating(false)
       }
-      return result
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error')
-      return null
-    } finally {
-      setIsGenerating(false)
-    }
-  }, [])
+    },
+    [generator]
+  )
 
   return {
     generateHouse,
