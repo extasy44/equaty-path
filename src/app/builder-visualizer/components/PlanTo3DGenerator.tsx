@@ -40,20 +40,6 @@ export function PlanTo3DGenerator({
     }
   }, [])
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      setDragActive(false)
-
-      const files = e.dataTransfer.files
-      if (files && files[0]) {
-        handleFileSelect(files[0])
-      }
-    },
-    [handleFileSelect]
-  )
-
   const handleFileSelect = useCallback((file: File) => {
     // Validate file
     if (!file.type || !uploadConstraints.allowedTypes.includes(file.type)) {
@@ -69,6 +55,20 @@ export function PlanTo3DGenerator({
     setSelectedFile(file)
     setResponse(null) // Clear previous results
   }, [])
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      setDragActive(false)
+
+      const files = e.dataTransfer.files
+      if (files && files[0]) {
+        handleFileSelect(files[0])
+      }
+    },
+    [handleFileSelect]
+  )
 
   const handleFileInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

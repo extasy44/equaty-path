@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useMemo } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Canvas } from '@react-three/fiber'
@@ -60,44 +60,47 @@ export default function EnhancedBuilderViewer() {
   })
 
   // View presets for different camera angles
-  const viewPresets: Record<string, ViewPreset> = {
-    front: {
-      name: 'Front View',
-      position: viewMode === 'exterior' ? [0, 2, 8] : [0, 1.5, 3],
-      target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
-      icon: <Eye className="h-4 w-4" />,
-    },
-    back: {
-      name: 'Back View',
-      position: viewMode === 'exterior' ? [0, 2, -8] : [0, 1.5, -3],
-      target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
-      icon: <Eye className="h-4 w-4" />,
-    },
-    left: {
-      name: 'Left View',
-      position: viewMode === 'exterior' ? [-8, 2, 0] : [-3, 1.5, 0],
-      target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
-      icon: <Eye className="h-4 w-4" />,
-    },
-    right: {
-      name: 'Right View',
-      position: viewMode === 'exterior' ? [8, 2, 0] : [3, 1.5, 0],
-      target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
-      icon: <Eye className="h-4 w-4" />,
-    },
-    aerial: {
-      name: 'Aerial View',
-      position: [0, 12, 0],
-      target: [0, 0, 0],
-      icon: <Camera className="h-4 w-4" />,
-    },
-    interior: {
-      name: 'Interior View',
-      position: [0, 1.5, 3],
-      target: [0, 1.5, 0],
-      icon: <Home className="h-4 w-4" />,
-    },
-  }
+  const viewPresets: Record<string, ViewPreset> = useMemo(
+    () => ({
+      front: {
+        name: 'Front View',
+        position: viewMode === 'exterior' ? [0, 2, 8] : [0, 1.5, 3],
+        target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
+        icon: <Eye className="h-4 w-4" />,
+      },
+      back: {
+        name: 'Back View',
+        position: viewMode === 'exterior' ? [0, 2, -8] : [0, 1.5, -3],
+        target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
+        icon: <Eye className="h-4 w-4" />,
+      },
+      left: {
+        name: 'Left View',
+        position: viewMode === 'exterior' ? [-8, 2, 0] : [-3, 1.5, 0],
+        target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
+        icon: <Eye className="h-4 w-4" />,
+      },
+      right: {
+        name: 'Right View',
+        position: viewMode === 'exterior' ? [8, 2, 0] : [3, 1.5, 0],
+        target: viewMode === 'exterior' ? [0, 2, 0] : [0, 1.5, 0],
+        icon: <Eye className="h-4 w-4" />,
+      },
+      aerial: {
+        name: 'Aerial View',
+        position: [0, 12, 0],
+        target: [0, 0, 0],
+        icon: <Camera className="h-4 w-4" />,
+      },
+      interior: {
+        name: 'Interior View',
+        position: [0, 1.5, 3],
+        target: [0, 1.5, 0],
+        icon: <Home className="h-4 w-4" />,
+      },
+    }),
+    [viewMode]
+  )
 
   // Sample materials data
   const materials: Record<string, MaterialSelection[]> = {
@@ -472,11 +475,7 @@ export default function EnhancedBuilderViewer() {
             <Environment preset="city" />
 
             {currentModel ? (
-              <EnhancedModelViewer
-                model={currentModel}
-                materials={selectedMaterials}
-                viewMode={viewMode}
-              />
+              <EnhancedModelViewer materials={selectedMaterials} viewMode={viewMode} />
             ) : (
               <DefaultHouse />
             )}
@@ -702,11 +701,9 @@ export default function EnhancedBuilderViewer() {
 
 // Enhanced 3D Model Viewer
 function EnhancedModelViewer({
-  model,
   materials,
   viewMode,
 }: {
-  model: Model3D
   materials: Record<string, MaterialSelection>
   viewMode: 'exterior' | 'interior'
 }) {

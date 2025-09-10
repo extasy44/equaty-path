@@ -1,4 +1,4 @@
-import ollama from 'ollama'
+// import ollama from 'ollama'
 import type {
   AIServiceProvider,
   AIServiceConfig,
@@ -14,7 +14,7 @@ import type {
   AIServiceError,
 } from '../../types/ai'
 import {
-  visionPrompts,
+  // visionPrompts,
   textPrompts,
   modelPrompts,
   errorMessages,
@@ -56,7 +56,7 @@ export class OllamaService implements AIServiceProvider {
       }
 
       const data = await response.json()
-      const modelExists = data.models?.some((model: any) => model.name === this.model)
+      const modelExists = data.models?.some((model: { name: string }) => model.name === this.model)
 
       return modelExists || false
     } catch (error) {
@@ -123,7 +123,7 @@ export class OllamaService implements AIServiceProvider {
         },
       }
     } catch (error) {
-      return this.handleError(error, startTime)
+      return this.handleError(error as Error, startTime)
     }
   }
 
@@ -193,7 +193,7 @@ export class OllamaService implements AIServiceProvider {
         },
       }
     } catch (error) {
-      return this.handleError(error, startTime)
+      return this.handleError(error as Error, startTime)
     }
   }
 
@@ -232,7 +232,7 @@ export class OllamaService implements AIServiceProvider {
         },
       }
     } catch (error) {
-      return this.handleError(error, startTime)
+      return this.handleError(error as Error, startTime)
     }
   }
 
@@ -271,7 +271,7 @@ export class OllamaService implements AIServiceProvider {
         },
       }
     } catch (error) {
-      return this.handleError(error, startTime)
+      return this.handleError(error as Error, startTime)
     }
   }
 
@@ -420,7 +420,7 @@ export class OllamaService implements AIServiceProvider {
   /**
    * Handle and retry errors
    */
-  private async handleError(error: any, startTime: number): Promise<AIResponse<any>> {
+  private async handleError<T>(error: Error, startTime: number): Promise<AIResponse<T>> {
     const serviceError = this.createServiceError(error)
 
     // Implement retry logic for retryable errors
@@ -455,7 +455,7 @@ export class OllamaService implements AIServiceProvider {
   /**
    * Create standardized service error
    */
-  private createServiceError(error: any): AIServiceError {
+  private createServiceError(error: Error): AIServiceError {
     const baseError = {
       provider: this.provider,
       retryable: false,
