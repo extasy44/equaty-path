@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import type { Model3D } from '../types'
 import type { MaterialSelection } from '../data'
 
@@ -205,7 +205,7 @@ export function useAIHouseGenerator() {
   const [isEnhancing, setIsEnhancing] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const generator = new AIHouseGenerator()
+  const generator = useMemo(() => new AIHouseGenerator(), [])
 
   const generateHouse = useCallback(
     async (request: AIGenerationRequest) => {

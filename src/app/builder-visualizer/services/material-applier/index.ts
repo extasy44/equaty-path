@@ -6,6 +6,34 @@ import type {
   MaterialLibrary,
   ServiceError,
 } from '../../types'
+
+// GLTF-specific types
+interface GLTFMaterial {
+  name: string
+  pbrMetallicRoughness: {
+    baseColorFactor: number[]
+    metallicFactor: number
+    roughnessFactor: number
+  }
+  extensions?: {
+    KHR_materials_ior?: {
+      ior: number
+    }
+  }
+}
+
+interface GLTFMesh {
+  primitives: Array<{
+    attributes: Record<string, number>
+    indices: number
+    material: number
+  }>
+}
+
+interface GLTFData {
+  materials?: GLTFMaterial[]
+  meshes?: GLTFMesh[]
+}
 import { materialApplierConfig } from '../../config/services'
 import materialsData from '../../config/materials.json'
 
@@ -40,8 +68,6 @@ export class MaterialApplier {
 
       // Apply materials to model sections
       const updatedModel = await this.applyMaterialsToModel(model, materials, selections)
-
-      const processingTime = Date.now() - startTime
 
       return {
         success: true,
@@ -164,7 +190,9 @@ export class MaterialApplier {
     }
 
     // Check if material already exists
-    const existingIndex = model.data.materials.findIndex((m: any) => m.name === material.name)
+    const existingIndex = model.data.materials.findIndex(
+      (m: GLTFMaterial) => m.name === material.name
+    )
 
     if (existingIndex !== -1) {
       return existingIndex
@@ -180,7 +208,7 @@ export class MaterialApplier {
   /**
    * Convert our material format to GLTF material format
    */
-  private convertToGLTFMaterial(material: Material): any {
+  private convertToGLTFMaterial(material: Material): GLTFMaterial {
     return {
       name: material.name,
       pbrMetallicRoughness: {
@@ -279,10 +307,10 @@ export class MaterialApplier {
   /**
    * Handle errors and return appropriate response
    */
-  private handleError(error: any, startTime: number): MaterialApplicationResponse {
+  private handleError(error: Error | unknown, startTime: number): MaterialApplicationResponse {
     const serviceError: ServiceError = {
       code: 'MATERIAL_APPLICATION_ERROR',
-      message: error.message || 'Failed to apply materials to 3D model',
+      message: error instanceof Error ? error.message : 'Failed to apply materials to 3D model',
       details: error,
     }
 
@@ -291,9 +319,8 @@ export class MaterialApplier {
       updatedModel: {} as Model3D,
       appliedMaterials: [],
       message: serviceError.message,
-      processingTime: Date.now() - startTime,
       error: serviceError,
-    } as any
+    }
   }
 }
 

@@ -7,10 +7,123 @@ import type {
   StructuralElement,
   ServiceError,
 } from '../../types'
-import type { VisionAnalysisRequest, MaterialAnalysisRequest } from '../../types/ai'
 import { planTo3DConfig } from '../../config/services'
 import { visionPrompts } from '../../config/ai'
 import { aiServiceManager } from '../ai/ai-service-manager'
+
+// AI Service types
+interface AIService {
+  analyzeImage(request: {
+    image: File
+    prompt: string
+    options: {
+      temperature: number
+      maxTokens: number
+    }
+  }): Promise<{
+    success: boolean
+    data?: unknown
+    error?: string
+  }>
+}
+
+// AI Analysis response types
+interface AIAnalysisElement {
+  type: string
+  dimensions?: {
+    width: number
+    height: number
+    depth?: number
+  }
+  position?: {
+    x: number
+    y: number
+    z: number
+  }
+  properties?: Record<string, unknown>
+}
+
+interface AIAnalysisRoom {
+  id?: string
+  name?: string
+  area?: number
+  floorLevel?: number
+}
+
+interface AIAnalysisResponse {
+  elements?: AIAnalysisElement[]
+  rooms?: AIAnalysisRoom[]
+}
+
+// Vector sketch types
+interface VectorSketch {
+  format: string
+  data: string
+  scale: number
+  elements: ArchitecturalElement[]
+}
+
+// GLTF data types
+interface GLTFAsset {
+  version: string
+  generator: string
+}
+
+interface GLTFScene {
+  nodes: number[]
+}
+
+interface GLTFNode {
+  mesh?: number
+  translation: number[]
+}
+
+interface GLTFMesh {
+  primitives: Array<{
+    attributes: Record<string, number>
+    indices: number
+    material: number
+  }>
+}
+
+interface GLTFMaterial {
+  pbrMetallicRoughness: {
+    baseColorFactor: number[]
+    metallicFactor: number
+    roughnessFactor: number
+  }
+}
+
+interface GLTFAccessor {
+  bufferView: number
+  componentType: number
+  count: number
+  type: string
+  min?: number[]
+  max?: number[]
+}
+
+interface GLTFBufferView {
+  buffer: number
+  byteOffset: number
+  byteLength: number
+}
+
+interface GLTFBuffer {
+  uri: string
+  byteLength: number
+}
+
+interface GLTFData {
+  asset: GLTFAsset
+  scenes: GLTFScene[]
+  nodes: GLTFNode[]
+  meshes: GLTFMesh[]
+  materials: GLTFMaterial[]
+  accessors: GLTFAccessor[]
+  bufferViews: GLTFBufferView[]
+  buffers: GLTFBuffer[]
+}
 
 /**
  * @plan-to-3d-generator
@@ -95,7 +208,7 @@ export class PlanTo3DGenerator {
    */
   private async analyzeFloorPlanWithAI(
     imageFile: File,
-    aiService: any
+    aiService: AIService
   ): Promise<FloorPlanAnalysis> {
     try {
       // Create vision analysis request
@@ -117,7 +230,10 @@ export class PlanTo3DGenerator {
       }
 
       // Convert AI response to FloorPlanAnalysis format
-      return await this.convertAIAnalysisToFloorPlan(analysisResponse.data, imageFile)
+      return await this.convertAIAnalysisToFloorPlan(
+        analysisResponse.data as AIAnalysisResponse,
+        imageFile
+      )
     } catch (error) {
       console.error('AI floor plan analysis failed:', error)
       // Fallback to mock analysis
@@ -129,7 +245,7 @@ export class PlanTo3DGenerator {
    * Convert AI vision analysis response to FloorPlanAnalysis format
    */
   private async convertAIAnalysisToFloorPlan(
-    aiAnalysis: any,
+    aiAnalysis: AIAnalysisResponse,
     imageFile: File
   ): Promise<FloorPlanAnalysis> {
     const elements: ArchitecturalElement[] = []
@@ -141,7 +257,7 @@ export class PlanTo3DGenerator {
 
     // Process AI-detected elements
     if (aiAnalysis.elements && Array.isArray(aiAnalysis.elements)) {
-      aiAnalysis.elements.forEach((element: any, index: number) => {
+      aiAnalysis.elements.forEach((element: AIAnalysisElement, index: number) => {
         const baseElement = {
           id: `${element.type}_${index}`,
           dimensions: {
@@ -185,7 +301,7 @@ export class PlanTo3DGenerator {
 
     // Create rooms from detected elements
     const detectedRooms = aiAnalysis.rooms || []
-    detectedRooms.forEach((roomData: any, index: number) => {
+    detectedRooms.forEach((roomData: AIAnalysisRoom, index: number) => {
       rooms.push({
         id: roomData.id || `room_${index}`,
         name: roomData.name || `Room ${index + 1}`,
@@ -216,7 +332,7 @@ export class PlanTo3DGenerator {
   /**
    * Generate a 2D vectorized sketch from the analysis
    */
-  private async generateVectorSketch(analysis: FloorPlanAnalysis): Promise<any> {
+  private async generateVectorSketch(analysis: FloorPlanAnalysis): Promise<VectorSketch> {
     // This would generate SVG or JSON representation of the floor plan
     // For now, return a mock SVG structure
     return {
@@ -231,9 +347,14 @@ export class PlanTo3DGenerator {
    * Create the 3D model from the vector sketch
    */
   private async create3DModel(
-    vectorSketch: any,
+    vectorSketch: VectorSketch,
     analysis: FloorPlanAnalysis,
-    options: any
+    options: {
+      scale?: number
+      quality?: 'draft' | 'standard' | 'high'
+      includeMetadata?: boolean
+      aiProvider?: 'ollama'
+    }
   ): Promise<Model3D> {
     const modelId = `model_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -241,7 +362,7 @@ export class PlanTo3DGenerator {
     const model: Model3D = {
       id: modelId,
       format: 'gltf',
-      data: this.generateMockGLTF(analysis),
+      data: this.generateMockGLTF(analysis) as GLTFData,
       sections: this.createModelSections(analysis),
       metadata: {
         created: new Date(),
@@ -422,7 +543,7 @@ export class PlanTo3DGenerator {
   /**
    * Generate mock GLTF data structure
    */
-  private generateMockGLTF(analysis: FloorPlanAnalysis): any {
+  private generateMockGLTF(analysis: FloorPlanAnalysis): GLTFData {
     return {
       asset: {
         version: '2.0',
@@ -586,10 +707,11 @@ export class PlanTo3DGenerator {
   /**
    * Handle errors and return appropriate response
    */
-  private handleError(error: any, startTime: number): PlanTo3DResponse {
+  private handleError(error: Error | unknown, startTime: number): PlanTo3DResponse {
     const serviceError: ServiceError = {
       code: 'PLAN_TO_3D_ERROR',
-      message: error.message || 'Failed to generate 3D model from floor plan',
+      message:
+        error instanceof Error ? error.message : 'Failed to generate 3D model from floor plan',
       details: error,
     }
 
@@ -600,7 +722,7 @@ export class PlanTo3DGenerator {
       message: serviceError.message,
       processingTime: Date.now() - startTime,
       error: serviceError,
-    } as any
+    }
   }
 }
 
