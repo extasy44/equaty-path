@@ -1,21 +1,30 @@
 {
   "defaultHouse": {
     "id": "default-house",
-    "name": "Modern Family Home",
-    "description": "A contemporary two-story family home with modern materials and clean lines",
-    "style": "modern",
-    "budget": "medium",
+    "name": "Luxury Contemporary Villa",
+    "description": "An impressive luxury villa with premium materials, stunning textures, and modern architectural features",
+    "style": "contemporary",
+    "budget": "premium",
     "sections": [
       {
         "id": "wall-front",
         "name": "Front Wall",
         "type": "wall",
         "material": {
-          "id": "render-lexicon",
-          "color": "#f5f5f5",
-          "name": "Modern Render",
-          "roughness": 0.8,
-          "metalness": 0.0
+          "id": "Marble_White",
+          "name": "Premium White Marble",
+          "color": "#F8F8F8",
+          "textureUrl": "/textures/white_marble_diffuse.jpg",
+          "normalMapUrl": "/textures/white_marble_normal.jpg",
+          "aoMapUrl": "/textures/white_marble_ao.jpg",
+          "roughness": 0.3,
+          "metalness": 0.0,
+          "reflection": 0.6,
+          "properties": {
+            "finish": "polished",
+            "texture": "natural_stone",
+            "durability": "high"
+          }
         }
       },
       {
@@ -23,11 +32,19 @@
         "name": "Back Wall",
         "type": "wall",
         "material": {
-          "id": "render-lexicon",
-          "color": "#f5f5f5",
-          "name": "Modern Render",
+          "id": "Cream_Render",
+          "name": "Cream Render",
+          "color": "#F5F1E8",
+          "texture_url": "/textures/cream_render_diffuse.jpg",
+          "normalMapUrl": "/textures/cream_render_normal.jpg",
           "roughness": 0.8,
-          "metalness": 0.0
+          "metalness": 0.0,
+          "reflection": 0.1,
+          "properties": {
+            "finish": "smooth",
+            "texture": "subtle",
+            "durability": "medium"
+          }
         }
       },
       {
@@ -35,11 +52,21 @@
         "name": "Left Wall",
         "type": "wall",
         "material": {
-          "id": "brick-char",
-          "color": "#36454f",
-          "name": "Char Brick",
-          "roughness": 0.9,
-          "metalness": 0.0
+          "id": "Red_Brick",
+          "name": "Red Brick",
+          "color": "#9B2C2C",
+          "texture_url": "/textures/red_brick_diffuse.jpg",
+          "normalMapUrl": "/textures/red_brick_normal.jpg",
+          "aoMapUrl": "/textures/red_brick_ao.jpg",
+          "displacementMapUrl": "/textures/red_brick_displacement.jpg",
+          "roughness": 0.85,
+          "metalness": 0.0,
+          "reflection": 0.1,
+          "properties": {
+            "finish": "matte",
+            "texture": "brick",
+            "durability": "high"
+          }
         }
       },
       {
@@ -47,11 +74,19 @@
         "name": "Right Wall",
         "type": "wall",
         "material": {
-          "id": "render-lexicon",
-          "color": "#f5f5f5",
-          "name": "Modern Render",
+          "id": "Cream_Render",
+          "name": "Cream Render",
+          "color": "#F5F1E8",
+          "texture_url": "/textures/cream_render_diffuse.jpg",
+          "normalMapUrl": "/textures/cream_render_normal.jpg",
           "roughness": 0.8,
-          "metalness": 0.0
+          "metalness": 0.0,
+          "reflection": 0.1,
+          "properties": {
+            "finish": "smooth",
+            "texture": "subtle",
+            "durability": "medium"
+          }
         }
       },
       {
@@ -59,11 +94,19 @@
         "name": "Main Roof",
         "type": "roof",
         "material": {
-          "id": "concrete-storm-grey",
-          "color": "#708090",
-          "name": "Metal Roof",
-          "roughness": 0.7,
-          "metalness": 0.1
+          "id": "Copper_Metal",
+          "name": "Patina Copper Roof",
+          "color": "#B87333",
+          "textureUrl": "/textures/copper_metal_diffuse.jpg",
+          "normalMapUrl": "/textures/copper_metal_normal.jpg",
+          "roughness": 0.3,
+          "metalness": 0.9,
+          "reflection": 0.7,
+          "properties": {
+            "finish": "patina",
+            "texture": "metal",
+            "durability": "very_high"
+          }
         }
       },
       {
@@ -71,11 +114,20 @@
         "name": "Fascia Trim",
         "type": "trim",
         "material": {
-          "id": "trim-dover-white",
-          "color": "#ffffff",
+          "id": "White_Brick",
           "name": "White Trim",
-          "roughness": 0.6,
-          "metalness": 0.0
+          "color": "#FFFFFF",
+          "texture_url": "/textures/white_brick_diffuse.jpg",
+          "normalMapUrl": "/textures/white_brick_normal.jpg",
+          "aoMapUrl": "/textures/white_brick_ao.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "reflection": 0.1,
+          "properties": {
+            "finish": "matte",
+            "texture": "brick",
+            "durability": "high"
+          }
         }
       },
       {
@@ -83,11 +135,19 @@
         "name": "Gutters",
         "type": "trim",
         "material": {
-          "id": "concrete-storm-grey",
-          "color": "#708090",
-          "name": "Metal Gutters",
-          "roughness": 0.5,
-          "metalness": 0.8
+          "id": "Stainless_Steel",
+          "name": "Stainless Steel Gutters",
+          "color": "#C0C0C0",
+          "texture_url": "/textures/stainless_steel_diffuse.jpg",
+          "normalMapUrl": "/textures/stainless_steel_normal.jpg",
+          "roughness": 0.2,
+          "metalness": 0.9,
+          "reflection": 0.8,
+          "properties": {
+            "finish": "mirror",
+            "texture": "metal",
+            "durability": "very_high"
+          }
         }
       },
       {
@@ -95,11 +155,20 @@
         "name": "Main Door",
         "type": "door",
         "material": {
-          "id": "door-wood",
-          "color": "#8b4513",
-          "name": "Wood Door",
-          "roughness": 0.6,
-          "metalness": 0.0
+          "id": "Oak_Hardwood",
+          "name": "Oak Wood Door",
+          "color": "#8B4513",
+          "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+          "roughness": 0.7,
+          "metalness": 0.0,
+          "reflection": 0.3,
+          "properties": {
+            "finish": "matte",
+            "grain": "prominent",
+            "durability": "high"
+          }
         }
       },
       {
@@ -107,11 +176,20 @@
         "name": "Garage Door",
         "type": "door",
         "material": {
-          "id": "door-white",
-          "color": "#ffffff",
+          "id": "White_Brick",
           "name": "White Garage Door",
-          "roughness": 0.7,
-          "metalness": 0.0
+          "color": "#FFFFFF",
+          "texture_url": "/textures/white_brick_diffuse.jpg",
+          "normalMapUrl": "/textures/white_brick_normal.jpg",
+          "aoMapUrl": "/textures/white_brick_ao.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "reflection": 0.1,
+          "properties": {
+            "finish": "matte",
+            "texture": "brick",
+            "durability": "high"
+          }
         }
       },
       {
@@ -119,11 +197,18 @@
         "name": "Front Windows",
         "type": "window",
         "material": {
-          "id": "window-white",
-          "color": "#87ceeb",
-          "name": "Large Windows",
+          "id": "Glass_Clear",
+          "name": "Clear Glass Windows",
+          "color": "#FFFFFF",
+          "texture_url": "/textures/clear_glass_diffuse.jpg",
           "roughness": 0.1,
-          "metalness": 0.8
+          "metalness": 0.0,
+          "reflection": 0.9,
+          "properties": {
+            "finish": "transparent",
+            "texture": "glass",
+            "durability": "medium"
+          }
         }
       },
       {
@@ -131,11 +216,20 @@
         "name": "Ground Floor",
         "type": "floor",
         "material": {
-          "id": "floor-concrete",
-          "color": "#d1d5db",
-          "name": "Concrete Floor",
-          "roughness": 0.9,
-          "metalness": 0.0
+          "id": "Charcoal_Concrete",
+          "name": "Charcoal Concrete Floor",
+          "color": "#2F3133",
+          "texture_url": "/textures/charcoal_concrete_diffuse.jpg",
+          "normalMapUrl": "/textures/charcoal_concrete_normal.jpg",
+          "aoMapUrl": "/textures/charcoal_concrete_ao.jpg",
+          "roughness": 0.95,
+          "metalness": 0.0,
+          "reflection": 0.05,
+          "properties": {
+            "finish": "rough",
+            "texture": "concrete",
+            "durability": "very_high"
+          }
         }
       },
       {
@@ -143,11 +237,20 @@
         "name": "First Floor",
         "type": "floor",
         "material": {
-          "id": "floor-hardwood",
-          "color": "#8b4513",
-          "name": "Hardwood Floor",
-          "roughness": 0.8,
-          "metalness": 0.0
+          "id": "Oak_Hardwood",
+          "name": "Oak Hardwood Floor",
+          "color": "#8B4513",
+          "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+          "roughness": 0.7,
+          "metalness": 0.0,
+          "reflection": 0.3,
+          "properties": {
+            "finish": "matte",
+            "grain": "prominent",
+            "durability": "high"
+          }
         }
       },
       {
@@ -155,11 +258,19 @@
         "name": "Interior Walls",
         "type": "wall",
         "material": {
-          "id": "render-whisper",
-          "color": "#ffffff",
-          "name": "White Interior",
-          "roughness": 0.7,
-          "metalness": 0.0
+          "id": "Cream_Render",
+          "name": "Cream Interior Walls",
+          "color": "#F5F1E8",
+          "texture_url": "/textures/cream_render_diffuse.jpg",
+          "normalMapUrl": "/textures/cream_render_normal.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "reflection": 0.1,
+          "properties": {
+            "finish": "smooth",
+            "texture": "subtle",
+            "durability": "medium"
+          }
         }
       }
     ],
@@ -171,6 +282,14 @@
         "width": 10,
         "height": 6.5,
         "depth": 8
+      },
+      "textureMaps": {
+        "diffuse": true,
+        "normal": true,
+        "ao": true,
+        "displacement": true,
+        "roughness": true,
+        "metalness": true
       }
     }
   },
@@ -178,43 +297,282 @@
     {
       "id": "modern-minimalist",
       "name": "Modern Minimalist",
-      "description": "Clean lines, white walls, metal roof",
+      "description": "Clean lines with white render walls and stainless steel accents",
       "style": "minimalist",
       "budget": "medium",
       "materials": {
-        "walls": "render-whisper",
-        "roof": "concrete-alabaster",
-        "trim": "trim-dover-white",
-        "doors": "door-white",
-        "windows": "window-white"
+        "walls": {
+          "id": "Cream_Render",
+          "name": "Cream Render",
+          "texture_url": "/textures/cream_render_diffuse.jpg",
+          "normalMapUrl": "/textures/cream_render_normal.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "reflection": 0.1
+        },
+        "roof": {
+          "id": "Stainless_Steel",
+          "name": "Stainless Steel Roof",
+          "texture_url": "/textures/stainless_steel_diffuse.jpg",
+          "normalMapUrl": "/textures/stainless_steel_normal.jpg",
+          "roughness": 0.2,
+          "metalness": 0.9,
+          "reflection": 0.8
+        },
+        "trim": {
+          "id": "White_Brick",
+          "name": "White Trim",
+          "texture_url": "/textures/white_brick_diffuse.jpg",
+          "normalMapUrl": "/textures/white_brick_normal.jpg",
+          "aoMapUrl": "/textures/white_brick_ao.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "reflection": 0.1
+        },
+        "doors": {
+          "id": "White_Brick",
+          "name": "White Doors",
+          "texture_url": "/textures/white_brick_diffuse.jpg",
+          "normalMapUrl": "/textures/white_brick_normal.jpg",
+          "aoMapUrl": "/textures/white_brick_ao.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "reflection": 0.1
+        },
+        "windows": {
+          "id": "Glass_Clear",
+          "name": "Clear Glass",
+          "texture_url": "/textures/clear_glass_diffuse.jpg",
+          "roughness": 0.1,
+          "metalness": 0.0,
+          "reflection": 0.9
+        }
       }
     },
     {
       "id": "traditional-family",
       "name": "Traditional Family Home",
-      "description": "Classic brick and render combination",
+      "description": "Classic red brick with terracotta roof tiles and wood accents",
       "style": "traditional",
       "budget": "medium",
       "materials": {
-        "walls": "brick-terracotta",
-        "roof": "concrete-chestnut",
-        "trim": "trim-wallaby",
-        "doors": "door-wood",
-        "windows": "window-wood"
+        "walls": {
+          "id": "Red_Brick",
+          "name": "Red Brick",
+          "texture_url": "/textures/red_brick_diffuse.jpg",
+          "normalMapUrl": "/textures/red_brick_normal.jpg",
+          "aoMapUrl": "/textures/red_brick_ao.jpg",
+          "displacementMapUrl": "/textures/red_brick_displacement.jpg",
+          "roughness": 0.85,
+          "metalness": 0.0,
+          "reflection": 0.1
+        },
+        "roof": {
+          "id": "Dark_Gray_Tiles",
+          "name": "Terracotta Roof Tiles",
+          "texture_url": "/textures/dark_gray_tiles_diffuse.jpg",
+          "normalMapUrl": "/textures/dark_gray_tiles_normal.jpg",
+          "aoMapUrl": "/textures/dark_gray_tiles_ao.jpg",
+          "roughness": 0.6,
+          "metalness": 0.0,
+          "reflection": 0.4
+        },
+        "trim": {
+          "id": "Oak_Hardwood",
+          "name": "Wood Trim",
+          "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+          "roughness": 0.7,
+          "metalness": 0.0,
+          "reflection": 0.3
+        },
+        "doors": {
+          "id": "Oak_Hardwood",
+          "name": "Oak Wood Doors",
+          "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+          "roughness": 0.7,
+          "metalness": 0.0,
+          "reflection": 0.3
+        },
+        "windows": {
+          "id": "Glass_Clear",
+          "name": "Clear Glass Windows",
+          "texture_url": "/textures/clear_glass_diffuse.jpg",
+          "roughness": 0.1,
+          "metalness": 0.0,
+          "reflection": 0.9
+        }
       }
     },
     {
       "id": "contemporary-luxury",
       "name": "Contemporary Luxury",
-      "description": "High-end materials with premium finishes",
+      "description": "Premium materials with marble accents and polished finishes",
       "style": "contemporary",
       "budget": "premium",
       "materials": {
-        "walls": "cladding-cedar",
-        "roof": "concrete-bronze-duo",
-        "trim": "trim-surfmist",
-        "doors": "door-charcoal",
-        "windows": "window-black"
+        "walls": {
+          "id": "Charcoal_Concrete",
+          "name": "Charcoal Concrete",
+          "texture_url": "/textures/charcoal_concrete_diffuse.jpg",
+          "normalMapUrl": "/textures/charcoal_concrete_normal.jpg",
+          "aoMapUrl": "/textures/charcoal_concrete_ao.jpg",
+          "roughness": 0.95,
+          "metalness": 0.0,
+          "reflection": 0.05
+        },
+        "roof": {
+          "id": "Stainless_Steel",
+          "name": "Polished Steel Roof",
+          "texture_url": "/textures/stainless_steel_diffuse.jpg",
+          "normalMapUrl": "/textures/stainless_steel_normal.jpg",
+          "roughness": 0.1,
+          "metalness": 0.95,
+          "reflection": 0.9
+        },
+        "trim": {
+          "id": "Marble_White",
+          "name": "White Marble Trim",
+          "texture_url": "/textures/white_marble_diffuse.jpg",
+          "normalMapUrl": "/textures/white_marble_normal.jpg",
+          "aoMapUrl": "/textures/white_marble_ao.jpg",
+          "roughness": 0.3,
+          "metalness": 0.0,
+          "reflection": 0.6
+        },
+        "doors": {
+          "id": "Oak_Hardwood",
+          "name": "Premium Oak Doors",
+          "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+          "roughness": 0.5,
+          "metalness": 0.0,
+          "reflection": 0.4
+        },
+        "windows": {
+          "id": "Glass_Clear",
+          "name": "Premium Glass",
+          "texture_url": "/textures/clear_glass_diffuse.jpg",
+          "roughness": 0.05,
+          "metalness": 0.0,
+          "reflection": 0.95
+        }
+      }
+    },
+    {
+      "id": "rustic-countryside",
+      "name": "Rustic Countryside",
+      "description": "Natural materials with weathered textures and earthy tones",
+      "style": "rustic",
+      "budget": "low",
+      "materials": {
+        "walls": {
+          "id": "Red_Brick",
+          "name": "Weathered Red Brick",
+          "texture_url": "/textures/red_brick_diffuse.jpg",
+          "normalMapUrl": "/textures/red_brick_normal.jpg",
+          "aoMapUrl": "/textures/red_brick_ao.jpg",
+          "displacementMapUrl": "/textures/red_brick_displacement.jpg",
+          "roughness": 0.95,
+          "metalness": 0.0,
+          "reflection": 0.05
+        },
+        "roof": {
+          "id": "Dark_Gray_Tiles",
+          "name": "Clay Roof Tiles",
+          "texture_url": "/textures/dark_gray_tiles_diffuse.jpg",
+          "normalMapUrl": "/textures/dark_gray_tiles_normal.jpg",
+          "aoMapUrl": "/textures/dark_gray_tiles_ao.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "reflection": 0.2
+        },
+        "trim": {
+          "id": "Oak_Hardwood",
+          "name": "Weathered Wood Trim",
+          "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "reflection": 0.1
+        },
+        "doors": {
+          "id": "Oak_Hardwood",
+          "name": "Rustic Wood Doors",
+          "texture_url": "/textures/oak_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/oak_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/oak_hardwood_ao.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "reflection": 0.1
+        },
+        "windows": {
+          "id": "Glass_Clear",
+          "name": "Traditional Glass",
+          "texture_url": "/textures/clear_glass_diffuse.jpg",
+          "roughness": 0.2,
+          "metalness": 0.0,
+          "reflection": 0.8
+        }
+      }
+    },
+    {
+      "id": "industrial-modern",
+      "name": "Industrial Modern",
+      "description": "Raw concrete, exposed steel, and minimalist design",
+      "style": "industrial",
+      "budget": "medium",
+      "materials": {
+        "walls": {
+          "id": "Charcoal_Concrete",
+          "name": "Raw Concrete",
+          "texture_url": "/textures/charcoal_concrete_diffuse.jpg",
+          "normalMapUrl": "/textures/charcoal_concrete_normal.jpg",
+          "aoMapUrl": "/textures/charcoal_concrete_ao.jpg",
+          "roughness": 0.98,
+          "metalness": 0.0,
+          "reflection": 0.02
+        },
+        "roof": {
+          "id": "Stainless_Steel",
+          "name": "Industrial Steel Roof",
+          "texture_url": "/textures/stainless_steel_diffuse.jpg",
+          "normalMapUrl": "/textures/stainless_steel_normal.jpg",
+          "roughness": 0.3,
+          "metalness": 0.8,
+          "reflection": 0.7
+        },
+        "trim": {
+          "id": "Stainless_Steel",
+          "name": "Steel Trim",
+          "texture_url": "/textures/stainless_steel_diffuse.jpg",
+          "normalMapUrl": "/textures/stainless_steel_normal.jpg",
+          "roughness": 0.2,
+          "metalness": 0.9,
+          "reflection": 0.8
+        },
+        "doors": {
+          "id": "Stainless_Steel",
+          "name": "Steel Doors",
+          "texture_url": "/textures/stainless_steel_diffuse.jpg",
+          "normalMapUrl": "/textures/stainless_steel_normal.jpg",
+          "roughness": 0.2,
+          "metalness": 0.9,
+          "reflection": 0.8
+        },
+        "windows": {
+          "id": "Glass_Clear",
+          "name": "Industrial Glass",
+          "texture_url": "/textures/clear_glass_diffuse.jpg",
+          "roughness": 0.1,
+          "metalness": 0.0,
+          "reflection": 0.9
+        }
       }
     }
   ]

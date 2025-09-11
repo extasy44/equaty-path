@@ -2,6 +2,22 @@
 
 import EnhancedBuilderViewer from './enhanced-viewer'
 
-export default function BuilderClient() {
-  return <EnhancedBuilderViewer />
+interface BuilderClientProps {
+  onExitFullscreen?: () => void
+  defaultFullscreen?: boolean
+  previewMode?: boolean
+}
+
+export default function BuilderClient({
+  onExitFullscreen,
+  defaultFullscreen,
+  previewMode,
+}: BuilderClientProps) {
+  return (
+    <EnhancedBuilderViewer
+      onExitFullscreen={onExitFullscreen}
+      defaultFullscreen={defaultFullscreen}
+      previewMode={previewMode}
+    />
+  )
 }

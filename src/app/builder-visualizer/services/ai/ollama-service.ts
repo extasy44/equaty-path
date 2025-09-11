@@ -408,7 +408,75 @@ export class OllamaService implements AIServiceProvider {
     }
 
     return {
-      gltfData: {},
+      gltfData: {
+        asset: {
+          version: '2.0',
+          generator: 'Ollama AI Service',
+        },
+        scenes: [{ nodes: [0] }],
+        nodes: [
+          {
+            mesh: 0,
+            translation: [0, 0, 0],
+          },
+        ],
+        meshes: [
+          {
+            primitives: [
+              {
+                attributes: {
+                  POSITION: 0,
+                  NORMAL: 1,
+                },
+                indices: 2,
+                material: 0,
+              },
+            ],
+          },
+        ],
+        materials: [
+          {
+            pbrMetallicRoughness: {
+              baseColorFactor: [0.8, 0.8, 0.8, 1.0],
+              metallicFactor: 0.0,
+              roughnessFactor: 0.8,
+            },
+          },
+        ],
+        accessors: [
+          {
+            bufferView: 0,
+            componentType: 5126,
+            count: 24,
+            type: 'VEC3',
+            min: [-1, -1, -1],
+            max: [1, 1, 1],
+          },
+          {
+            bufferView: 1,
+            componentType: 5126,
+            count: 24,
+            type: 'VEC3',
+          },
+          {
+            bufferView: 2,
+            componentType: 5123,
+            count: 36,
+            type: 'SCALAR',
+          },
+        ],
+        bufferViews: [
+          { buffer: 0, byteOffset: 0, byteLength: 288 },
+          { buffer: 0, byteOffset: 288, byteLength: 288 },
+          { buffer: 0, byteOffset: 576, byteLength: 72 },
+        ],
+        buffers: [
+          {
+            uri: 'data:application/octet-stream;base64,',
+            byteLength: 648,
+          },
+        ],
+      },
       metadata: {
         vertices: 0,
         faces: 0,
@@ -459,7 +527,11 @@ export class OllamaService implements AIServiceProvider {
     const baseError = {
       provider: this.provider,
       retryable: false,
-      details: error,
+      details: {
+        message: error.message,
+        stack: error.stack,
+        name: error.name,
+      },
     }
 
     if (error?.message?.includes('ECONNREFUSED') || error?.message?.includes('ENOTFOUND')) {

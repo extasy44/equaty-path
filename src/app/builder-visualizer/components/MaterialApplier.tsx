@@ -110,8 +110,20 @@ export function MaterialApplier({ model, onModelUpdated, className }: MaterialAp
 
     return (
       <div className="flex items-center gap-2">
-        <div className="w-4 h-4 rounded border" style={{ backgroundColor: material.color }} />
+        <div className="relative">
+          <div className="w-4 h-4 rounded border" style={{ backgroundColor: material.color }} />
+          {material.textureUrl && (
+            <div className="absolute inset-0 w-4 h-4 rounded border border-blue-500 bg-blue-100 flex items-center justify-center">
+              <span className="text-xs text-blue-600">T</span>
+            </div>
+          )}
+        </div>
         <span className="text-sm">{material.name}</span>
+        {material.properties && (
+          <Badge variant="outline" className="text-xs">
+            {String(material.properties.finish)}
+          </Badge>
+        )}
       </div>
     )
   }
@@ -208,12 +220,28 @@ export function MaterialApplier({ model, onModelUpdated, className }: MaterialAp
                   <SelectContent>
                     {sectionMaterials.map((material) => (
                       <SelectItem key={material.name} value={material.name}>
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: material.color }}
-                          />
-                          <span>{material.name}</span>
+                        <div className="flex items-center gap-2 w-full">
+                          <div className="relative">
+                            <div
+                              className="w-3 h-3 rounded border"
+                              style={{ backgroundColor: material.color }}
+                            />
+                            {material.textureUrl && (
+                              <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-blue-500 border border-white" />
+                            )}
+                          </div>
+                          <div className="flex-1">
+                            <span className="font-medium">{material.name}</span>
+                            {material.properties && (
+                              <div className="text-xs text-muted-foreground">
+                                {String(material.properties.finish)} •{' '}
+                                {String(material.properties.texture)}
+                              </div>
+                            )}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            R:{material.roughness?.toFixed(1)} M:{material.metalness?.toFixed(1)}
+                          </div>
                         </div>
                       </SelectItem>
                     ))}
@@ -284,19 +312,37 @@ export function MaterialApplier({ model, onModelUpdated, className }: MaterialAp
         {/* Material Library Preview */}
         <div className="border rounded-lg p-4">
           <h4 className="font-medium mb-3">Available Materials</h4>
-          <div className="grid grid-cols-2 gap-2">
-            {availableMaterials.slice(0, 8).map((material) => (
-              <div key={material.name} className="flex items-center gap-2 text-xs">
-                <div
-                  className="w-3 h-3 rounded border"
-                  style={{ backgroundColor: material.color }}
-                />
-                <span className="truncate">{material.name}</span>
+          <div className="grid grid-cols-1 gap-2">
+            {availableMaterials.slice(0, 6).map((material) => (
+              <div
+                key={material.name}
+                className="flex items-center gap-2 text-xs p-2 border rounded"
+              >
+                <div className="relative">
+                  <div
+                    className="w-4 h-4 rounded border"
+                    style={{ backgroundColor: material.color }}
+                  />
+                  {material.textureUrl && (
+                    <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-blue-500 border border-white" />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <div className="font-medium">{material.name}</div>
+                  {material.properties && (
+                    <div className="text-muted-foreground">
+                      {String(material.properties.finish)} • {String(material.properties.texture)}
+                    </div>
+                  )}
+                </div>
+                <div className="text-muted-foreground">
+                  R:{material.roughness?.toFixed(1)} M:{material.metalness?.toFixed(1)}
+                </div>
               </div>
             ))}
-            {availableMaterials.length > 8 && (
-              <div className="text-xs text-muted-foreground col-span-2">
-                ... and {availableMaterials.length - 8} more materials
+            {availableMaterials.length > 6 && (
+              <div className="text-xs text-muted-foreground text-center py-2">
+                ... and {availableMaterials.length - 6} more materials
               </div>
             )}
           </div>

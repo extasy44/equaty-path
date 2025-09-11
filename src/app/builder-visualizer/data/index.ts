@@ -86,6 +86,17 @@ export function getHousePresetById(id: string): HousePreset | null {
   return (housePresetsData.presets.find((preset) => preset.id === id) as HousePreset) || null
 }
 
+export function getHousePreset(id: string) {
+  // First try to get from presets
+  const preset = getHousePresetById(id)
+  if (preset) {
+    return preset
+  }
+
+  // Fall back to default house for backward compatibility
+  return getDefaultHouse()
+}
+
 export function getViewSettings(): ViewSettings {
   return viewSettingsData as unknown as ViewSettings
 }

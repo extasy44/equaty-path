@@ -6,6 +6,7 @@ import type {
   MaterialLibrary,
   ServiceError,
 } from '../../types'
+import { textureManager } from '../../utils/texture-manager'
 
 // GLTF-specific types
 interface GLTFMaterial {
@@ -19,7 +20,34 @@ interface GLTFMaterial {
     KHR_materials_ior?: {
       ior: number
     }
+    KHR_materials_pbrSpecularGlossiness?: {
+      diffuseFactor: number[]
+      specularFactor: number[]
+      glossinessFactor: number
+    }
   }
+  normalTexture?: {
+    index: number
+    scale?: number
+  }
+  occlusionTexture?: {
+    index: number
+    strength?: number
+  }
+  emissiveTexture?: {
+    index: number
+  }
+}
+
+interface GLTFTexture {
+  source: number
+  sampler?: number
+}
+
+interface GLTFImage {
+  uri?: string
+  bufferView?: number
+  mimeType?: string
 }
 
 interface GLTFMesh {
@@ -33,7 +61,10 @@ interface GLTFMesh {
 interface GLTFData {
   materials?: GLTFMaterial[]
   meshes?: GLTFMesh[]
+  textures?: GLTFTexture[]
+  images?: GLTFImage[]
 }
+
 import { materialApplierConfig } from '../../config/services'
 import materialsData from '../../config/materials.json'
 
@@ -147,6 +178,10 @@ export class MaterialApplier {
       },
     }
 
+    // Preload all textures for better performance
+    const allMaterials = Array.from(materials.values())
+    await textureManager.preloadTextures(allMaterials)
+
     // Apply materials to each section
     for (const selection of selections) {
       const section = updatedModel.sections.find((s) => s.id === selection.sectionId)
@@ -158,8 +193,8 @@ export class MaterialApplier {
           appliedAt: selection.appliedAt,
         }
 
-        // Update the model's GLTF data with material properties
-        this.updateModelDataWithMaterial(updatedModel, section.id, material)
+        // Update the model's GLTF data with material properties and textures
+        await this.updateModelDataWithMaterial(updatedModel, section.id, material)
       }
     }
 
@@ -167,14 +202,18 @@ export class MaterialApplier {
   }
 
   /**
-   * Update the model's GLTF data with material properties
+   * Update the model's GLTF data with material properties and textures
    */
-  private updateModelDataWithMaterial(model: Model3D, sectionId: string, material: Material): void {
+  private async updateModelDataWithMaterial(
+    model: Model3D,
+    sectionId: string,
+    material: Material
+  ): Promise<void> {
     // In a real implementation, this would modify the GLTF JSON structure
     // to include the material properties for the specific mesh
     if (model.format === 'gltf' && model.data) {
       // Find the material index for this section
-      const materialIndex = this.findOrCreateMaterialIndex(model, material)
+      const materialIndex = await this.findOrCreateMaterialIndex(model, material)
 
       // Update the mesh primitive to use this material
       this.updateMeshMaterial(model, sectionId, materialIndex)
@@ -184,7 +223,7 @@ export class MaterialApplier {
   /**
    * Find or create a material index in the GLTF materials array
    */
-  private findOrCreateMaterialIndex(model: Model3D, material: Material): number {
+  private async findOrCreateMaterialIndex(model: Model3D, material: Material): Promise<number> {
     if (!model.data.materials) {
       model.data.materials = []
     }
@@ -198,32 +237,131 @@ export class MaterialApplier {
       return existingIndex
     }
 
-    // Create new GLTF material
-    const gltfMaterial = this.convertToGLTFMaterial(material)
+    // Create new GLTF material with textures
+    const gltfMaterial = await this.convertToGLTFMaterial(model, material)
     model.data.materials.push(gltfMaterial)
 
     return model.data.materials.length - 1
   }
 
   /**
-   * Convert our material format to GLTF material format
+   * Convert our material format to GLTF material format with textures
    */
-  private convertToGLTFMaterial(material: Material): GLTFMaterial {
-    return {
+  private async convertToGLTFMaterial(model: Model3D, material: Material): Promise<GLTFMaterial> {
+    const gltfMaterial: GLTFMaterial = {
       name: material.name,
       pbrMetallicRoughness: {
         baseColorFactor: this.hexToRgb(material.color).concat([1.0]),
         metallicFactor: material.metalness || 0.0,
         roughnessFactor: material.roughness,
       },
-      extensions:
-        material.reflection > 0.5
-          ? {
-              KHR_materials_ior: {
-                ior: 1.5,
-              },
-            }
-          : undefined,
+    }
+
+    // Add extensions for advanced material properties
+    if (material.reflection > 0.5) {
+      gltfMaterial.extensions = {
+        KHR_materials_ior: {
+          ior: 1.5,
+        },
+      }
+    }
+
+    // Add texture references if available
+    if (material.textureUrl) {
+      const textureIndex = await this.addTextureToModel(model, material.textureUrl)
+      if (textureIndex !== -1) {
+        // In GLTF, base color texture is handled through pbrMetallicRoughness.baseColorTexture
+        // This would be implemented in the actual GLTF structure
+      }
+    }
+
+    if (material.normalMapUrl) {
+      const textureIndex = await this.addTextureToModel(model, material.normalMapUrl)
+      if (textureIndex !== -1) {
+        gltfMaterial.normalTexture = {
+          index: textureIndex,
+          scale: 1.0,
+        }
+      }
+    }
+
+    if (material.aoMapUrl) {
+      const textureIndex = await this.addTextureToModel(model, material.aoMapUrl)
+      if (textureIndex !== -1) {
+        gltfMaterial.occlusionTexture = {
+          index: textureIndex,
+          strength: 1.0,
+        }
+      }
+    }
+
+    return gltfMaterial
+  }
+
+  /**
+   * Add texture to GLTF model and return texture index
+   */
+  private async addTextureToModel(model: Model3D, textureUrl: string): Promise<number> {
+    // Initialize textures and images arrays if they don't exist
+    if (!model.data.textures) {
+      model.data.textures = []
+    }
+    if (!model.data.images) {
+      model.data.images = []
+    }
+
+    // Check if texture already exists
+    const existingImageIndex = model.data.images.findIndex(
+      (img: GLTFImage) => img.uri === textureUrl
+    )
+
+    if (existingImageIndex !== -1) {
+      // Find corresponding texture index
+      const textureIndex = model.data.textures.findIndex(
+        (tex: GLTFTexture) => tex.source === existingImageIndex
+      )
+      return textureIndex !== -1
+        ? textureIndex
+        : this.createTextureReference(model, existingImageIndex)
+    }
+
+    // Add new image
+    const imageIndex = model.data.images.length
+    model.data.images.push({
+      uri: textureUrl,
+      mimeType: this.getMimeTypeFromUrl(textureUrl),
+    })
+
+    // Add texture reference
+    return this.createTextureReference(model, imageIndex)
+  }
+
+  /**
+   * Create texture reference in GLTF
+   */
+  private createTextureReference(model: Model3D, imageIndex: number): number {
+    const textureIndex = model.data.textures!.length
+    model.data.textures!.push({
+      source: imageIndex,
+    })
+    return textureIndex
+  }
+
+  /**
+   * Get MIME type from URL
+   */
+  private getMimeTypeFromUrl(url: string): string {
+    const extension = url.split('.').pop()?.toLowerCase()
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'image/jpeg'
+      case 'png':
+        return 'image/png'
+      case 'webp':
+        return 'image/webp'
+      default:
+        return 'image/jpeg'
     }
   }
 

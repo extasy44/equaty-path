@@ -145,5 +145,142 @@
       "texture": "natural_stone",
       "durability": "high"
     }
+  },
+  "Terracotta_Tiles": {
+    "name": "Terracotta Roof Tiles",
+    "texture_url": "/textures/terracotta_tiles_diffuse.jpg",
+    "reflection": 0.2,
+    "roughness": 0.8,
+    "metalness": 0.0,
+    "color": "#B85450",
+    "normalMapUrl": "/textures/terracotta_tiles_normal.jpg",
+    "aoMapUrl": "/textures/terracotta_tiles_ao.jpg",
+    "displacementMapUrl": "/textures/terracotta_tiles_displacement.jpg",
+    "properties": {
+      "finish": "matte",
+      "texture": "clay",
+      "durability": "high"
+    }
+  },
+  "Cedar_Cladding": {
+    "name": "Cedar Wood Cladding",
+    "texture_url": "/textures/cedar_cladding_diffuse.jpg",
+    "reflection": 0.1,
+    "roughness": 0.9,
+    "metalness": 0.0,
+    "color": "#8B4513",
+    "normalMapUrl": "/textures/cedar_cladding_normal.jpg",
+    "aoMapUrl": "/textures/cedar_cladding_ao.jpg",
+    "displacementMapUrl": "/textures/cedar_cladding_displacement.jpg",
+    "properties": {
+      "finish": "natural",
+      "texture": "wood_grain",
+      "durability": "medium"
+    }
+  },
+  "Slate_Roof": {
+    "name": "Natural Slate Roof",
+    "texture_url": "/textures/slate_roof_diffuse.jpg",
+    "reflection": 0.3,
+    "roughness": 0.7,
+    "metalness": 0.0,
+    "color": "#2F4F4F",
+    "normalMapUrl": "/textures/slate_roof_normal.jpg",
+    "aoMapUrl": "/textures/slate_roof_ao.jpg",
+    "displacementMapUrl": "/textures/slate_roof_displacement.jpg",
+    "properties": {
+      "finish": "natural",
+      "texture": "stone",
+      "durability": "very_high"
+    }
+  },
+  "Copper_Metal": {
+    "name": "Copper Metal",
+    "texture_url": "/textures/copper_metal_diffuse.jpg",
+    "reflection": 0.7,
+    "roughness": 0.3,
+    "metalness": 0.9,
+    "color": "#B87333",
+    "normalMapUrl": "/textures/copper_metal_normal.jpg",
+    "properties": {
+      "finish": "patina",
+      "texture": "metal",
+      "durability": "very_high"
+    }
+  },
+  "Limestone": {
+    "name": "Natural Limestone",
+    "texture_url": "/textures/limestone_diffuse.jpg",
+    "reflection": 0.1,
+    "roughness": 0.9,
+    "metalness": 0.0,
+    "color": "#F5F5DC",
+    "normalMapUrl": "/textures/limestone_normal.jpg",
+    "aoMapUrl": "/textures/limestone_ao.jpg",
+    "displacementMapUrl": "/textures/limestone_displacement.jpg",
+    "properties": {
+      "finish": "natural",
+      "texture": "stone",
+      "durability": "high"
+    }
+  },
+  "Aluminum_Metal": {
+    "name": "Aluminum Metal",
+    "texture_url": "/textures/aluminum_metal_diffuse.jpg",
+    "reflection": 0.6,
+    "roughness": 0.4,
+    "metalness": 0.8,
+    "color": "#C0C0C0",
+    "normalMapUrl": "/textures/aluminum_metal_normal.jpg",
+    "properties": {
+      "finish": "brushed",
+      "texture": "metal",
+      "durability": "high"
+    }
+  },
+  "Granite": {
+    "name": "Natural Granite",
+    "texture_url": "/textures/granite_diffuse.jpg",
+    "reflection": 0.2,
+    "roughness": 0.8,
+    "metalness": 0.0,
+    "color": "#696969",
+    "normalMapUrl": "/textures/granite_normal.jpg",
+    "aoMapUrl": "/textures/granite_ao.jpg",
+    "displacementMapUrl": "/textures/granite_displacement.jpg",
+    "properties": {
+      "finish": "natural",
+      "texture": "stone",
+      "durability": "very_high"
+    }
+  },
+  "Tinted_Glass": {
+    "name": "Tinted Glass",
+    "texture_url": "/textures/tinted_glass_diffuse.jpg",
+    "reflection": 0.8,
+    "roughness": 0.1,
+    "metalness": 0.0,
+    "color": "#87CEEB",
+    "properties": {
+      "finish": "transparent",
+      "texture": "glass",
+      "durability": "medium"
+    }
+  },
+  "Weathered_Wood": {
+    "name": "Weathered Wood",
+    "texture_url": "/textures/weathered_wood_diffuse.jpg",
+    "reflection": 0.05,
+    "roughness": 0.95,
+    "metalness": 0.0,
+    "color": "#8B7355",
+    "normalMapUrl": "/textures/weathered_wood_normal.jpg",
+    "aoMapUrl": "/textures/weathered_wood_ao.jpg",
+    "displacementMapUrl": "/textures/weathered_wood_displacement.jpg",
+    "properties": {
+      "finish": "weathered",
+      "texture": "wood_grain",
+      "durability": "medium"
+    }
   }
 }

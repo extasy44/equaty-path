@@ -18,11 +18,18 @@ import {
   Layers,
   Maximize,
   Minimize,
+  ChevronDown,
+  ChevronRight,
+  ChevronUp,
+  Loader2,
 } from 'lucide-react'
 import { useAIHouseGenerator } from './services/ai-house-generator'
 import { getDefaultHouse, calculateTotalCost, type MaterialSelection } from './data'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import type { Model3D, RenderResult } from './types'
+import type { Model3D, RenderResult, Material } from './types'
+import { AIAssistant } from './components/AIAssistant'
+import { SectionConfigPopup } from './components/SectionConfigPopup'
+import { House3DRenderer, DefaultHouse } from './components/House3DRenderer'
+import { PresetSelector } from './components/PresetSelector'
 
 interface ViewPreset {
   name: string
@@ -31,21 +38,56 @@ interface ViewPreset {
   icon: React.ReactNode
 }
 
-export default function EnhancedBuilderViewer() {
+interface EnhancedBuilderViewerProps {
+  onExitFullscreen?: () => void
+  defaultFullscreen?: boolean
+  previewMode?: boolean
+}
+
+export default function EnhancedBuilderViewer({
+  onExitFullscreen,
+  defaultFullscreen,
+  previewMode = false,
+}: EnhancedBuilderViewerProps) {
   const [currentModel, setCurrentModel] = useState<any | Model3D | null>(null)
   const [renders, setRenders] = useState<RenderResult[]>([])
-  const [selectedMaterialCategory, setSelectedMaterialCategory] = useState<
-    'roof' | 'walls' | 'trim' | 'doors' | 'windows'
-  >('roof')
   const [selectedMaterials, setSelectedMaterials] = useState<Record<string, MaterialSelection>>({})
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    roof: false,
+    walls: false,
+    trim: false,
+    doors: false,
+    windows: false,
+  })
+  const [isMaterialsCollapsed, setIsMaterialsCollapsed] = useState(false)
+  const [isAICollapsed, setIsAICollapsed] = useState(false)
+  const [isRenderGalleryCollapsed, setIsRenderGalleryCollapsed] = useState(false)
   const [cameraPreset, setCameraPreset] = useState<string>('front')
   const [aiPrompt, setAiPrompt] = useState('')
   const [aiStyle, setAiStyle] = useState<'modern' | 'traditional' | 'contemporary' | 'minimalist'>(
     'modern'
   )
   const [aiBudget, setAiBudget] = useState<'low' | 'medium' | 'high' | 'premium'>('medium')
-  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(defaultFullscreen || false)
   const [viewMode, setViewMode] = useState<'exterior' | 'interior'>('exterior')
+  const [selectedPreset, setSelectedPreset] = useState<string>('luxury-contemporary')
+
+  // AI Assistant state
+  const [isAIAssistantVisible, setIsAIAssistantVisible] = useState(false)
+  const [isAIAssistantCollapsed, setIsAIAssistantCollapsed] = useState(false)
+
+  // Section configuration state
+  const [configPopup, setConfigPopup] = useState<{
+    isOpen: boolean
+    sectionId: string
+    sectionName: string
+    position: { x: number; y: number }
+  }>({
+    isOpen: false,
+    sectionId: '',
+    sectionName: '',
+    position: { x: 0, y: 0 },
+  })
 
   const cameraControlsRef = useRef<any>(null)
   const { generateHouse, enhanceRender, generateVariations, isGenerating, isEnhancing, error } =
@@ -339,6 +381,94 @@ export default function EnhancedBuilderViewer() {
     }))
   }, [])
 
+  const toggleSectionExpanded = useCallback((section: string) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }))
+  }, [])
+
+  const toggleMaterialsCollapsed = useCallback(() => {
+    setIsMaterialsCollapsed((prev) => !prev)
+  }, [])
+
+  const toggleAICollapsed = useCallback(() => {
+    setIsAICollapsed((prev) => !prev)
+  }, [])
+
+  const toggleRenderGalleryCollapsed = useCallback(() => {
+    setIsRenderGalleryCollapsed((prev) => !prev)
+  }, [])
+
+  const toggleFullscreen = useCallback(() => {
+    if (onExitFullscreen && isFullscreen) {
+      onExitFullscreen()
+    } else {
+      setIsFullscreen((prev) => !prev)
+    }
+  }, [isFullscreen, onExitFullscreen])
+
+  // AI Assistant handlers
+  const toggleAIAssistant = useCallback(() => {
+    setIsAIAssistantVisible((prev) => !prev)
+  }, [])
+
+  const toggleAIAssistantCollapse = useCallback(() => {
+    setIsAIAssistantCollapsed((prev) => !prev)
+  }, [])
+
+  const handleModelGenerated = useCallback((model: unknown) => {
+    setCurrentModel(model)
+  }, [])
+
+  // Section configuration handlers
+  const handleSectionClick = useCallback(
+    (sectionId: string, sectionName: string, event: React.MouseEvent) => {
+      event.stopPropagation()
+      setConfigPopup({
+        isOpen: true,
+        sectionId,
+        sectionName,
+        position: { x: event.clientX, y: event.clientY },
+      })
+    },
+    []
+  )
+
+  const handleMaterialChange = useCallback(
+    (sectionId: string, material: Material) => {
+      if (currentModel?.sections) {
+        const updatedModel = {
+          ...currentModel,
+          sections: currentModel.sections.map((section: any) =>
+            section.id === sectionId
+              ? { ...section, material: { ...material, appliedAt: new Date() } }
+              : section
+          ),
+        }
+        setCurrentModel(updatedModel)
+      }
+    },
+    [currentModel]
+  )
+
+  const handleColorChange = useCallback(
+    (sectionId: string, color: string) => {
+      if (currentModel?.sections) {
+        const updatedModel = {
+          ...currentModel,
+          sections: currentModel.sections.map((section: any) =>
+            section.id === sectionId && section.material
+              ? { ...section, material: { ...section.material, color } }
+              : section
+          ),
+        }
+        setCurrentModel(updatedModel)
+      }
+    },
+    [currentModel]
+  )
+
   const handleViewPresetChange = useCallback(
     (preset: string) => {
       setCameraPreset(preset)
@@ -396,86 +526,104 @@ export default function EnhancedBuilderViewer() {
 
   return (
     <div className={`${isFullscreen ? 'fixed inset-0 z-50' : 'h-screen'} flex flex-col bg-gray-50`}>
-      {/* Top Toolbar */}
-      <div className="flex items-center justify-between p-4 bg-white border-b">
-        <div className="flex items-center gap-4">
-          <h1 className="text-xl font-semibold">Builder Visualizer</h1>
-          <div className="flex items-center gap-2">
+      {/* Top Toolbar - Hidden in preview mode */}
+      {!previewMode && (
+        <div className="flex items-center justify-between p-4 bg-white border-b">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-semibold">Builder Visualizer</h1>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm">
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-blue-50 border-blue-200 text-blue-700"
+                onClick={toggleAIAssistant}
+              >
+                <Wand2 className="h-4 w-4 mr-2" />
+                AI Assistant
+              </Button>
+              <Button variant="outline" size="sm" className="bg-red-50 border-red-200 text-red-700">
+                <Palette className="h-4 w-4 mr-2" />
+                Materials
+              </Button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Button
+                variant={viewMode === 'exterior' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('exterior')}
+              >
+                <Building className="h-4 w-4 mr-2" />
+                Exterior
+              </Button>
+              <Button
+                variant={viewMode === 'interior' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('interior')}
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Interior
+              </Button>
+            </div>
+
+            <Badge variant="secondary">Total: ${getTotalCost().toLocaleString()}</Badge>
+
+            <Button variant="outline" size="sm" onClick={toggleFullscreen}>
+              {isFullscreen ? (
+                <Minimize className="h-4 w-4 mr-2" />
+              ) : (
+                <Maximize className="h-4 w-4 mr-2" />
+              )}
+              {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+            </Button>
+
             <Button variant="outline" size="sm">
-              <Share2 className="h-4 w-4 mr-2" />
-              Share
-            </Button>
-            <Button variant="outline" size="sm" className="bg-red-50 border-red-200 text-red-700">
-              <Palette className="h-4 w-4 mr-2" />
-              Materials
+              <Download className="h-4 w-4 mr-2" />
+              Export
             </Button>
           </div>
         </div>
+      )}
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Button
-              variant={viewMode === 'exterior' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('exterior')}
-            >
-              <Building className="h-4 w-4 mr-2" />
-              Exterior
-            </Button>
-            <Button
-              variant={viewMode === 'interior' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('interior')}
-            >
-              <Home className="h-4 w-4 mr-2" />
-              Interior
-            </Button>
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Sidebar - View Controls - Hidden in preview mode */}
+        {!previewMode && (
+          <div className="w-16 bg-gray-800 flex flex-col items-center py-4 gap-2 overflow-y-auto">
+            {Object.entries(viewPresets).map(([key, preset]) => (
+              <Button
+                key={key}
+                variant={cameraPreset === key ? 'default' : 'ghost'}
+                size="sm"
+                className="w-12 h-12 p-0 text-white hover:bg-gray-700"
+                onClick={() => handleViewPresetChange(key)}
+                title={preset.name}
+              >
+                {preset.icon}
+              </Button>
+            ))}
           </div>
-
-          <Badge variant="secondary">Total: ${getTotalCost().toLocaleString()}</Badge>
-
-          <Button variant="outline" size="sm" onClick={() => setIsFullscreen(!isFullscreen)}>
-            {isFullscreen ? (
-              <Minimize className="h-4 w-4 mr-2" />
-            ) : (
-              <Maximize className="h-4 w-4 mr-2" />
-            )}
-            {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-          </Button>
-
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            Export
-          </Button>
-        </div>
-      </div>
-
-      <div className="flex-1 flex">
-        {/* Left Sidebar - View Controls */}
-        <div className="w-16 bg-gray-800 flex flex-col items-center py-4 gap-2">
-          {Object.entries(viewPresets).map(([key, preset]) => (
-            <Button
-              key={key}
-              variant={cameraPreset === key ? 'default' : 'ghost'}
-              size="sm"
-              className="w-12 h-12 p-0 text-white hover:bg-gray-700"
-              onClick={() => handleViewPresetChange(key)}
-              title={preset.name}
-            >
-              {preset.icon}
-            </Button>
-          ))}
-        </div>
+        )}
 
         {/* Main 3D View */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative overflow-hidden">
           <Canvas camera={{ position: [0, 2, 8], fov: 45 }} shadows>
             <ambientLight intensity={0.6} />
             <directionalLight position={[10, 10, 5]} intensity={1} castShadow />
             <Environment preset="city" />
 
             {currentModel ? (
-              <EnhancedModelViewer materials={selectedMaterials} viewMode={viewMode} />
+              <House3DRenderer
+                materials={selectedMaterials}
+                viewMode={viewMode}
+                selectedPreset={selectedPreset}
+                onSectionClick={handleSectionClick}
+              />
             ) : (
               <DefaultHouse />
             )}
@@ -498,376 +646,508 @@ export default function EnhancedBuilderViewer() {
 
           {/* AI Generation Overlay */}
           {isGenerating && (
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-              <div className="bg-white rounded-lg p-6 text-center">
-                <Wand2 className="h-8 w-8 mx-auto mb-4 text-blue-600 animate-pulse" />
-                <h3 className="text-lg font-semibold mb-2">AI Generating Design...</h3>
-                <p className="text-gray-600">Creating your custom house design</p>
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-8 text-center shadow-xl">
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="relative">
+                    <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
+                    <div className="absolute inset-0 rounded-full border-2 border-blue-200 animate-pulse" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">AI Generating Design...</h3>
+                    <p className="text-gray-600 mt-1">Creating your custom house design</p>
+                    <div className="mt-3 w-48 bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-blue-600 h-2 rounded-full animate-pulse"
+                        style={{ width: '60%' }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Initializing Overlay */}
+          {!currentModel && (
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+              <div className="text-center space-y-6">
+                <div className="relative">
+                  <div className="w-20 h-20 mx-auto bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                    <Building className="h-10 w-10 text-white" />
+                  </div>
+                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                    <Wand2 className="h-3 w-3 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Builder Visualizer</h3>
+                  <p className="text-gray-600 max-w-sm">
+                    Ready to transform your ideas into 3D reality. Select materials and generate
+                    your dream house.
+                  </p>
+                </div>
+                <div className="flex justify-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" />
+                  <div
+                    className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"
+                    style={{ animationDelay: '0.1s' }}
+                  />
+                  <div
+                    className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"
+                    style={{ animationDelay: '0.2s' }}
+                  />
+                </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Right Sidebar - Material Selection */}
-        <div className="w-80 bg-white border-l flex flex-col">
-          <div className="p-4 border-b">
-            <h3 className="font-semibold mb-2">Material Selection</h3>
-            <Tabs
-              value={selectedMaterialCategory}
-              onValueChange={(value) => setSelectedMaterialCategory(value as any)}
-            >
-              <TabsList className="grid w-full grid-cols-5">
-                <TabsTrigger value="roof" className="text-xs">
-                  Roof
-                </TabsTrigger>
-                <TabsTrigger value="walls" className="text-xs">
-                  Walls
-                </TabsTrigger>
-                <TabsTrigger value="trim" className="text-xs">
-                  Trim
-                </TabsTrigger>
-                <TabsTrigger value="doors" className="text-xs">
-                  Doors
-                </TabsTrigger>
-                <TabsTrigger value="windows" className="text-xs">
-                  Windows
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4">
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-medium mb-2 capitalize">{selectedMaterialCategory}</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {materials[selectedMaterialCategory]?.map((material) => (
-                    <div
-                      key={material.id}
-                      className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                        selectedMaterials[selectedMaterialCategory]?.id === material.id
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                      onClick={() => handleMaterialSelect(material)}
-                    >
-                      <div
-                        className="w-full h-8 rounded mb-2"
-                        style={{ backgroundColor: material.color }}
-                      />
-                      <p className="text-xs font-medium">{material.name}</p>
-                      <p className="text-xs text-gray-500">${material.cost}/m²</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* AI Generation Section */}
-          <div className="p-4 border-t bg-gray-50">
-            <h4 className="font-medium mb-3">AI Design Assistant</h4>
-            <div className="space-y-3">
-              <textarea
-                value={aiPrompt}
-                onChange={(e) => setAiPrompt(e.target.value)}
-                placeholder="Describe your dream house... (e.g., 'Modern two-story with large windows and a metal roof')"
-                className="w-full p-3 text-sm border rounded-lg resize-none"
-                rows={3}
-              />
-
-              <div className="grid grid-cols-2 gap-2">
-                <select
-                  value={aiStyle}
-                  onChange={(e) => setAiStyle(e.target.value as any)}
-                  className="p-2 text-sm border rounded-lg"
-                >
-                  <option value="modern">Modern</option>
-                  <option value="traditional">Traditional</option>
-                  <option value="contemporary">Contemporary</option>
-                  <option value="minimalist">Minimalist</option>
-                </select>
-
-                <select
-                  value={aiBudget}
-                  onChange={(e) => setAiBudget(e.target.value as any)}
-                  className="p-2 text-sm border rounded-lg"
-                >
-                  <option value="low">Low Budget</option>
-                  <option value="medium">Medium Budget</option>
-                  <option value="high">High Budget</option>
-                  <option value="premium">Premium</option>
-                </select>
-              </div>
-
+        {/* Right Sidebar - Hidden in preview mode, show only final rendering options */}
+        {!previewMode ? (
+          <div
+            className={`bg-white border-l flex flex-col overflow-hidden transition-all duration-300 ${
+              isMaterialsCollapsed ? 'w-12' : 'w-80'
+            }`}
+          >
+            {/* Collapsible Header */}
+            <div className="p-4 border-b flex items-center justify-between">
+              {!isMaterialsCollapsed && <h3 className="font-semibold">Materials</h3>}
               <Button
-                onClick={handleAIGenerate}
-                disabled={!aiPrompt.trim() || isGenerating}
-                className="w-full"
+                variant="ghost"
+                size="sm"
+                onClick={toggleMaterialsCollapsed}
+                className="ml-auto"
               >
-                <Wand2 className="h-4 w-4 mr-2" />
-                {isGenerating ? 'Generating...' : 'Generate with AI'}
+                {isMaterialsCollapsed ? (
+                  <ChevronRight className="h-4 w-4" />
+                ) : (
+                  <ChevronUp className="h-4 w-4" />
+                )}
               </Button>
+            </div>
 
-              {error && (
-                <div className="p-2 text-sm text-red-600 bg-red-50 rounded-lg">{error}</div>
-              )}
+            {/* Collapsible Content */}
+            {!isMaterialsCollapsed && (
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-4 space-y-4">
+                  {/* Preset Selector */}
+                  <PresetSelector
+                    selectedPreset={selectedPreset}
+                    onPresetSelect={setSelectedPreset}
+                  />
 
-              {currentModel && (
-                <div className="space-y-2">
+                  {/* Materials Section */}
+                  <div className="space-y-2">
+                    {Object.entries(materials).map(([sectionKey, sectionMaterials]) => {
+                      const isExpanded = expandedSections[sectionKey]
+                      const selectedMaterial = selectedMaterials[sectionKey]
+
+                      return (
+                        <div key={sectionKey} className="border rounded-lg">
+                          {/* Section Header */}
+                          <button
+                            onClick={() => toggleSectionExpanded(sectionKey)}
+                            className="w-full p-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-medium capitalize">{sectionKey}</span>
+                                {selectedMaterial && (
+                                  <div
+                                    className="w-4 h-4 rounded border"
+                                    style={{ backgroundColor: selectedMaterial.color }}
+                                    title={selectedMaterial.name}
+                                  />
+                                )}
+                              </div>
+                              <Badge variant="secondary" className="text-xs">
+                                {sectionMaterials.length}
+                              </Badge>
+                            </div>
+                            {isExpanded ? (
+                              <ChevronDown className="h-4 w-4 text-gray-500" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4 text-gray-500" />
+                            )}
+                          </button>
+
+                          {/* Section Materials */}
+                          {isExpanded && (
+                            <div className="border-t">
+                              {/* Scroll indicators */}
+                              <div className="relative">
+                                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-white to-transparent z-10 pointer-events-none" />
+                                <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-white to-transparent z-10 pointer-events-none" />
+
+                                <div className="p-3 space-y-2 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                                  {sectionMaterials.map((material) => (
+                                    <div
+                                      key={material.id}
+                                      className={`p-2 border rounded cursor-pointer transition-all hover:shadow-sm ${
+                                        selectedMaterials[sectionKey]?.id === material.id
+                                          ? 'border-blue-500 bg-blue-50'
+                                          : 'border-gray-200 hover:border-gray-300'
+                                      }`}
+                                      onClick={() => handleMaterialSelect(material)}
+                                    >
+                                      <div className="flex items-center gap-2">
+                                        <div
+                                          className="w-6 h-6 rounded border"
+                                          style={{ backgroundColor: material.color }}
+                                        />
+                                        <div className="flex-1 min-w-0">
+                                          <p className="text-xs font-medium truncate">
+                                            {material.name}
+                                          </p>
+                                          <p className="text-xs text-gray-500">
+                                            ${material.cost}/m²
+                                          </p>
+                                        </div>
+                                        {selectedMaterials[sectionKey]?.id === material.id && (
+                                          <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                                        )}
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* AI Generation Section - Only show when materials panel is expanded */}
+            {!isMaterialsCollapsed && (
+              <div className="border-t bg-gray-50">
+                {/* AI Header */}
+                <div className="p-3 border-b flex items-center justify-between">
+                  <h4 className="font-medium text-sm">AI Assistant</h4>
                   <Button
-                    onClick={() => handleEnhanceRender('Front View')}
-                    disabled={isEnhancing}
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
-                    className="w-full"
+                    onClick={toggleAICollapsed}
+                    className="h-6 w-6 p-0"
                   >
-                    <Camera className="h-4 w-4 mr-2" />
-                    Enhance Render
-                  </Button>
-
-                  <Button
-                    onClick={handleGenerateVariations}
-                    disabled={isGenerating}
-                    variant="outline"
-                    size="sm"
-                    className="w-full"
-                  >
-                    <Layers className="h-4 w-4 mr-2" />
-                    Generate Variations
+                    {isAICollapsed ? (
+                      <ChevronRight className="h-3 w-3" />
+                    ) : (
+                      <ChevronDown className="h-3 w-3" />
+                    )}
                   </Button>
                 </div>
+
+                {/* AI Content */}
+                {!isAICollapsed && (
+                  <div className="p-4 space-y-3 max-h-80 overflow-y-auto">
+                    {/* AI Prompt Input */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-medium text-gray-700">
+                        Describe your dream house
+                      </label>
+                      <textarea
+                        value={aiPrompt}
+                        onChange={(e) => setAiPrompt(e.target.value)}
+                        placeholder="e.g., Modern two-story with large windows, metal roof, and contemporary finishes..."
+                        className="w-full p-3 text-sm border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        rows={3}
+                      />
+                      <div className="flex justify-between text-xs text-gray-500">
+                        <span>{aiPrompt.length}/500 characters</span>
+                        <span className={aiPrompt.length > 500 ? 'text-red-500' : ''}>
+                          {aiPrompt.length > 500 ? 'Character limit exceeded' : ''}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Style and Budget Selection */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-gray-700">
+                          Architectural Style
+                        </label>
+                        <select
+                          value={aiStyle}
+                          onChange={(e) =>
+                            setAiStyle(
+                              e.target.value as
+                                | 'modern'
+                                | 'traditional'
+                                | 'contemporary'
+                                | 'minimalist'
+                            )
+                          }
+                          className="w-full p-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        >
+                          <option value="modern">Modern</option>
+                          <option value="traditional">Traditional</option>
+                          <option value="contemporary">Contemporary</option>
+                          <option value="minimalist">Minimalist</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-gray-700">Budget Range</label>
+                        <select
+                          value={aiBudget}
+                          onChange={(e) =>
+                            setAiBudget(e.target.value as 'low' | 'medium' | 'high' | 'premium')
+                          }
+                          className="w-full p-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                        >
+                          <option value="low">Low ($200-400/m²)</option>
+                          <option value="medium">Medium ($400-600/m²)</option>
+                          <option value="high">High ($600-800/m²)</option>
+                          <option value="premium">Premium ($800+/m²)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Generate Button with Loading State */}
+                    <Button
+                      onClick={handleAIGenerate}
+                      disabled={!aiPrompt.trim() || isGenerating || aiPrompt.length > 500}
+                      className="w-full h-10 text-sm font-medium transition-all"
+                    >
+                      {isGenerating ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Generating Design...
+                        </>
+                      ) : (
+                        <>
+                          <Wand2 className="h-4 w-4 mr-2" />
+                          Generate with AI
+                        </>
+                      )}
+                    </Button>
+
+                    {/* Error Display */}
+                    {error && (
+                      <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg">
+                        {error}
+                      </div>
+                    )}
+
+                    {/* Additional Actions */}
+                    {currentModel && (
+                      <div className="space-y-2 pt-2 border-t">
+                        <p className="text-xs font-medium text-gray-700">Enhancements</p>
+                        <div className="space-y-1">
+                          <Button
+                            onClick={() => handleEnhanceRender('Front View')}
+                            disabled={isEnhancing}
+                            variant="outline"
+                            size="sm"
+                            className="w-full h-8 text-xs"
+                          >
+                            {isEnhancing ? (
+                              <>
+                                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                                Enhancing...
+                              </>
+                            ) : (
+                              <>
+                                <Camera className="h-3 w-3 mr-1" />
+                                Enhance Render
+                              </>
+                            )}
+                          </Button>
+
+                          <Button
+                            onClick={handleGenerateVariations}
+                            disabled={isGenerating}
+                            variant="outline"
+                            size="sm"
+                            className="w-full h-8 text-xs"
+                          >
+                            {isGenerating ? (
+                              <>
+                                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                                Generating...
+                              </>
+                            ) : (
+                              <>
+                                <Layers className="h-3 w-3 mr-1" />
+                                Generate Variations
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Preview Mode - Only Final Rendering Options */
+          <div className="w-64 bg-white border-l flex flex-col">
+            <div className="p-4 border-b">
+              <h3 className="font-semibold text-sm">Final Rendering</h3>
+              <p className="text-xs text-gray-600 mt-1">Export your completed design</p>
+            </div>
+
+            <div className="flex-1 p-4 space-y-4">
+              {/* Export Options */}
+              <div className="space-y-3">
+                <h4 className="text-sm font-medium">Export Options</h4>
+                <Button className="w-full" size="sm">
+                  <Download className="h-4 w-4 mr-2" />
+                  Download 3D Model
+                </Button>
+                <Button variant="outline" className="w-full" size="sm">
+                  <Camera className="h-4 w-4 mr-2" />
+                  Generate Renders
+                </Button>
+                <Button variant="outline" className="w-full" size="sm">
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share Design
+                </Button>
+              </div>
+
+              {/* Material Summary */}
+              {Object.keys(selectedMaterials).length > 0 && (
+                <div className="space-y-3 pt-4 border-t">
+                  <h4 className="text-sm font-medium">Selected Materials</h4>
+                  <div className="space-y-2">
+                    {Object.entries(selectedMaterials).map(([category, material]) => (
+                      <div key={category} className="flex items-center gap-2 text-xs">
+                        <div
+                          className="w-4 h-4 rounded border"
+                          style={{ backgroundColor: material.color }}
+                        />
+                        <span className="capitalize">{category}:</span>
+                        <span className="font-medium">{material.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
+
+              {/* Launch Full Editor */}
+              <div className="pt-4 border-t">
+                <Button variant="outline" className="w-full" size="sm">
+                  <Wand2 className="h-4 w-4 mr-2" />
+                  Launch Full Editor
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Render Gallery */}
       {renders.length > 0 && (
-        <div className="bg-white border-t p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h4 className="font-medium">AI Generated Renders ({renders.length})</h4>
-            <Button variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Export All
-            </Button>
+        <div className="bg-white border-t">
+          {/* Gallery Header */}
+          <div className="p-3 border-b flex items-center justify-between">
+            <h4 className="font-medium text-sm">Renders ({renders.length})</h4>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" className="h-6 text-xs">
+                <Download className="h-3 w-3 mr-1" />
+                Export
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleRenderGalleryCollapsed}
+                className="h-6 w-6 p-0"
+              >
+                {isRenderGalleryCollapsed ? (
+                  <ChevronRight className="h-3 w-3" />
+                ) : (
+                  <ChevronDown className="h-3 w-3" />
+                )}
+              </Button>
+            </div>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            {renders.map((render) => (
-              <div key={render.id} className="border rounded-lg overflow-hidden">
-                <div className="aspect-video bg-gray-100">
-                  <div className="w-full h-full flex items-center justify-center text-gray-500">
-                    <Camera className="h-8 w-8" />
+
+          {/* Gallery Content */}
+          {!isRenderGalleryCollapsed && (
+            <div className="p-4 max-h-48 overflow-y-auto">
+              <div className="grid grid-cols-2 gap-3">
+                {renders.map((render) => (
+                  <div key={render.id} className="border rounded overflow-hidden">
+                    <div className="aspect-video bg-gray-100">
+                      <div className="w-full h-full flex items-center justify-center text-gray-500">
+                        <Camera className="h-6 w-6" />
+                      </div>
+                    </div>
+                    <div className="p-2">
+                      <p className="font-medium text-xs">{render.viewpoint}</p>
+                      <p className="text-xs text-gray-500">{render.lighting}</p>
+                      <p className="text-xs text-gray-500">
+                        {render.metadata.resolution.width}×{render.metadata.resolution.height}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="p-3">
-                  <p className="font-medium text-sm">{render.viewpoint}</p>
-                  <p className="text-xs text-gray-500">{render.lighting}</p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {render.metadata.resolution.width}×{render.metadata.resolution.height}
-                  </p>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Bottom Material Summary - Hidden in preview mode */}
+      {!previewMode && (
+        <div className="bg-white border-t p-4 max-h-32 overflow-y-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex-1 min-w-0">
+              <h4 className="font-medium">Current Selections</h4>
+              <div className="flex items-center gap-4 mt-2 overflow-x-auto">
+                {Object.entries(selectedMaterials).map(([category, material]) => (
+                  <div key={category} className="flex items-center gap-2 whitespace-nowrap">
+                    <div
+                      className="w-4 h-4 rounded border"
+                      style={{ backgroundColor: material.color }}
+                    />
+                    <span className="text-sm capitalize">{category}:</span>
+                    <span className="text-sm font-medium">{material.name}</span>
+                  </div>
+                ))}
+                {Object.keys(selectedMaterials).length === 0 && (
+                  <p className="text-sm text-gray-500">No materials selected</p>
+                )}
+              </div>
+            </div>
+            <div className="text-right ml-4">
+              <p className="text-sm text-gray-600">Estimated Cost</p>
+              <p className="text-xl font-semibold">${getTotalCost().toLocaleString()}</p>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Bottom Material Summary */}
-      <div className="bg-white border-t p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h4 className="font-medium">Current Selections</h4>
-            <div className="flex items-center gap-4 mt-2">
-              {Object.entries(selectedMaterials).map(([category, material]) => (
-                <div key={category} className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded" style={{ backgroundColor: material.color }} />
-                  <span className="text-sm capitalize">{category}:</span>
-                  <span className="text-sm font-medium">{material.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-gray-600">Estimated Cost</p>
-            <p className="text-xl font-semibold">${getTotalCost().toLocaleString()}</p>
-          </div>
-        </div>
-      </div>
+      {/* AI Assistant */}
+      {isAIAssistantVisible && (
+        <AIAssistant
+          className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50"
+          onModelGenerated={handleModelGenerated}
+          isCollapsed={isAIAssistantCollapsed}
+          onToggleCollapse={toggleAIAssistantCollapse}
+        />
+      )}
+
+      {/* Section Configuration Popup */}
+      <SectionConfigPopup
+        isOpen={configPopup.isOpen}
+        onClose={() => setConfigPopup((prev) => ({ ...prev, isOpen: false }))}
+        sectionId={configPopup.sectionId}
+        sectionName={configPopup.sectionName}
+        currentMaterial={
+          currentModel?.sections?.find((s: any) => s.id === configPopup.sectionId)?.material
+        }
+        onMaterialChange={handleMaterialChange}
+        onColorChange={handleColorChange}
+        position={configPopup.position}
+      />
     </div>
-  )
-}
-
-// Enhanced 3D Model Viewer
-function EnhancedModelViewer({
-  materials,
-  viewMode,
-}: {
-  materials: Record<string, MaterialSelection>
-  viewMode: 'exterior' | 'interior'
-}) {
-  if (viewMode === 'interior') {
-    return <InteriorView materials={materials} />
-  }
-
-  return (
-    <group position={[0, 0, 0]}>
-      {/* Main House Structure */}
-      <mesh position={[0, 1.5, 0]} castShadow receiveShadow>
-        <boxGeometry args={[10, 3, 8]} />
-        <meshStandardMaterial
-          color={materials.walls?.color || '#f5f5f5'}
-          roughness={0.8}
-          metalness={0.0}
-        />
-      </mesh>
-
-      {/* Second Floor */}
-      <mesh position={[0, 4, 0]} castShadow receiveShadow>
-        <boxGeometry args={[10, 2.5, 8]} />
-        <meshStandardMaterial
-          color={materials.walls?.color || '#f5f5f5'}
-          roughness={0.8}
-          metalness={0.0}
-        />
-      </mesh>
-
-      {/* Roof */}
-      <mesh position={[0, 6.5, 0]} castShadow>
-        <coneGeometry args={[6, 2, 4]} />
-        <meshStandardMaterial
-          color={materials.roof?.color || '#708090'}
-          roughness={0.7}
-          metalness={0.1}
-        />
-      </mesh>
-
-      {/* Garage */}
-      <mesh position={[-6, 1.5, 0]} castShadow receiveShadow>
-        <boxGeometry args={[4, 3, 6]} />
-        <meshStandardMaterial
-          color={materials.walls?.color || '#f5f5f5'}
-          roughness={0.8}
-          metalness={0.0}
-        />
-      </mesh>
-
-      {/* Ground Floor */}
-      <mesh position={[0, 0, 0]} receiveShadow>
-        <boxGeometry args={[14, 0.1, 8]} />
-        <meshStandardMaterial color="#d1d5db" roughness={0.9} />
-      </mesh>
-
-      {/* Front Windows */}
-      <mesh position={[5.1, 2.5, 0]} castShadow>
-        <boxGeometry args={[0.1, 2, 3]} />
-        <meshStandardMaterial
-          color={materials.windows?.color || '#87CEEB'}
-          roughness={0.1}
-          metalness={0.8}
-        />
-      </mesh>
-
-      {/* Side Windows */}
-      <mesh position={[0, 2.5, 4.1]} castShadow>
-        <boxGeometry args={[2, 2, 0.1]} />
-        <meshStandardMaterial
-          color={materials.windows?.color || '#87CEEB'}
-          roughness={0.1}
-          metalness={0.8}
-        />
-      </mesh>
-
-      {/* Main Door */}
-      <mesh position={[2, 0.5, 4.1]} castShadow>
-        <boxGeometry args={[1.5, 2.5, 0.1]} />
-        <meshStandardMaterial
-          color={materials.doors?.color || '#8B4513'}
-          roughness={0.6}
-          metalness={0.0}
-        />
-      </mesh>
-
-      {/* Garage Door */}
-      <mesh position={[-6, 0.5, 3.1]} castShadow>
-        <boxGeometry args={[3.5, 2.5, 0.1]} />
-        <meshStandardMaterial
-          color={materials.doors?.color || '#ffffff'}
-          roughness={0.7}
-          metalness={0.0}
-        />
-      </mesh>
-
-      {/* Trim/Fascia */}
-      <mesh position={[0, 5.5, 0]} castShadow>
-        <boxGeometry args={[10.2, 0.2, 8.2]} />
-        <meshStandardMaterial
-          color={materials.trim?.color || '#ffffff'}
-          roughness={0.6}
-          metalness={0.0}
-        />
-      </mesh>
-    </group>
-  )
-}
-
-// Interior View Component
-function InteriorView({ materials }: { materials: Record<string, MaterialSelection> }) {
-  return (
-    <group position={[0, 0, 0]}>
-      {/* Interior Walls */}
-      <mesh position={[0, 1.5, 0]} receiveShadow>
-        <boxGeometry args={[9.8, 3, 7.8]} />
-        <meshStandardMaterial
-          color={materials.walls?.color || '#ffffff'}
-          roughness={0.7}
-          metalness={0.0}
-        />
-      </mesh>
-
-      {/* Floor */}
-      <mesh position={[0, 0, 0]} receiveShadow>
-        <boxGeometry args={[9.8, 0.1, 7.8]} />
-        <meshStandardMaterial
-          color={materials.walls?.color || '#8b4513'}
-          roughness={0.8}
-          metalness={0.0}
-        />
-      </mesh>
-
-      {/* Ceiling */}
-      <mesh position={[0, 3, 0]} receiveShadow>
-        <boxGeometry args={[9.8, 0.1, 7.8]} />
-        <meshStandardMaterial color="#f8f8f8" roughness={0.9} metalness={0.0} />
-      </mesh>
-
-      {/* Interior Furniture Placeholders */}
-      <mesh position={[-2, 0.4, -1]} receiveShadow>
-        <boxGeometry args={[2, 0.8, 1]} />
-        <meshStandardMaterial color="#8b4513" roughness={0.8} metalness={0.0} />
-      </mesh>
-
-      <mesh position={[2, 0.4, 1]} receiveShadow>
-        <boxGeometry args={[1.5, 0.8, 0.8]} />
-        <meshStandardMaterial color="#654321" roughness={0.8} metalness={0.0} />
-      </mesh>
-    </group>
-  )
-}
-
-// Default House when no model is loaded
-function DefaultHouse() {
-  return (
-    <group position={[0, 1, 0]}>
-      <mesh castShadow receiveShadow>
-        <boxGeometry args={[6, 2.5, 4]} />
-        <meshStandardMaterial color="#e5e7eb" />
-      </mesh>
-      <mesh position={[0, 2, 0]} castShadow>
-        <coneGeometry args={[3.5, 1.5, 4]} />
-        <meshStandardMaterial color="#4b5563" />
-      </mesh>
-    </group>
   )
 }
