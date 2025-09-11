@@ -21,14 +21,14 @@
   --font-mono: var(--font-geist-mono);
   --radius: 0.75rem;
 
-  /* Professional Tech Color Palette - High Contrast */
-  --color-primary: #0369a1; /* Deep slate for trust and professionalism */
+  /* Professional Tech Color Palette - Modern & Sophisticated */
+  --color-primary: #0f172a; /* Deep slate for authority and sophistication */
   --color-primary-hover: #1e293b;
-  --color-primary-light: #f1f5f9;
-  --color-secondary: #0369a1; /* Professional blue */
-  --color-secondary-hover: #0284c7;
-  --color-accent: #059669; /* Trustworthy green */
-  --color-accent-hover: #047857;
+  --color-primary-light: #f8fafc;
+  --color-secondary: #3b82f6; /* Modern tech blue */
+  --color-secondary-hover: #2563eb;
+  --color-accent: #10b981; /* Professional emerald */
+  --color-accent-hover: #059669;
 
   /* Neutral Grays - High Contrast */
   --color-muted: #f8fafc;
@@ -40,11 +40,11 @@
   --color-warning: #d97706;
   --color-error: #dc2626;
 
-  /* Enhanced Shadows for Depth */
-  --shadow-soft: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  /* Enhanced Shadows for Depth - More Subtle & Professional */
+  --shadow-soft: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+  --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
 
   /* Glass Effect */
   --backdrop-blur: blur(12px);
@@ -92,13 +92,18 @@ body {
     BlinkMacSystemFont,
     'Segoe UI',
     Roboto,
+    'Inter',
     sans-serif;
   font-feature-settings:
     'rlig' 1,
-    'calt' 1;
+    'calt' 1,
+    'ss01' 1,
+    'ss02' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-variant-ligatures: common-ligatures;
+  letter-spacing: -0.01em;
 }
 
 /* Enhanced Glass Effect */
@@ -108,39 +113,60 @@ body {
   border: 1px solid var(--backdrop-border);
 }
 
-/* Professional Card Styling */
+/* Professional Card Styling - Enhanced */
 .card-professional {
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-medium);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.75rem;
+  overflow: hidden;
 }
 
 .card-professional:hover {
   box-shadow: var(--shadow-large);
   border-color: var(--border-hover);
+  transform: translateY(-1px);
 }
 
-/* Tech-focused Button Enhancements */
+/* Tech-focused Button Enhancements - Refined */
 .btn-tech {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-hover) 100%);
   box-shadow: var(--shadow-medium);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
 }
 
 .btn-tech:hover {
   box-shadow: var(--shadow-large);
   transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--color-secondary-hover) 0%, var(--color-secondary) 100%);
 }
 
-/* Professional Metric Cards */
+/* Professional Metric Cards - Enhanced */
 .metric-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   padding: 1.5rem;
   box-shadow: var(--shadow-soft);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .metric-card:hover {
@@ -148,11 +174,16 @@ body {
   transform: translateY(-2px);
 }
 
+.metric-card:hover::before {
+  opacity: 1;
+}
+
 .metric-value {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-secondary);
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .metric-label {
@@ -194,6 +225,14 @@ select:focus {
 }
 
 /* Ensure proper contrast for all text elements */
+
+/* Button hover states */
+button:hover,
+[role='button']:hover {
+  cursor: pointer;
+}
+
+/* Professional Typography Enhancements */
 h1,
 h2,
 h3,
@@ -202,10 +241,69 @@ h5,
 h6 {
   color: var(--color-foreground);
   font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
-/* Button hover states */
-button:hover,
-[role='button']:hover {
-  cursor: pointer;
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* Professional Code Styling */
+code,
+pre {
+  font-family: var(--font-mono), 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-feature-settings: 'liga' 0;
+  font-variant-ligatures: none;
+}
+
+/* Subtle Focus Indicators */
+:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Professional Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+
+/* Professional Selection Styling */
+::selection {
+  background: var(--color-secondary);
+  color: white;
+}
+
+::-moz-selection {
+  background: var(--color-secondary);
+  color: white;
 }

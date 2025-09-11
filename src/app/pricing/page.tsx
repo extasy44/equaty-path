@@ -8,8 +8,8 @@ export default function PricingPage() {
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-4">Pricing Plans Coming Soon</h1>
         <p className="text-lg text-muted-foreground mb-8">
-          We're working hard to bring you flexible pricing options. In the meantime, get in touch
-          with us to discuss your specific needs and requirements.
+          We&apos;re working hard to bring you flexible pricing options. In the meantime, get in
+          touch with us to discuss your specific needs and requirements.
         </p>
       </div>
 

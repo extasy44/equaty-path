@@ -1,3 +1,64 @@
+// 3D Geometry Types
+export interface Geometry3D {
+  type: 'box' | 'plane' | 'pyramid' | 'cylinder' | 'sphere' | 'custom'
+  dimensions: {
+    width: number
+    height: number
+    depth?: number
+  }
+  position: { x: number; y: number; z: number }
+  rotation?: { x: number; y: number; z: number }
+  vertices?: number[]
+  faces?: number[]
+  normals?: number[]
+}
+
+// GLTF Data Types
+export interface GLTFData {
+  asset: {
+    version: string
+    generator: string
+  }
+  scenes: Array<{
+    nodes: number[]
+  }>
+  nodes: Array<{
+    mesh?: number
+    translation?: number[]
+  }>
+  meshes: Array<{
+    primitives: Array<{
+      attributes: Record<string, number>
+      indices: number
+      material: number
+    }>
+  }>
+  materials: Array<{
+    pbrMetallicRoughness: {
+      baseColorFactor: number[]
+      metallicFactor: number
+      roughnessFactor: number
+    }
+  }>
+  accessors: Array<{
+    bufferView: number
+    componentType: number
+    count: number
+    type: string
+    min?: number[]
+    max?: number[]
+  }>
+  bufferViews: Array<{
+    buffer: number
+    byteOffset: number
+    byteLength: number
+  }>
+  buffers: Array<{
+    uri: string
+    byteLength: number
+  }>
+}
+
 // Core architectural element types
 export interface ArchitecturalElement {
   id: string
@@ -12,7 +73,7 @@ export interface ArchitecturalElement {
     y: number
     z: number
   }
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 }
 
 // 2D Plan analysis types
@@ -55,7 +116,7 @@ export interface StructuralElement {
 export interface Model3D {
   id: string
   format: 'gltf' | 'obj' | 'fbx'
-  data: any // Could be GLTF JSON, binary data, etc.
+  data: GLTFData | string | ArrayBuffer // GLTF JSON, binary data, or file path
   sections: ModelSection[]
   metadata: {
     created: Date
@@ -68,7 +129,7 @@ export interface Model3D {
 export interface ModelSection {
   id: string
   name: string
-  geometry: any // 3D geometry data
+  geometry: Geometry3D // 3D geometry data
   material?: Material
   parentId?: string
 }
@@ -84,7 +145,7 @@ export interface Material {
   normalMapUrl?: string
   aoMapUrl?: string
   displacementMapUrl?: string
-  properties: Record<string, any>
+  properties: Record<string, unknown>
   appliedAt?: Date
 }
 
@@ -160,11 +221,31 @@ export interface RenderResponse {
   processingTime: number
 }
 
+// Workflow Configuration Types
+export interface WorkflowStepConfig {
+  scale?: number
+  quality?: 'draft' | 'standard' | 'high'
+  includeMetadata?: boolean
+  aiProvider?: 'ollama'
+  materials?: string[]
+  lighting?: string
+  viewpoint?: string
+}
+
+// Workflow Data Types
+export interface WorkflowStepData {
+  model?: Model3D
+  analysis?: FloorPlanAnalysis
+  materials?: MaterialSelection[]
+  render?: RenderResult
+  error?: ServiceError
+}
+
 // Error types
 export interface ServiceError {
   code: string
   message: string
-  details?: any
+  details?: Record<string, unknown>
 }
 
 // Configuration types
@@ -193,14 +274,14 @@ export interface WorkflowStep {
   id: string
   name: string
   service: 'plan-to-3d' | 'material-applier' | 'realistic-renderer'
-  config: any
+  config: WorkflowStepConfig
   dependencies: string[]
 }
 
 export interface WorkflowResult {
   stepId: string
   success: boolean
-  data: any
+  data: WorkflowStepData
   timestamp: Date
   error?: ServiceError
 }

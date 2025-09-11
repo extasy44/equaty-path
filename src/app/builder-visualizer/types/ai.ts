@@ -1,3 +1,49 @@
+// GLTF Data Types
+export interface GLTFData {
+  asset: {
+    version: string
+    generator: string
+  }
+  scenes: Array<{
+    nodes: number[]
+  }>
+  nodes: Array<{
+    mesh?: number
+    translation?: number[]
+  }>
+  meshes: Array<{
+    primitives: Array<{
+      attributes: Record<string, number>
+      indices: number
+      material: number
+    }>
+  }>
+  materials: Array<{
+    pbrMetallicRoughness: {
+      baseColorFactor: number[]
+      metallicFactor: number
+      roughnessFactor: number
+    }
+  }>
+  accessors: Array<{
+    bufferView: number
+    componentType: number
+    count: number
+    type: string
+    min?: number[]
+    max?: number[]
+  }>
+  bufferViews: Array<{
+    buffer: number
+    byteOffset: number
+    byteLength: number
+  }>
+  buffers: Array<{
+    uri: string
+    byteLength: number
+  }>
+}
+
 // AI Service Types
 export interface AIServiceConfig {
   provider: 'ollama'
@@ -15,7 +61,7 @@ export interface AIRequestOptions {
   timeout?: number
 }
 
-export interface AIResponse<T = any> {
+export interface AIResponse<T = unknown> {
   success: boolean
   data?: T
   error?: string
@@ -45,7 +91,7 @@ export interface VisionAnalysisResponse {
       width: number
       height: number
     }
-    properties?: Record<string, any>
+    properties?: Record<string, unknown>
   }>
   metadata: {
     resolution: { width: number; height: number }
@@ -101,7 +147,7 @@ export interface ModelGenerationRequest {
 }
 
 export interface ModelGenerationResponse {
-  gltfData: any
+  gltfData: GLTFData
   metadata: {
     vertices: number
     faces: number
@@ -129,7 +175,7 @@ export interface AIServiceError extends Error {
   code: 'NETWORK_ERROR' | 'API_ERROR' | 'RATE_LIMIT' | 'INVALID_REQUEST' | 'MODEL_ERROR'
   provider: string
   retryable: boolean
-  details?: any
+  details?: Record<string, unknown>
 }
 
 // Configuration Types
