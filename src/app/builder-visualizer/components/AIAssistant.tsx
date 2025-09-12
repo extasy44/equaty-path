@@ -24,6 +24,9 @@ interface AIAssistantProps {
   onModelGenerated?: (model: unknown) => void
   isCollapsed?: boolean
   onToggleCollapse?: () => void
+  housePlan?: any
+  selectedMaterials?: any
+  generateAIPrompt?: any
 }
 
 export function AIAssistant({
@@ -31,6 +34,9 @@ export function AIAssistant({
   onModelGenerated,
   isCollapsed = false,
   onToggleCollapse,
+  housePlan,
+  selectedMaterials,
+  generateAIPrompt,
 }: AIAssistantProps) {
   const [aiPrompt, setAiPrompt] = useState('')
   const [aiStyle, setAiStyle] = useState<'modern' | 'traditional' | 'contemporary' | 'minimalist'>(
@@ -54,14 +60,20 @@ export function AIAssistant({
     setError(null)
 
     try {
+      // Use the provided generateAIPrompt function if available
+      const prompt =
+        generateAIPrompt && housePlan && selectedMaterials
+          ? generateAIPrompt(housePlan, 'hyatt', selectedMaterials)
+          : aiPrompt
+
       // Simulate progress
       const progressInterval = setInterval(() => {
         setProgress((prev) => Math.min(prev + 20, 90))
       }, 200)
 
       const result = await generateHouse({
-        prompt: aiPrompt,
-        materials: {}, // Empty materials object for AI generation
+        prompt: prompt,
+        materials: selectedMaterials || {},
         style: aiStyle,
         budget: aiBudget,
       })
@@ -147,173 +159,216 @@ export function AIAssistant({
     )
   }
 
-  return (
-    <Card className={`w-80 bg-white/95 backdrop-blur-sm border shadow-lg ${className}`}>
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Sparkles className="h-5 w-5 text-blue-600" />
-            AI Assistant
-          </CardTitle>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs">
-              Beta
+  // Show current house plan info if available
+  const currentPlanInfo = housePlan ? (
+    <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+      <div className="flex items-center gap-2 mb-2">
+        <Home className="h-4 w-4 text-blue-600" />
+        <span className="text-sm font-medium text-blue-900">Current House Plan</span>
+      </div>
+      <p className="text-sm text-blue-800">{housePlan.name}</p>
+      <p className="text-xs text-blue-600">
+        {housePlan.builder} • {housePlan.facade} Facade
+      </p>
+    </div>
+  ) : null
+
+  // Show selected materials info if available
+  const materialsInfo =
+    selectedMaterials && Object.keys(selectedMaterials).length > 0 ? (
+      <div className="mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
+        <div className="flex items-center gap-2 mb-2">
+          <Palette className="h-4 w-4 text-green-600" />
+          <span className="text-sm font-medium text-green-900">Selected Materials</span>
+        </div>
+        <div className="flex flex-wrap gap-1">
+          {Object.entries(selectedMaterials).map(([category, material]) => (
+            <Badge key={category} variant="outline" className="text-xs bg-white">
+              {category}: {material.name}
             </Badge>
-            {onToggleCollapse && (
-              <Button variant="ghost" size="sm" onClick={onToggleCollapse} className="h-6 w-6 p-0">
-                <X className="h-3 w-3" />
-              </Button>
+          ))}
+        </div>
+      </div>
+    ) : null
+
+  return (
+    <div className={`w-full bg-white ${className}`}>
+      {/* Current Plan & Materials Info */}
+      {currentPlanInfo}
+      {materialsInfo}
+
+      <Card className="w-full bg-white border shadow-sm">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Sparkles className="h-5 w-5 text-blue-600" />
+              AI Assistant
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="text-xs">
+                Beta
+              </Badge>
+              {onToggleCollapse && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onToggleCollapse}
+                  className="h-6 w-6 p-0"
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          </div>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          {/* AI Prompt Input */}
+          <div className="space-y-2">
+            <Label htmlFor="ai-prompt" className="text-sm font-medium">
+              Describe your dream house
+            </Label>
+            <div className="relative">
+              <Input
+                id="ai-prompt"
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                placeholder="e.g., Modern two-story home with large windows and a metal roof..."
+                className="pr-10"
+                maxLength={500}
+              />
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-muted-foreground">
+                {aiPrompt.length}/500
+              </div>
+            </div>
+          </div>
+
+          {/* Style and Budget Selection */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label className="text-sm font-medium flex items-center gap-1">
+                <Palette className="h-3 w-3" />
+                Style
+              </Label>
+              <Select
+                value={aiStyle}
+                onValueChange={(value: 'modern' | 'traditional' | 'contemporary' | 'minimalist') =>
+                  setAiStyle(value)
+                }
+              >
+                <SelectTrigger className="h-8">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {styleOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      <div className="flex items-center gap-2">
+                        <span>{option.icon}</span>
+                        <span>{option.label}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm font-medium flex items-center gap-1">
+                <DollarSign className="h-3 w-3" />
+                Budget
+              </Label>
+              <Select
+                value={aiBudget}
+                onValueChange={(value: 'low' | 'medium' | 'high' | 'premium') => setAiBudget(value)}
+              >
+                <SelectTrigger className="h-8">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {budgetOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      <div className="flex items-center gap-2">
+                        <span>{option.icon}</span>
+                        <span>{option.label}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Generate Button */}
+          <Button
+            onClick={handleGenerate}
+            disabled={isGenerating || !aiPrompt.trim()}
+            className="w-full bg-blue-600 hover:bg-blue-700"
+          >
+            {isGenerating ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Wand2 className="mr-2 h-4 w-4" />
+                Generate House
+              </>
             )}
-          </div>
-        </div>
-      </CardHeader>
+          </Button>
 
-      <CardContent className="space-y-4">
-        {/* AI Prompt Input */}
-        <div className="space-y-2">
-          <Label htmlFor="ai-prompt" className="text-sm font-medium">
-            Describe your dream house
-          </Label>
-          <div className="relative">
-            <Input
-              id="ai-prompt"
-              value={aiPrompt}
-              onChange={(e) => setAiPrompt(e.target.value)}
-              placeholder="e.g., Modern two-story home with large windows and a metal roof..."
-              className="pr-10"
-              maxLength={500}
-            />
-            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-muted-foreground">
-              {aiPrompt.length}/500
+          {/* Progress Bar */}
+          {isGenerating && (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Generating your house...</span>
+                <span>{Math.round(progress)}%</span>
+              </div>
+              <Progress value={progress} className="w-full" />
             </div>
-          </div>
-        </div>
-
-        {/* Style and Budget Selection */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-2">
-            <Label className="text-sm font-medium flex items-center gap-1">
-              <Palette className="h-3 w-3" />
-              Style
-            </Label>
-            <Select
-              value={aiStyle}
-              onValueChange={(value: 'modern' | 'traditional' | 'contemporary' | 'minimalist') =>
-                setAiStyle(value)
-              }
-            >
-              <SelectTrigger className="h-8">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {styleOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    <div className="flex items-center gap-2">
-                      <span>{option.icon}</span>
-                      <span>{option.label}</span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label className="text-sm font-medium flex items-center gap-1">
-              <DollarSign className="h-3 w-3" />
-              Budget
-            </Label>
-            <Select
-              value={aiBudget}
-              onValueChange={(value: 'low' | 'medium' | 'high' | 'premium') => setAiBudget(value)}
-            >
-              <SelectTrigger className="h-8">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {budgetOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    <div className="flex items-center gap-2">
-                      <span>{option.icon}</span>
-                      <span>{option.label}</span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Generate Button */}
-        <Button
-          onClick={handleGenerate}
-          disabled={isGenerating || !aiPrompt.trim()}
-          className="w-full bg-blue-600 hover:bg-blue-700"
-        >
-          {isGenerating ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating...
-            </>
-          ) : (
-            <>
-              <Wand2 className="mr-2 h-4 w-4" />
-              Generate House
-            </>
           )}
-        </Button>
 
-        {/* Progress Bar */}
-        {isGenerating && (
+          {/* Error Display */}
+          {error && (
+            <Alert className="border-red-200 bg-red-50">
+              <AlertDescription className="text-sm text-red-700">{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {/* Quick Actions */}
           <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>Generating your house...</span>
-              <span>{Math.round(progress)}%</span>
+            <div className="text-sm font-medium text-muted-foreground">Quick Actions</div>
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleEnhance}
+                disabled={isGenerating}
+                className="text-xs"
+              >
+                <Sparkles className="mr-1 h-3 w-3" />
+                Enhance
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleVariations}
+                disabled={isGenerating}
+                className="text-xs"
+              >
+                <Home className="mr-1 h-3 w-3" />
+                Variations
+              </Button>
             </div>
-            <Progress value={progress} className="w-full" />
           </div>
-        )}
 
-        {/* Error Display */}
-        {error && (
-          <Alert className="border-red-200 bg-red-50">
-            <AlertDescription className="text-sm text-red-700">{error}</AlertDescription>
-          </Alert>
-        )}
-
-        {/* Quick Actions */}
-        <div className="space-y-2">
-          <div className="text-sm font-medium text-muted-foreground">Quick Actions</div>
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleEnhance}
-              disabled={isGenerating}
-              className="text-xs"
-            >
-              <Sparkles className="mr-1 h-3 w-3" />
-              Enhance
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleVariations}
-              disabled={isGenerating}
-              className="text-xs"
-            >
-              <Home className="mr-1 h-3 w-3" />
-              Variations
-            </Button>
+          {/* Tips */}
+          <div className="text-xs text-muted-foreground bg-blue-50 p-2 rounded">
+            <strong>💡 Tip:</strong> Be specific about architectural style, key features, and
+            materials for best results.
           </div>
-        </div>
-
-        {/* Tips */}
-        <div className="text-xs text-muted-foreground bg-blue-50 p-2 rounded">
-          <strong>💡 Tip:</strong> Be specific about architectural style, key features, and
-          materials for best results.
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

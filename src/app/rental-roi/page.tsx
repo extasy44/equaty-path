@@ -151,46 +151,35 @@ function RentalRoiContent() {
           <meta name="twitter:image" content={meta.openGraph.images[0].url} />
         )}
       </Head>
-      <ServiceLayout
-        title="Rental ROI Calculator"
-        description="Comprehensive rental property analysis with cash flow projections, tax optimization, and investment returns. Make informed decisions with institutional-grade calculations."
-        icon={<Calculator className="h-6 w-6" />}
-        badge="Financial Calculator"
-        backHref="/dashboard"
-        backLabel="Back to Dashboard"
-        metrics={metrics}
-        actions={actions}
-        sidebar={sidebar}
-      >
-        <CalculatorLoader>
-          <div className="space-y-8">
-            {/* Hero Section */}
-            <div className="text-center py-8">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--color-accent)]/10 text-[color:var(--color-accent)]">
-                  <TrendingUp className="h-6 w-6" />
-                </div>
-                <span className="text-sm font-medium text-[color:var(--color-accent)]">
-                  Smart Investment Analysis
-                </span>
-              </div>
-              <h2 className="text-2xl font-bold text-[color:var(--color-primary)] mb-3">
-                Maximize Your Rental Returns
-              </h2>
-              <p className="text-[color:var(--color-muted-foreground)] max-w-2xl mx-auto">
-                Calculate comprehensive rental yields, factor in all expenses including taxes,
-                maintenance, and vacancy rates. Get accurate cash flow projections and ROI analysis
-                to make confident investment decisions.
-              </p>
-            </div>
 
-            {/* Calculator Form */}
-            <section id="calculator">
-              <RentalClient />
-            </section>
+      <CalculatorLoader>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+          {/* Hero Section */}
+          <div className="text-center py-8">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[color:var(--color-accent)]/10 text-[color:var(--color-accent)]">
+                <TrendingUp className="h-6 w-6" />
+              </div>
+              <span className="text-sm font-medium text-[color:var(--color-accent)]">
+                Smart Investment Analysis
+              </span>
+            </div>
+            <h2 className="text-2xl font-bold text-[color:var(--color-primary)] mb-3">
+              Maximize Your Rental Returns
+            </h2>
+            <p className="text-[color:var(--color-muted-foreground)] max-w-2xl mx-auto">
+              Calculate comprehensive rental yields, factor in all expenses including taxes,
+              maintenance, and vacancy rates. Get accurate cash flow projections and ROI analysis to
+              make confident investment decisions.
+            </p>
           </div>
-        </CalculatorLoader>
-      </ServiceLayout>
+
+          {/* Calculator Form */}
+          <section id="calculator">
+            <RentalClient />
+          </section>
+        </div>
+      </CalculatorLoader>
     </>
   )
 }

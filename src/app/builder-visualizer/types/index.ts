@@ -150,9 +150,42 @@ export interface Material {
 }
 
 export interface MaterialSelection {
-  sectionId: string
-  materialName: string
-  appliedAt: Date
+  id: string
+  name: string
+  color: string
+  textureUrl?: string
+  normalMapUrl?: string
+  aoMapUrl?: string
+  displacementMapUrl?: string
+  roughness: number
+  metalness: number
+  reflection?: number
+  cost?: number
+  materialName?: string
+  sectionId?: string
+  texture?: {
+    url: string
+    scale: number
+    repeat: [number, number]
+    offset: [number, number]
+    rotation: number
+  }
+  surfaceSize?: {
+    width: number
+    height: number
+    area: number
+    unit: 'm²' | 'ft²'
+  }
+  properties: {
+    finish: string
+    texture: string
+    durability: string
+    grain?: string
+    maintenance?: string
+    fire_rating?: string
+    insulation?: string
+    description?: string
+  }
 }
 
 export interface MaterialLibrary {

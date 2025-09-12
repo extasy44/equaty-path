@@ -126,12 +126,12 @@ export class MaterialApplier {
     // Check if all selected sections exist in the model
     const sectionIds = model.sections.map((section) => section.id)
     const invalidSelections = selections.filter(
-      (selection) => !sectionIds.includes(selection.sectionId)
+      (selection) => selection.sectionId && !sectionIds.includes(selection.sectionId)
     )
 
     if (invalidSelections.length > 0) {
       throw new Error(
-        `Invalid section IDs: ${invalidSelections.map((s) => s.sectionId).join(', ')}`
+        `Invalid section IDs: ${invalidSelections.map((s) => s.sectionId || 'unknown').join(', ')}`
       )
     }
   }
@@ -144,6 +144,10 @@ export class MaterialApplier {
     const notFound: string[] = []
 
     for (const selection of selections) {
+      if (!selection.materialName || !selection.sectionId) {
+        continue
+      }
+
       const material = this.materialLibrary[selection.materialName]
 
       if (!material) {
@@ -184,13 +188,14 @@ export class MaterialApplier {
 
     // Apply materials to each section
     for (const selection of selections) {
+      if (!selection.sectionId) continue
+
       const section = updatedModel.sections.find((s) => s.id === selection.sectionId)
       const material = materials.get(selection.sectionId)
 
       if (section && material) {
         section.material = {
           ...material,
-          appliedAt: selection.appliedAt,
         }
 
         // Update the model's GLTF data with material properties and textures
@@ -211,7 +216,7 @@ export class MaterialApplier {
   ): Promise<void> {
     // In a real implementation, this would modify the GLTF JSON structure
     // to include the material properties for the specific mesh
-    if (model.format === 'gltf' && model.data) {
+    if (model.format === 'gltf' && model.data && typeof model.data === 'object') {
       // Find the material index for this section
       const materialIndex = await this.findOrCreateMaterialIndex(model, material)
 
@@ -224,12 +229,18 @@ export class MaterialApplier {
    * Find or create a material index in the GLTF materials array
    */
   private async findOrCreateMaterialIndex(model: Model3D, material: Material): Promise<number> {
-    if (!model.data.materials) {
-      model.data.materials = []
+    if (!model.data || typeof model.data !== 'object') {
+      throw new Error('Invalid model data')
+    }
+
+    const gltfData = model.data as GLTFData
+
+    if (!gltfData.materials) {
+      gltfData.materials = []
     }
 
     // Check if material already exists
-    const existingIndex = model.data.materials.findIndex(
+    const existingIndex = gltfData.materials.findIndex(
       (m: GLTFMaterial) => m.name === material.name
     )
 
@@ -239,9 +250,9 @@ export class MaterialApplier {
 
     // Create new GLTF material with textures
     const gltfMaterial = await this.convertToGLTFMaterial(model, material)
-    model.data.materials.push(gltfMaterial)
+    gltfData.materials.push(gltfMaterial)
 
-    return model.data.materials.length - 1
+    return gltfData.materials.length - 1
   }
 
   /**
@@ -302,22 +313,26 @@ export class MaterialApplier {
    * Add texture to GLTF model and return texture index
    */
   private async addTextureToModel(model: Model3D, textureUrl: string): Promise<number> {
-    // Initialize textures and images arrays if they don't exist
-    if (!model.data.textures) {
-      model.data.textures = []
+    if (!model.data || typeof model.data !== 'object') {
+      throw new Error('Invalid model data')
     }
-    if (!model.data.images) {
-      model.data.images = []
+
+    const gltfData = model.data as GLTFData
+
+    // Initialize textures and images arrays if they don't exist
+    if (!gltfData.textures) {
+      gltfData.textures = []
+    }
+    if (!gltfData.images) {
+      gltfData.images = []
     }
 
     // Check if texture already exists
-    const existingImageIndex = model.data.images.findIndex(
-      (img: GLTFImage) => img.uri === textureUrl
-    )
+    const existingImageIndex = gltfData.images.findIndex((img: GLTFImage) => img.uri === textureUrl)
 
     if (existingImageIndex !== -1) {
       // Find corresponding texture index
-      const textureIndex = model.data.textures.findIndex(
+      const textureIndex = gltfData.textures.findIndex(
         (tex: GLTFTexture) => tex.source === existingImageIndex
       )
       return textureIndex !== -1
@@ -326,8 +341,8 @@ export class MaterialApplier {
     }
 
     // Add new image
-    const imageIndex = model.data.images.length
-    model.data.images.push({
+    const imageIndex = gltfData.images.length
+    gltfData.images.push({
       uri: textureUrl,
       mimeType: this.getMimeTypeFromUrl(textureUrl),
     })
@@ -340,8 +355,18 @@ export class MaterialApplier {
    * Create texture reference in GLTF
    */
   private createTextureReference(model: Model3D, imageIndex: number): number {
-    const textureIndex = model.data.textures!.length
-    model.data.textures!.push({
+    if (!model.data || typeof model.data !== 'object') {
+      throw new Error('Invalid model data')
+    }
+
+    const gltfData = model.data as GLTFData
+
+    if (!gltfData.textures) {
+      gltfData.textures = []
+    }
+
+    const textureIndex = gltfData.textures.length
+    gltfData.textures.push({
       source: imageIndex,
     })
     return textureIndex
@@ -371,8 +396,14 @@ export class MaterialApplier {
   private updateMeshMaterial(model: Model3D, sectionId: string, materialIndex: number): void {
     // This would find the mesh for the section and update its material index
     // For now, we'll update the first mesh primitive
-    if (model.data.meshes && model.data.meshes[0]?.primitives) {
-      model.data.meshes[0].primitives[0].material = materialIndex
+    if (!model.data || typeof model.data !== 'object') {
+      return
+    }
+
+    const gltfData = model.data as GLTFData
+
+    if (gltfData.meshes && gltfData.meshes[0]?.primitives) {
+      gltfData.meshes[0].primitives[0].material = materialIndex
     }
   }
 
@@ -445,11 +476,11 @@ export class MaterialApplier {
   /**
    * Handle errors and return appropriate response
    */
-  private handleError(error: Error | unknown, startTime: number): MaterialApplicationResponse {
+  private handleError(error: Error | unknown, _startTime: number): MaterialApplicationResponse {
     const serviceError: ServiceError = {
       code: 'MATERIAL_APPLICATION_ERROR',
       message: error instanceof Error ? error.message : 'Failed to apply materials to 3D model',
-      details: error,
+      details: error as Record<string, unknown>,
     }
 
     return {
@@ -457,7 +488,6 @@ export class MaterialApplier {
       updatedModel: {} as Model3D,
       appliedMaterials: [],
       message: serviceError.message,
-      error: serviceError,
     }
   }
 }

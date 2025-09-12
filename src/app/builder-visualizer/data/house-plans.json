@@ -1,0 +1,742 @@
+{
+  "plans": [
+    {
+      "id": "astoria-grand-55",
+      "name": "Astoria Grand 55",
+      "builder": "Carlisle Homes",
+      "facade": "Hyatt",
+      "description": "Spacious family home with modern design and premium finishes",
+      "style": "contemporary",
+      "budget": "premium",
+      "specifications": {
+        "bedrooms": 5,
+        "bathrooms": 3,
+        "garage": 2,
+        "livingAreas": 2,
+        "totalArea": 55,
+        "landSize": "600-800m²"
+      },
+      "floorPlan": {
+        "groundFloor": {
+          "rooms": [
+            {
+              "id": "garage",
+              "name": "Double Garage",
+              "type": "garage",
+              "area": 40,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "entry",
+              "name": "Entry Foyer",
+              "type": "entry",
+              "area": 8,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "living",
+              "name": "Living Room",
+              "type": "living",
+              "area": 25,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "kitchen",
+              "name": "Kitchen",
+              "type": "kitchen",
+              "area": 15,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "dining",
+              "name": "Dining Room",
+              "type": "dining",
+              "area": 12,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "family",
+              "name": "Family Room",
+              "type": "family",
+              "area": 20,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "laundry",
+              "name": "Laundry",
+              "type": "utility",
+              "area": 6,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "powder",
+              "name": "Powder Room",
+              "type": "bathroom",
+              "area": 4,
+              "position": [0, 0, 0]
+            }
+          ]
+        },
+        "firstFloor": {
+          "rooms": [
+            {
+              "id": "master-bedroom",
+              "name": "Master Bedroom",
+              "type": "bedroom",
+              "area": 20,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "master-ensuite",
+              "name": "Master Ensuite",
+              "type": "bathroom",
+              "area": 8,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "master-walkin",
+              "name": "Master Walk-in Robe",
+              "type": "robe",
+              "area": 12,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bedroom-2",
+              "name": "Bedroom 2",
+              "type": "bedroom",
+              "area": 15,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bedroom-3",
+              "name": "Bedroom 3",
+              "type": "bedroom",
+              "area": 15,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bedroom-4",
+              "name": "Bedroom 4",
+              "type": "bedroom",
+              "area": 15,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bathroom-main",
+              "name": "Main Bathroom",
+              "type": "bathroom",
+              "area": 8,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "rumpus",
+              "name": "Rumpus Room",
+              "type": "living",
+              "area": 18,
+              "position": [0, 0, 0]
+            }
+          ]
+        }
+      },
+      "facadeOptions": {
+        "hyatt": {
+          "name": "Hyatt Facade",
+          "description": "Modern contemporary facade with clean lines and premium materials",
+          "imageUrl": "/facades/hyatt-facade.jpg",
+          "features": [
+            "Render finish with feature stone",
+            "Aluminium windows and doors",
+            "Timber feature elements",
+            "Modern entry design",
+            "Premium landscaping package"
+          ],
+          "materials": {
+            "walls": "render-stone-combo",
+            "roof": "colorbond-steel",
+            "windows": "aluminium-black",
+            "doors": "aluminium-sliding",
+            "trim": "aluminium-silver"
+          },
+          "cost": {
+            "base": 850000,
+            "upgrades": {
+              "premium-materials": 50000,
+              "landscaping": 25000,
+              "smart-home": 15000
+            }
+          }
+        },
+        "hamptons": {
+          "name": "Hamptons Facade",
+          "description": "Classic coastal-inspired design with weatherboard and stone features",
+          "imageUrl": "/facades/hamptons-facade.jpg",
+          "features": [
+            "Weatherboard cladding with stone accents",
+            "Traditional gable roof design",
+            "Timber windows and doors",
+            "Classic entry portico",
+            "Coastal landscaping theme"
+          ],
+          "materials": {
+            "walls": "weatherboard-stone",
+            "roof": "colorbond-steel",
+            "windows": "timber-white",
+            "doors": "timber-panel",
+            "trim": "timber-natural"
+          },
+          "cost": {
+            "base": 820000,
+            "upgrades": {
+              "premium-materials": 45000,
+              "landscaping": 22000,
+              "smart-home": 13000
+            }
+          }
+        },
+        "modern-minimalist": {
+          "name": "Modern Minimalist",
+          "description": "Sleek contemporary design with bold geometric forms",
+          "imageUrl": "/facades/modern-minimalist-facade.jpg",
+          "features": [
+            "Clean render finish",
+            "Large format windows",
+            "Minimalist entry design",
+            "Geometric roof lines",
+            "Modern landscaping"
+          ],
+          "materials": {
+            "walls": "render-clean",
+            "roof": "colorbond-steel",
+            "windows": "aluminium-black",
+            "doors": "aluminium-minimal",
+            "trim": "aluminium-black"
+          },
+          "cost": {
+            "base": 800000,
+            "upgrades": {
+              "premium-materials": 40000,
+              "landscaping": 20000,
+              "smart-home": 12000
+            }
+          }
+        },
+        "traditional-classic": {
+          "name": "Traditional Classic",
+          "description": "Timeless traditional design with brick and stone features",
+          "imageUrl": "/facades/traditional-classic-facade.jpg",
+          "features": [
+            "Brick veneer with stone features",
+            "Traditional pitched roof",
+            "Classic window design",
+            "Traditional entry design",
+            "Heritage landscaping"
+          ],
+          "materials": {
+            "walls": "brick-stone",
+            "roof": "terracotta-tiles",
+            "windows": "timber-white",
+            "doors": "timber-traditional",
+            "trim": "timber-white"
+          },
+          "cost": {
+            "base": 780000,
+            "upgrades": {
+              "premium-materials": 35000,
+              "landscaping": 18000,
+              "smart-home": 10000
+            }
+          }
+        }
+      },
+      "geometry": {
+        "dimensions": {
+          "width": 18,
+          "height": 8,
+          "depth": 12
+        },
+        "sections": [
+          {
+            "id": "main-structure",
+            "name": "Main Structure",
+            "type": "wall",
+            "geometry": {
+              "type": "box",
+              "args": [18, 8, 12],
+              "position": [0, 4, 0]
+            }
+          },
+          {
+            "id": "garage-section",
+            "name": "Garage",
+            "type": "garage",
+            "geometry": {
+              "type": "box",
+              "args": [6, 3, 6],
+              "position": [-6, 1.5, 0]
+            }
+          },
+          {
+            "id": "roof-main",
+            "name": "Main Roof",
+            "type": "roof",
+            "geometry": {
+              "type": "box",
+              "args": [18.2, 0.1, 12.2],
+              "position": [0, 8.05, 0]
+            }
+          },
+          {
+            "id": "roof-garage",
+            "name": "Garage Roof",
+            "type": "roof",
+            "geometry": {
+              "type": "box",
+              "args": [6.2, 0.1, 6.2],
+              "position": [-6, 3.05, 0]
+            }
+          },
+          {
+            "id": "window-front-large",
+            "name": "Front Windows",
+            "type": "window",
+            "geometry": {
+              "type": "box",
+              "args": [8, 3, 0.1],
+              "position": [0, 4, 6.05]
+            }
+          },
+          {
+            "id": "window-side-left",
+            "name": "Left Windows",
+            "type": "window",
+            "geometry": {
+              "type": "box",
+              "args": [0.1, 3, 4],
+              "position": [-9.05, 4, 0]
+            }
+          },
+          {
+            "id": "window-side-right",
+            "name": "Right Windows",
+            "type": "window",
+            "geometry": {
+              "type": "box",
+              "args": [0.1, 3, 4],
+              "position": [9.05, 4, 0]
+            }
+          },
+          {
+            "id": "door-main",
+            "name": "Main Entry Door",
+            "type": "door",
+            "geometry": {
+              "type": "box",
+              "args": [1.2, 2.5, 0.1],
+              "position": [2, 1.25, 6.05]
+            }
+          },
+          {
+            "id": "door-garage",
+            "name": "Garage Door",
+            "type": "door",
+            "geometry": {
+              "type": "box",
+              "args": [5, 2.5, 0.1],
+              "position": [-6, 1.25, 3.05]
+            }
+          },
+          {
+            "id": "trim-fascia",
+            "name": "Fascia Board",
+            "type": "trim",
+            "geometry": {
+              "type": "box",
+              "args": [18.4, 0.2, 12.4],
+              "position": [0, 8.1, 0]
+            }
+          },
+          {
+            "id": "trim-gutters",
+            "name": "Gutters",
+            "type": "trim",
+            "geometry": {
+              "type": "cylinder",
+              "args": [0.15, 0.15, 18.6],
+              "position": [0, 7.9, 0],
+              "rotation": [0, 0, 1.5707963267948966]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "astoria-grand-45",
+      "name": "Astoria Grand 45",
+      "builder": "Carlisle Homes",
+      "facade": "Hyatt",
+      "description": "Compact family home with modern design",
+      "style": "contemporary",
+      "budget": "high",
+      "specifications": {
+        "bedrooms": 4,
+        "bathrooms": 2,
+        "garage": 2,
+        "livingAreas": 2,
+        "totalArea": 45,
+        "landSize": "500-700m²"
+      },
+      "floorPlan": {
+        "groundFloor": {
+          "rooms": [
+            {
+              "id": "garage",
+              "name": "Double Garage",
+              "type": "garage",
+              "area": 30,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "entry",
+              "name": "Entry Foyer",
+              "type": "entry",
+              "area": 6,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "living",
+              "name": "Living Room",
+              "type": "living",
+              "area": 20,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "kitchen",
+              "name": "Kitchen",
+              "type": "kitchen",
+              "area": 12,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "dining",
+              "name": "Dining Room",
+              "type": "dining",
+              "area": 10,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "family",
+              "name": "Family Room",
+              "type": "family",
+              "area": 15,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "laundry",
+              "name": "Laundry",
+              "type": "utility",
+              "area": 4,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "powder",
+              "name": "Powder Room",
+              "type": "bathroom",
+              "area": 3,
+              "position": [0, 0, 0]
+            }
+          ]
+        },
+        "firstFloor": {
+          "rooms": [
+            {
+              "id": "master-bedroom",
+              "name": "Master Bedroom",
+              "type": "bedroom",
+              "area": 18,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "master-ensuite",
+              "name": "Master Ensuite",
+              "type": "bathroom",
+              "area": 6,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "master-walkin",
+              "name": "Master Walk-in Robe",
+              "type": "robe",
+              "area": 8,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bedroom-2",
+              "name": "Bedroom 2",
+              "type": "bedroom",
+              "area": 12,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bedroom-3",
+              "name": "Bedroom 3",
+              "type": "bedroom",
+              "area": 12,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bedroom-4",
+              "name": "Bedroom 4",
+              "type": "bedroom",
+              "area": 12,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bathroom-main",
+              "name": "Main Bathroom",
+              "type": "bathroom",
+              "area": 6,
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "rumpus",
+              "name": "Rumpus Room",
+              "type": "living",
+              "area": 15,
+              "position": [0, 0, 0]
+            }
+          ]
+        }
+      },
+      "facadeOptions": {
+        "hyatt": {
+          "name": "Hyatt Facade",
+          "description": "Modern contemporary facade with clean lines and premium materials",
+          "imageUrl": "/facades/hyatt-facade.jpg",
+          "features": [
+            "Render finish with feature stone",
+            "Aluminium windows and doors",
+            "Timber feature elements",
+            "Modern entry design",
+            "Premium landscaping package"
+          ],
+          "materials": {
+            "walls": "render-stone-combo",
+            "roof": "colorbond-steel",
+            "windows": "aluminium-black",
+            "doors": "aluminium-sliding",
+            "trim": "aluminium-silver"
+          },
+          "cost": {
+            "base": 750000,
+            "upgrades": {
+              "premium-materials": 40000,
+              "landscaping": 20000,
+              "smart-home": 12000
+            }
+          }
+        },
+        "hamptons": {
+          "name": "Hamptons Facade",
+          "description": "Classic coastal-inspired design with weatherboard and stone features",
+          "imageUrl": "/facades/hamptons-facade.jpg",
+          "features": [
+            "Weatherboard cladding with stone accents",
+            "Traditional gable roof design",
+            "Timber windows and doors",
+            "Classic entry portico",
+            "Coastal landscaping theme"
+          ],
+          "materials": {
+            "walls": "weatherboard-stone",
+            "roof": "colorbond-steel",
+            "windows": "timber-white",
+            "doors": "timber-panel",
+            "trim": "timber-natural"
+          },
+          "cost": {
+            "base": 720000,
+            "upgrades": {
+              "premium-materials": 35000,
+              "landscaping": 18000,
+              "smart-home": 10000
+            }
+          }
+        },
+        "modern-minimalist": {
+          "name": "Modern Minimalist",
+          "description": "Sleek contemporary design with bold geometric forms",
+          "imageUrl": "/facades/modern-minimalist-facade.jpg",
+          "features": [
+            "Clean render finish",
+            "Large format windows",
+            "Minimalist entry design",
+            "Geometric roof lines",
+            "Modern landscaping"
+          ],
+          "materials": {
+            "walls": "render-clean",
+            "roof": "colorbond-steel",
+            "windows": "aluminium-black",
+            "doors": "aluminium-minimal",
+            "trim": "aluminium-black"
+          },
+          "cost": {
+            "base": 700000,
+            "upgrades": {
+              "premium-materials": 30000,
+              "landscaping": 15000,
+              "smart-home": 8000
+            }
+          }
+        },
+        "traditional-classic": {
+          "name": "Traditional Classic",
+          "description": "Timeless traditional design with brick and stone features",
+          "imageUrl": "/facades/traditional-classic-facade.jpg",
+          "features": [
+            "Brick veneer with stone features",
+            "Traditional pitched roof",
+            "Classic window design",
+            "Traditional entry design",
+            "Heritage landscaping"
+          ],
+          "materials": {
+            "walls": "brick-stone",
+            "roof": "terracotta-tiles",
+            "windows": "timber-white",
+            "doors": "timber-traditional",
+            "trim": "timber-white"
+          },
+          "cost": {
+            "base": 680000,
+            "upgrades": {
+              "premium-materials": 25000,
+              "landscaping": 12000,
+              "smart-home": 6000
+            }
+          }
+        }
+      },
+      "geometry": {
+        "dimensions": {
+          "width": 15,
+          "height": 7,
+          "depth": 10
+        },
+        "sections": [
+          {
+            "id": "main-structure",
+            "name": "Main Structure",
+            "type": "wall",
+            "geometry": {
+              "type": "box",
+              "args": [15, 7, 10],
+              "position": [0, 3.5, 0]
+            }
+          },
+          {
+            "id": "garage-section",
+            "name": "Garage",
+            "type": "garage",
+            "geometry": {
+              "type": "box",
+              "args": [5, 3, 5],
+              "position": [-5, 1.5, 0]
+            }
+          },
+          {
+            "id": "roof-main",
+            "name": "Main Roof",
+            "type": "roof",
+            "geometry": {
+              "type": "box",
+              "args": [15.2, 0.1, 10.2],
+              "position": [0, 7.05, 0]
+            }
+          },
+          {
+            "id": "roof-garage",
+            "name": "Garage Roof",
+            "type": "roof",
+            "geometry": {
+              "type": "box",
+              "args": [5.2, 0.1, 5.2],
+              "position": [-5, 3.05, 0]
+            }
+          },
+          {
+            "id": "window-front-large",
+            "name": "Front Windows",
+            "type": "window",
+            "geometry": {
+              "type": "box",
+              "args": [6, 2.5, 0.1],
+              "position": [0, 3.5, 5.05]
+            }
+          },
+          {
+            "id": "window-side-left",
+            "name": "Left Windows",
+            "type": "window",
+            "geometry": {
+              "type": "box",
+              "args": [0.1, 2.5, 3],
+              "position": [-7.55, 3.5, 0]
+            }
+          },
+          {
+            "id": "window-side-right",
+            "name": "Right Windows",
+            "type": "window",
+            "geometry": {
+              "type": "box",
+              "args": [0.1, 2.5, 3],
+              "position": [7.55, 3.5, 0]
+            }
+          },
+          {
+            "id": "door-main",
+            "name": "Main Entry Door",
+            "type": "door",
+            "geometry": {
+              "type": "box",
+              "args": [1, 2.2, 0.1],
+              "position": [1.5, 1.1, 5.05]
+            }
+          },
+          {
+            "id": "door-garage",
+            "name": "Garage Door",
+            "type": "door",
+            "geometry": {
+              "type": "box",
+              "args": [4, 2.2, 0.1],
+              "position": [-5, 1.1, 2.55]
+            }
+          },
+          {
+            "id": "trim-fascia",
+            "name": "Fascia Board",
+            "type": "trim",
+            "geometry": {
+              "type": "box",
+              "args": [15.4, 0.2, 10.4],
+              "position": [0, 7.1, 0]
+            }
+          },
+          {
+            "id": "trim-gutters",
+            "name": "Gutters",
+            "type": "trim",
+            "geometry": {
+              "type": "cylinder",
+              "args": [0.15, 0.15, 15.6],
+              "position": [0, 6.9, 0],
+              "rotation": [0, 0, 1.5707963267948966]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
