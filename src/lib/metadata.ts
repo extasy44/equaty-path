@@ -348,18 +348,17 @@ export function generatePageMetadata(pageKey: keyof typeof pageMetadata): Metada
     ...baseMetadata,
     title: pageMeta.title,
     description: pageMeta.description,
-    keywords: pageMeta?.keywords,
     openGraph: {
       ...baseMetadata.openGraph,
-      title: pageMeta?.openGraph?.title || pageMeta.title,
-      description: pageMeta?.openGraph?.description || pageMeta.description,
-      images: pageMeta?.openGraph?.images || baseMetadata.openGraph?.images,
+      title: pageMeta.title,
+      description: pageMeta.description,
+      images: baseMetadata.openGraph?.images,
     },
     twitter: {
       ...baseMetadata.twitter,
-      title: pageMeta.openGraph?.title || pageMeta.title,
-      description: pageMeta.openGraph?.description || pageMeta.description,
-      images: pageMeta.openGraph?.images || baseMetadata.twitter?.images,
+      title: pageMeta.title,
+      description: pageMeta.description,
+      images: baseMetadata.twitter?.images,
     },
   }
 }
