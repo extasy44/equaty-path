@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 'use client'
 
 import { useMemo, useState } from 'react'
@@ -473,22 +472,30 @@ export function LandscapingCalculator() {
   }
 
   return (
-    <Card className="ring-1 ring-black/5">
-      <CardHeader>
-        <CardTitle>Landscaping Calculator</CardTitle>
+    <Card className="bg-gradient-to-br from-white to-gray-50/50 border-0 shadow-xl ring-1 ring-gray-200/60 backdrop-blur-sm">
+      <CardHeader className="pb-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/60">
+        <CardTitle className="text-xl font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+          Landscaping Calculator
+        </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-6">
-        <Card className="ring-1 ring-black/5">
-          <CardHeader>
+      <CardContent className="grid gap-6 pt-6">
+        <Card className="bg-gradient-to-br from-white to-gray-50/30 border-0 shadow-lg ring-1 ring-gray-200/60 backdrop-blur-sm">
+          <CardHeader className="pb-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/60">
             <div className="flex items-center justify-between gap-3">
-              <CardTitle className="text-base">Cost settings (per unit)</CardTitle>
-              <Button variant="secondary" className="h-8" onClick={() => setShowCosts((v) => !v)}>
+              <CardTitle className="text-base font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                Cost settings (per unit)
+              </CardTitle>
+              <Button
+                variant="secondary"
+                className="h-8 text-xs bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0 shadow-md hover:shadow-lg transition-all duration-200"
+                onClick={() => setShowCosts((v) => !v)}
+              >
                 {showCosts ? 'Hide' : 'Show'}
               </Button>
             </div>
           </CardHeader>
           {showCosts ? (
-            <CardContent className="grid md:grid-cols-2 gap-4">
+            <CardContent className="grid md:grid-cols-2 gap-3 sm:gap-4">
               <CostEditor
                 title="Front fence $/m (× height factor)"
                 entries={[
@@ -665,8 +672,8 @@ export function LandscapingCalculator() {
           ) : null}
         </Card>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="grid gap-3">
+        <div className="grid md:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
+          <div className="grid gap-1.5 sm:gap-2">
             <SectionLabel>Project</SectionLabel>
             <Field
               label="Project name"
@@ -757,7 +764,7 @@ export function LandscapingCalculator() {
             />
           </div>
 
-          <div className="grid gap-3">
+          <div className="grid gap-1.5 sm:gap-2">
             <SectionLabel>Fences & walls</SectionLabel>
             <ToggleRow
               label="Include fences & walls"
@@ -925,35 +932,35 @@ export function LandscapingCalculator() {
           </div>
         </div>
 
-        <div className="grid gap-3">
+        <div className="grid gap-1.5 sm:gap-2">
           <SectionLabel>Other items</SectionLabel>
           <ToggleRow
             label="Include other items"
             checked={i.includeOtherItems}
             onChange={(v) => setI({ ...i, includeOtherItems: v })}
           />
-          <label className="inline-flex items-center gap-2 text-sm">
+          <label className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
             <input
               type="checkbox"
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 sm:h-4 sm:w-4"
               checked={i.outdoorKitchen}
               onChange={(e) => setI({ ...i, outdoorKitchen: e.currentTarget.checked })}
             />
             Outdoor kitchen/BBQ
           </label>
-          <label className="inline-flex items-center gap-2 text-sm">
+          <label className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
             <input
               type="checkbox"
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 sm:h-4 sm:w-4"
               checked={i.firePit}
               onChange={(e) => setI({ ...i, firePit: e.currentTarget.checked })}
             />
             Fire pit
           </label>
-          <label className="inline-flex items-center gap-2 text-sm">
+          <label className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
             <input
               type="checkbox"
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 sm:h-4 sm:w-4"
               checked={i.lighting}
               onChange={(e) => setI({ ...i, lighting: e.currentTarget.checked })}
             />
@@ -967,10 +974,10 @@ export function LandscapingCalculator() {
               text
             />
           ) : null}
-          <label className="inline-flex items-center gap-2 text-sm">
+          <label className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
             <input
               type="checkbox"
-              className="h-4 w-4"
+              className="h-3.5 w-3.5 sm:h-4 sm:w-4"
               checked={i.waterFeatures}
               onChange={(e) => setI({ ...i, waterFeatures: e.currentTarget.checked })}
             />
@@ -984,16 +991,21 @@ export function LandscapingCalculator() {
           />
         </div>
 
-        <Card className="ring-1 ring-black/5">
-          <CardHeader>
-            <CardTitle className="text-base">Estimate breakdown</CardTitle>
+        <Card className="bg-gradient-to-br from-white to-gray-50/50 border-0 shadow-lg ring-1 ring-gray-200/60 backdrop-blur-sm">
+          <CardHeader className="pb-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/60">
+            <CardTitle className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              Estimate breakdown
+            </CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-2 text-sm">
+          <CardContent className="grid gap-3 pt-6 text-sm">
             <div className="flex items-center justify-between">
               <div className="font-medium">
                 Project: <span className="font-semibold">{i.projectName || 'Untitled'}</span>
               </div>
-              <Button className="h-8" onClick={() => downloadCsv(i.projectName, lines)}>
+              <Button
+                className="h-8 text-xs bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0 shadow-md hover:shadow-lg transition-all duration-200"
+                onClick={() => downloadCsv(i.projectName, lines)}
+              >
                 Export CSV
               </Button>
             </div>
@@ -1003,11 +1015,13 @@ export function LandscapingCalculator() {
             {lines.length === 0 ? (
               <div className="text-muted-foreground">No items entered.</div>
             ) : null}
-            <div className="grid grid-cols-[1fr_120px_120px_120px] items-center gap-3 text-xs text-muted-foreground">
-              <div>Item</div>
-              <div className="text-right">Material</div>
-              <div className="text-right">Labor</div>
-              <div className="text-right">Total</div>
+            <div className="overflow-x-auto">
+              <div className="grid grid-cols-[1fr_80px_80px_80px] min-w-[400px] items-center gap-2 text-xs text-muted-foreground">
+                <div>Item</div>
+                <div className="text-right">Material</div>
+                <div className="text-right">Labor</div>
+                <div className="text-right">Total</div>
+              </div>
             </div>
             {['Land covering', 'Fences & walls', 'Driveway', 'Major features', 'Other items'].map(
               (section) => {
@@ -1015,32 +1029,42 @@ export function LandscapingCalculator() {
                 if (rows.length === 0) return null
                 return (
                   <div key={section} className="grid gap-1">
-                    <div className="mt-3 text-xs uppercase tracking-wide text-muted-foreground">
+                    <div className="mt-2 text-xs uppercase tracking-wide text-muted-foreground">
                       {section}
                     </div>
-                    {rows.map((r, idx) => (
-                      <div
-                        key={`${r.item}-${idx}`}
-                        className="grid grid-cols-[1fr_120px_120px_120px] items-center gap-3"
-                      >
-                        <div className="truncate">{r.item}</div>
-                        <div className="tabular-nums text-right">{currency(r.material)}</div>
-                        <div className="tabular-nums text-right">{currency(r.labor)}</div>
-                        <div className="tabular-nums text-right font-medium">
-                          {currency(r.total)}
-                        </div>
+                    <div className="overflow-x-auto">
+                      <div className="min-w-[400px] space-y-1">
+                        {rows.map((r, idx) => (
+                          <div
+                            key={`${r.item}-${idx}`}
+                            className="grid grid-cols-[1fr_80px_80px_80px] items-center gap-2"
+                          >
+                            <div className="truncate text-xs">{r.item}</div>
+                            <div className="tabular-nums text-right text-xs">
+                              {currency(r.material)}
+                            </div>
+                            <div className="tabular-nums text-right text-xs">
+                              {currency(r.labor)}
+                            </div>
+                            <div className="tabular-nums text-right font-medium text-xs">
+                              {currency(r.total)}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    </div>
                   </div>
                 )
               }
             )}
             <div className="h-px bg-border my-2" />
-            <div className="grid grid-cols-[1fr_120px_120px_120px] items-center gap-3 font-semibold">
-              <div>Total</div>
-              <div className="tabular-nums text-right">{currency(totals.material)}</div>
-              <div className="tabular-nums text-right">{currency(totals.labor)}</div>
-              <div className="tabular-nums text-right">{currency(totals.total)}</div>
+            <div className="overflow-x-auto">
+              <div className="grid grid-cols-[1fr_80px_80px_80px] min-w-[400px] items-center gap-2 font-semibold text-xs">
+                <div>Total</div>
+                <div className="tabular-nums text-right">{currency(totals.material)}</div>
+                <div className="tabular-nums text-right">{currency(totals.labor)}</div>
+                <div className="tabular-nums text-right">{currency(totals.total)}</div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -1067,13 +1091,14 @@ function Field({
   step?: string
 }) {
   return (
-    <div className="grid gap-1.5">
-      <Label>{label}</Label>
+    <div className="grid gap-1 sm:gap-1.5">
+      <Label className="text-sm font-medium text-gray-700">{label}</Label>
       <Input
         type={text ? 'text' : 'number'}
         value={value}
         step={step ?? '1'}
         onChange={(e) => onChange(e.currentTarget.value)}
+        className="h-9 sm:h-10 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm hover:shadow-md transition-all duration-200 text-sm"
       />
     </div>
   )
@@ -1091,15 +1116,15 @@ function SelectRow({
   options: Array<[string, string]>
 }) {
   return (
-    <div className="grid gap-1.5">
-      <Label>{label}</Label>
+    <div className="grid gap-1 sm:gap-1.5">
+      <Label className="text-sm font-medium text-gray-700">{label}</Label>
       <Select value={value} onValueChange={onValueChange}>
-        <SelectTrigger className="h-9 bg-white border border-black/10 shadow-sm">
+        <SelectTrigger className="h-9 sm:h-10 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm hover:shadow-md transition-all duration-200 text-sm">
           <SelectValue placeholder="Select" />
         </SelectTrigger>
-        <SelectContent className="bg-white border border-black/10 shadow-[var(--shadow-soft)]">
+        <SelectContent className="bg-white border-gray-300 shadow-xl">
           {options.map(([val, labelText]) => (
-            <SelectItem key={val} value={val}>
+            <SelectItem key={val} value={val} className="text-sm hover:bg-gray-50">
               {labelText}
             </SelectItem>
           ))}
@@ -1111,7 +1136,9 @@ function SelectRow({
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mt-2 text-xs uppercase tracking-wide text-muted-foreground">{children}</div>
+    <div className="mt-2 sm:mt-3 text-sm font-semibold uppercase tracking-wide bg-gradient-to-r from-gray-600 to-gray-500 bg-clip-text text-transparent">
+      {children}
+    </div>
   )
 }
 
@@ -1125,10 +1152,10 @@ function ToggleRow({
   onChange: (v: boolean) => void
 }) {
   return (
-    <label className="inline-flex items-center gap-2 text-sm">
+    <label className="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
       <input
         type="checkbox"
-        className="h-4 w-4"
+        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2"
         checked={checked}
         onChange={(e) => onChange(e.currentTarget.checked)}
       />
@@ -1147,22 +1174,28 @@ function CostEditor({
   onChange: (key: string, field: 'material' | 'labor', value: number) => void
 }) {
   return (
-    <div className="grid gap-2 p-3 rounded-md border border-black/5">
-      <div className="text-sm font-medium">{title}</div>
-      <div className="grid grid-cols-2 gap-2">
+    <div className="grid gap-2 p-4 rounded-lg border border-gray-200 bg-gradient-to-br from-white to-gray-50/50 shadow-sm hover:shadow-md transition-all duration-200">
+      <div className="text-sm font-semibold bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent">
+        {title}
+      </div>
+      <div className="grid grid-cols-2 gap-3">
         {entries.map(([key, val]) => (
           <div key={key} className="grid gap-1">
-            <div className="text-xs text-muted-foreground">{key}</div>
-            <div className="grid grid-cols-2 gap-1">
+            <div className="text-xs font-medium text-gray-600 uppercase tracking-wide">{key}</div>
+            <div className="grid grid-cols-2 gap-2">
               <Input
                 type="number"
                 value={val.material}
                 onChange={(e) => onChange(key, 'material', Number(e.currentTarget.value) || 0)}
+                className="h-8 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm text-xs"
+                placeholder="Material"
               />
               <Input
                 type="number"
                 value={val.labor}
                 onChange={(e) => onChange(key, 'labor', Number(e.currentTarget.value) || 0)}
+                className="h-8 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm text-xs"
+                placeholder="Labor"
               />
             </div>
           </div>

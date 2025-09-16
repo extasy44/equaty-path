@@ -2,59 +2,18 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import BuilderClient from './viewer'
 import { VisualizerLoader } from '@/components/ui/feature-loader'
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 import Head from 'next/head'
 import { pageMetadata } from '@/lib/metadata'
-import { Play, Maximize } from 'lucide-react'
+import { Play, ArrowRight, Sparkles, Zap, Eye, Download, Share2 } from 'lucide-react'
 
 function BuilderVisualizerContent() {
   const meta = pageMetadata.builderVisualizer
-  const [isLaunched, setIsLaunched] = useState(false)
-  const [showPreview, setShowPreview] = useState(false)
 
   const handleLaunch = () => {
-    setIsLaunched(true)
-  }
-
-  const handlePreview = () => {
-    setShowPreview(true)
-  }
-
-  const handleExitFullscreen = () => {
-    setIsLaunched(false)
-  }
-
-  if (isLaunched) {
-    return (
-      <>
-        <Head>
-          <title>{meta.title} | EquityPath</title>
-          <meta name="description" content={meta.description} />
-          {meta.keywords && <meta name="keywords" content={meta.keywords.join(', ')} />}
-          <meta property="og:title" content={meta.openGraph?.title || meta.title} />
-          <meta
-            property="og:description"
-            content={meta.openGraph?.description || meta.description}
-          />
-          {meta.openGraph?.images && (
-            <meta property="og:image" content={meta.openGraph.images[0].url} />
-          )}
-          <meta name="twitter:title" content={meta.openGraph?.title || meta.title} />
-          <meta
-            name="twitter:description"
-            content={meta.openGraph?.description || meta.description}
-          />
-          {meta.openGraph?.images && (
-            <meta name="twitter:image" content={meta.openGraph.images[0].url} />
-          )}
-        </Head>
-        <div className="fixed inset-0 z-50 bg-white">
-          <BuilderClient onExitFullscreen={handleExitFullscreen} defaultFullscreen={true} />
-        </div>
-      </>
-    )
+    // Open builder visualizer in a new tab
+    window.open('/builder-visualizer/launch', '_blank')
   }
 
   return (
@@ -78,272 +37,206 @@ function BuilderVisualizerContent() {
         )}
       </Head>
       <VisualizerLoader>
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-10">
-          <section className="rounded-xl border bg-white shadow-sm ring-1 ring-black/5 p-6 md:p-10">
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-[color:var(--color-primary)]">
-              Builder Plan Visualizer
-            </h1>
-            <p className="mt-3 text-muted-foreground max-w-2xl">
-              Transform 2D plans into interactive 3D previews. Apply finishes and export a gallery
-              for your stakeholders.
-            </p>
-            <div className="mt-6 flex items-center gap-3">
-              <Button onClick={handleLaunch} className="bg-blue-600 hover:bg-blue-700">
-                <Play className="h-4 w-4 mr-2" />
-                Launch Visualizer
-              </Button>
-              <Button onClick={handlePreview} variant="outline">
-                <Maximize className="h-4 w-4 mr-2" />
-                Preview
-              </Button>
-              <Button asChild variant="outline">
-                <Link href="/features">See features</Link>
-              </Button>
-            </div>
-          </section>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+          {/* Hero Section */}
+          <section className="relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 via-transparent to-teal-600/5"></div>
+            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+              <div className="text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium mb-8">
+                  <Sparkles className="h-4 w-4" />
+                  AI-Powered 3D Visualization
+                </div>
 
-          {/* Description and Features */}
-          <section className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* What is Builder Visualizer */}
-            <div className="rounded-xl border bg-white shadow-sm ring-1 ring-black/5 p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-[color:var(--color-primary)]">
-                What is Builder Visualizer?
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Builder Visualizer is an advanced 3D visualization tool that transforms your 2D
-                  architectural plans into interactive, photorealistic 3D models. Perfect for
-                  builders, architects, and property developers who need to showcase their designs
-                  to clients and stakeholders.
-                </p>
-                <p>
-                  Our AI-powered platform allows you to experiment with different materials,
-                  finishes, and architectural styles in real-time, creating stunning visualizations
-                  that help close deals and secure approvals.
-                </p>
-              </div>
-            </div>
+                <h1>
+                  <span className="text-gradient">Builder</span>
+                  <br />
+                  Visualizer
+                </h1>
 
-            {/* Key Features */}
-            <div className="rounded-xl border bg-white shadow-sm ring-1 ring-black/5 p-6">
-              <h2 className="text-2xl font-semibold mb-4 text-[color:var(--color-primary)]">
-                Key Features
-              </h2>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                  <div>
-                    <h3 className="font-medium">AI-Powered Design Generation</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Generate custom house designs from simple text descriptions
-                    </p>
-                  </div>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
+                  Transform your 2D plans into stunning, interactive 3D models. Apply materials,
+                  experiment with designs, and create photorealistic renders that bring your vision
+                  to life.
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                  <Button
+                    onClick={handleLaunch}
+                    size="lg"
+                    className="btn-modern text-lg px-8 py-4 h-auto"
+                  >
+                    <Play className="h-5 w-5 mr-2" />
+                    Launch Visualizer
+                    <ArrowRight className="h-5 w-5 ml-2" />
+                  </Button>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                  <div>
-                    <h3 className="font-medium">Real-Time Material Application</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Apply different materials and finishes instantly
-                    </p>
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-blue-600 mb-2">AI-Powered</div>
+                    <div className="text-sm text-gray-600">Design Generation</div>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                  <div>
-                    <h3 className="font-medium">Multiple View Modes</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Switch between exterior and interior views seamlessly
-                    </p>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-emerald-600 mb-2">Real-Time</div>
+                    <div className="text-sm text-gray-600">Material Application</div>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
-                  <div>
-                    <h3 className="font-medium">Export & Share</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Export 3D models and generate render galleries
-                    </p>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-purple-600 mb-2">3D Export</div>
+                    <div className="text-sm text-gray-600">Multiple Formats</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-orange-600 mb-2">HD Renders</div>
+                    <div className="text-sm text-gray-600">Photorealistic</div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* How to Use */}
-          <section className="mt-8 rounded-xl border bg-white shadow-sm ring-1 ring-black/5 p-6">
-            <h2 className="text-2xl font-semibold mb-6 text-[color:var(--color-primary)]">
-              How to Use Builder Visualizer
-            </h2>
+          {/* Features Section */}
+          <section className="py-20 bg-white">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <h2>Powerful Features</h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Everything you need to create stunning 3D visualizations
+                </p>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Step 1 */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Feature 1 */}
+                <div className="card-modern p-8 group">
+                  <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors">
+                    <Zap className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <h3>AI Design Generation</h3>
+                  <p className="text-gray-600 mb-4">
+                    Generate custom house designs from simple text descriptions using advanced AI.
+                  </p>
+                  <ul className="text-sm text-gray-500 space-y-1">
+                    <li>• Natural language input</li>
+                    <li>• Style variations</li>
+                    <li>• Budget-aware suggestions</li>
+                  </ul>
+                </div>
+
+                {/* Feature 2 */}
+                <div className="card-modern p-8 group">
+                  <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-emerald-100 transition-colors">
+                    <Eye className="h-6 w-6 text-emerald-600" />
+                  </div>
+                  <h3>Real-Time Preview</h3>
+                  <p className="text-gray-600 mb-4">
+                    See your changes instantly as you apply materials and modify designs.
+                  </p>
+                  <ul className="text-sm text-gray-500 space-y-1">
+                    <li>• Live 3D updates</li>
+                    <li>• Multiple view angles</li>
+                    <li>• Lighting adjustments</li>
+                  </ul>
+                </div>
+
+                {/* Feature 3 */}
+                <div className="card-modern p-8 group">
+                  <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-100 transition-colors">
+                    <Download className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <h3>Export & Share</h3>
+                  <p className="text-gray-600 mb-4">
+                    Export your models in multiple formats and create stunning galleries.
+                  </p>
+                  <ul className="text-sm text-gray-500 space-y-1">
+                    <li>• GLTF/GLB export</li>
+                    <li>• HD image renders</li>
+                    <li>• Shareable galleries</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* How It Works */}
+          <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                <h2>How It Works</h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Simple steps to create amazing 3D visualizations
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Step 1 */}
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6">
                     1
                   </div>
-                  <h3 className="font-semibold">Launch or Preview</h3>
+                  <h3>Launch & Explore</h3>
+                  <p className="text-gray-600">
+                    Open the visualizer and explore the unified interface with all options
+                    immediately available.
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm">
-                  Choose between <strong>Launch Visualizer</strong> for full-screen editing or{' '}
-                  <strong>Preview</strong> for a quick look at the interface.
-                </p>
-              </div>
 
-              {/* Step 2 */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
+                {/* Step 2 */}
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6">
                     2
                   </div>
-                  <h3 className="font-semibold">Select Materials</h3>
+                  <h3>Customize Design</h3>
+                  <p className="text-gray-600">
+                    Switch between house plans, facades, and materials. All changes update in
+                    real-time.
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm">
-                  Use the collapsible materials panel to choose finishes for roof, walls, trim,
-                  doors, and windows. Each selection updates the 3D model in real-time.
-                </p>
-              </div>
 
-              {/* Step 3 */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
+                {/* Step 3 */}
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-purple-600 text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6">
                     3
                   </div>
-                  <h3 className="font-semibold">AI Design Assistant</h3>
+                  <h3>Export & Share</h3>
+                  <p className="text-gray-600">
+                    Generate renders, export your model, or create galleries to share with clients.
+                  </p>
                 </div>
-                <p className="text-muted-foreground text-sm">
-                  Describe your dream house using our AI assistant. Specify architectural style,
-                  budget range, and design preferences to generate custom designs.
-                </p>
-              </div>
-
-              {/* Step 4 */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                    4
-                  </div>
-                  <h3 className="font-semibold">Navigate Views</h3>
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  Use the view controls to explore different angles: front, back, left, right,
-                  aerial, and interior views. Switch between exterior and interior modes.
-                </p>
-              </div>
-
-              {/* Step 5 */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                    5
-                  </div>
-                  <h3 className="font-semibold">Enhance & Export</h3>
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  Generate enhanced renders and variations. Export your final 3D model or create a
-                  gallery of renders to share with clients and stakeholders.
-                </p>
-              </div>
-
-              {/* Step 6 */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                    6
-                  </div>
-                  <h3 className="font-semibold">Share & Collaborate</h3>
-                </div>
-                <p className="text-muted-foreground text-sm">
-                  Share your designs via links, download materials for presentations, or collaborate
-                  with team members on design iterations.
-                </p>
               </div>
             </div>
           </section>
 
-          {/* Tips and Best Practices */}
-          <section className="mt-8 rounded-xl border bg-gradient-to-br from-blue-50 to-indigo-50 shadow-sm ring-1 ring-black/5 p-6">
-            <h2 className="text-2xl font-semibold mb-4 text-[color:var(--color-primary)]">
-              Tips for Best Results
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-3">
-                <h3 className="font-semibold text-blue-800">For AI Generation</h3>
-                <ul className="space-y-2 text-sm text-blue-700">
-                  <li>
-                    • Be specific about architectural style (modern, traditional, contemporary)
-                  </li>
-                  <li>• Mention key features (large windows, metal roof, two-story)</li>
-                  <li>• Include budget range for material suggestions</li>
-                  <li>• Keep descriptions under 500 characters for best results</li>
-                </ul>
-              </div>
-              <div className="space-y-3">
-                <h3 className="font-semibold text-blue-800">For Material Selection</h3>
-                <ul className="space-y-2 text-sm text-blue-700">
-                  <li>• Start with roof materials as they have the biggest visual impact</li>
-                  <li>• Consider color harmony between different material categories</li>
-                  <li>• Use the cost calculator to stay within budget</li>
-                  <li>• Preview different combinations before finalizing</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          {/* FAQ Section */}
-          <section className="mt-8 rounded-xl border bg-white shadow-sm ring-1 ring-black/5 p-6">
-            <h2 className="text-2xl font-semibold mb-6 text-[color:var(--color-primary)]">
-              Frequently Asked Questions
-            </h2>
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  What file formats can I export?
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  You can export 3D models in GLTF format, high-resolution images in PNG/JPG, and
-                  create PDF presentations with multiple render views.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  Is there a limit to the number of renders I can generate?
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  No limits! Generate as many renders as you need from different viewpoints and
-                  lighting conditions to create comprehensive presentation galleries.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  Can I collaborate with team members?
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  Yes! Share your designs via secure links, and team members can view, comment, and
-                  suggest modifications to your 3D models.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-2">
-                  How accurate are the material cost estimates?
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  Our cost calculator provides market-rate estimates based on current material
-                  prices. Costs are updated regularly and include regional variations.
-                </p>
+          {/* CTA Section */}
+          <section className="py-20 bg-gradient-to-r from-blue-600 to-emerald-600">
+            <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+              <h2>Ready to Transform Your Designs?</h2>
+              <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                Join thousands of builders and architects who are already using our AI-powered
+                visualizer.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Button
+                  onClick={handleLaunch}
+                  size="lg"
+                  className="bg-white text-blue-600 hover:bg-gray-50 text-lg px-8 py-4 h-auto"
+                >
+                  <Play className="h-5 w-5 mr-2" />
+                  Start Creating Now
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4 h-auto"
+                >
+                  <Link href="/features">
+                    <Share2 className="h-5 w-5 mr-2" />
+                    Learn More
+                  </Link>
+                </Button>
               </div>
             </div>
           </section>
-
-          {showPreview && (
-            <section id="app" className="mt-10">
-              <div className="h-[800px] rounded-xl border bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
-                <BuilderClient previewMode={true} />
-              </div>
-            </section>
-          )}
         </div>
       </VisualizerLoader>
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState } from 'react'
@@ -15,7 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Progress } from '@/components/ui/progress'
-import { Wand2, Loader2, Sparkles, Home, DollarSign, Palette, X } from 'lucide-react'
+import { Wand2, Sparkles, Home, DollarSign, Palette, X } from 'lucide-react'
 import { useAIHouseGenerator } from '../services/ai-house-generator'
 import type { Model3D } from '../types'
 
@@ -161,7 +162,7 @@ export function AIAssistant({
 
   // Show current house plan info if available
   const currentPlanInfo = housePlan ? (
-    <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+    <div className="mb-4 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
       <div className="flex items-center gap-2 mb-2">
         <Home className="h-4 w-4 text-blue-600" />
         <span className="text-sm font-medium text-blue-900">Current House Plan</span>
@@ -176,44 +177,56 @@ export function AIAssistant({
   // Show selected materials info if available
   const materialsInfo =
     selectedMaterials && Object.keys(selectedMaterials).length > 0 ? (
-      <div className="mb-4 p-3 bg-green-50 rounded-lg border border-green-200">
+      <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
         <div className="flex items-center gap-2 mb-2">
           <Palette className="h-4 w-4 text-green-600" />
           <span className="text-sm font-medium text-green-900">Selected Materials</span>
         </div>
         <div className="flex flex-wrap gap-1">
-          {Object.entries(selectedMaterials).map(([category, material]) => (
-            <Badge key={category} variant="outline" className="text-xs bg-white">
-              {category}: {material.name}
-            </Badge>
-          ))}
+          {Object.entries(selectedMaterials).map(([category, material]) => {
+            const materialData = material as { name?: string }
+            return (
+              <Badge
+                key={category}
+                variant="outline"
+                className="text-xs bg-white border-green-300 text-green-700"
+              >
+                {category}: {materialData?.name || 'Unknown'}
+              </Badge>
+            )
+          })}
         </div>
       </div>
     ) : null
 
   return (
-    <div className={`w-full bg-white ${className}`}>
+    <div
+      className={`w-full bg-gradient-to-br from-white to-gray-50/50 border-0 shadow-xl ring-1 ring-gray-200/60 backdrop-blur-sm ${className}`}
+    >
       {/* Current Plan & Materials Info */}
       {currentPlanInfo}
       {materialsInfo}
 
-      <Card className="w-full bg-white border shadow-sm">
-        <CardHeader className="pb-3">
+      <Card className="w-full bg-gradient-to-br from-white to-gray-50/50 border-0 shadow-lg ring-1 ring-gray-200/60 backdrop-blur-sm">
+        <CardHeader className="pb-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/60">
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Sparkles className="h-5 w-5 text-blue-600" />
+            <CardTitle className="flex items-center gap-2 text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+              <Sparkles className="h-5 w-5 text-blue-500" />
               AI Assistant
             </CardTitle>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="text-xs">
-                Beta
+              <Badge
+                variant="outline"
+                className="text-xs bg-gradient-to-r from-orange-500 to-yellow-500 text-white border-0 shadow-sm"
+              >
+                Under Development
               </Badge>
               {onToggleCollapse && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onToggleCollapse}
-                  className="h-6 w-6 p-0"
+                  className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 hover:bg-gray-100/50"
                 >
                   <X className="h-3 w-3" />
                 </Button>
@@ -222,10 +235,24 @@ export function AIAssistant({
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 bg-white text-gray-800">
+          {/* Development Notice */}
+          <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="h-2 w-2 bg-orange-500 rounded-full animate-pulse"></div>
+              <span className="text-sm font-semibold text-orange-800">
+                Feature Under Development
+              </span>
+            </div>
+            <p className="text-sm text-orange-700">
+              Our AI Assistant is being built to help you generate custom house designs. This
+              feature will be available soon with advanced AI capabilities.
+            </p>
+          </div>
+
           {/* AI Prompt Input */}
           <div className="space-y-2">
-            <Label htmlFor="ai-prompt" className="text-sm font-medium">
+            <Label htmlFor="ai-prompt" className="text-sm font-medium text-gray-700">
               Describe your dream house
             </Label>
             <div className="relative">
@@ -234,10 +261,11 @@ export function AIAssistant({
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 placeholder="e.g., Modern two-story home with large windows and a metal roof..."
-                className="pr-10"
+                className="pr-10 h-10 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm hover:shadow-md transition-all duration-200 text-sm"
                 maxLength={500}
+                disabled
               />
-              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-muted-foreground">
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">
                 {aiPrompt.length}/500
               </div>
             </div>
@@ -246,7 +274,7 @@ export function AIAssistant({
           {/* Style and Budget Selection */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label className="text-sm font-medium flex items-center gap-1">
+              <Label className="text-sm font-medium flex items-center gap-1 text-gray-700">
                 <Palette className="h-3 w-3" />
                 Style
               </Label>
@@ -255,13 +283,18 @@ export function AIAssistant({
                 onValueChange={(value: 'modern' | 'traditional' | 'contemporary' | 'minimalist') =>
                   setAiStyle(value)
                 }
+                disabled
               >
-                <SelectTrigger className="h-8">
+                <SelectTrigger className="h-9 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm hover:shadow-md transition-all duration-200 text-sm">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-300 shadow-xl">
                   {styleOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="text-sm hover:bg-gray-50"
+                    >
                       <div className="flex items-center gap-2">
                         <span>{option.icon}</span>
                         <span>{option.label}</span>
@@ -273,20 +306,25 @@ export function AIAssistant({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm font-medium flex items-center gap-1">
+              <Label className="text-sm font-medium flex items-center gap-1 text-gray-700">
                 <DollarSign className="h-3 w-3" />
                 Budget
               </Label>
               <Select
                 value={aiBudget}
                 onValueChange={(value: 'low' | 'medium' | 'high' | 'premium') => setAiBudget(value)}
+                disabled
               >
-                <SelectTrigger className="h-8">
+                <SelectTrigger className="h-9 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm hover:shadow-md transition-all duration-200 text-sm">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white border-gray-300 shadow-xl">
                   {budgetOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="text-sm hover:bg-gray-50"
+                    >
                       <div className="flex items-center gap-2">
                         <span>{option.icon}</span>
                         <span>{option.label}</span>
@@ -301,20 +339,12 @@ export function AIAssistant({
           {/* Generate Button */}
           <Button
             onClick={handleGenerate}
-            disabled={isGenerating || !aiPrompt.trim()}
-            className="w-full bg-blue-600 hover:bg-blue-700"
+            disabled={true}
+            className="w-full bg-gray-400 text-white cursor-not-allowed"
+            title="AI Assistant coming soon"
           >
-            {isGenerating ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Generating...
-              </>
-            ) : (
-              <>
-                <Wand2 className="mr-2 h-4 w-4" />
-                Generate House
-              </>
-            )}
+            <Wand2 className="mr-2 h-4 w-4" />
+            Generate House (Coming Soon)
           </Button>
 
           {/* Progress Bar */}
@@ -337,14 +367,15 @@ export function AIAssistant({
 
           {/* Quick Actions */}
           <div className="space-y-2">
-            <div className="text-sm font-medium text-muted-foreground">Quick Actions</div>
+            <div className="text-sm font-medium text-gray-600">Quick Actions</div>
             <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleEnhance}
-                disabled={isGenerating}
-                className="text-xs"
+                disabled={true}
+                className="text-xs border-gray-300 text-gray-400 cursor-not-allowed"
+                title="Enhance feature coming soon"
               >
                 <Sparkles className="mr-1 h-3 w-3" />
                 Enhance
@@ -353,8 +384,9 @@ export function AIAssistant({
                 variant="outline"
                 size="sm"
                 onClick={handleVariations}
-                disabled={isGenerating}
-                className="text-xs"
+                disabled={true}
+                className="text-xs border-gray-300 text-gray-400 cursor-not-allowed"
+                title="Variations feature coming soon"
               >
                 <Home className="mr-1 h-3 w-3" />
                 Variations
@@ -363,9 +395,9 @@ export function AIAssistant({
           </div>
 
           {/* Tips */}
-          <div className="text-xs text-muted-foreground bg-blue-50 p-2 rounded">
+          <div className="text-xs text-gray-600 bg-gradient-to-r from-blue-50 to-purple-50 p-3 rounded-lg border border-blue-200">
             <strong>💡 Tip:</strong> Be specific about architectural style, key features, and
-            materials for best results.
+            materials for best results. This feature will be available soon!
           </div>
         </CardContent>
       </Card>

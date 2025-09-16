@@ -421,7 +421,7 @@ export class PlanTo3DGenerator {
   private generateWallGeometry(wall: ArchitecturalElement) {
     // Simplified wall geometry generation
     return {
-      type: 'box',
+      type: 'box' as const,
       dimensions: wall.dimensions,
       position: wall.position,
     }
@@ -432,7 +432,7 @@ export class PlanTo3DGenerator {
    */
   private generateFloorGeometry(analysis: FloorPlanAnalysis) {
     return {
-      type: 'plane',
+      type: 'plane' as const,
       dimensions: {
         width: analysis.dimensions.totalWidth,
         height: analysis.dimensions.totalHeight,
@@ -447,7 +447,7 @@ export class PlanTo3DGenerator {
    */
   private generateRoofGeometry(analysis: FloorPlanAnalysis) {
     return {
-      type: 'pyramid',
+      type: 'pyramid' as const,
       dimensions: {
         width: analysis.dimensions.totalWidth,
         height: 2,
@@ -712,7 +712,10 @@ export class PlanTo3DGenerator {
       code: 'PLAN_TO_3D_ERROR',
       message:
         error instanceof Error ? error.message : 'Failed to generate 3D model from floor plan',
-      details: error,
+      details:
+        error instanceof Error
+          ? { error: error.message, stack: error.stack }
+          : { error: String(error) },
     }
 
     return {
@@ -721,7 +724,6 @@ export class PlanTo3DGenerator {
       analysis: {} as FloorPlanAnalysis,
       message: serviceError.message,
       processingTime: Date.now() - startTime,
-      error: serviceError,
     }
   }
 }

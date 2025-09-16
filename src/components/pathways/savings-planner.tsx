@@ -199,15 +199,45 @@ function Field({
   onChange: (v: string) => void
   step?: string
 }) {
+  const [displayValue, setDisplayValue] = useState(value.toString())
+
+  // Update display value when value prop changes
+  useEffect(() => {
+    setDisplayValue(value.toString())
+  }, [value])
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.currentTarget.value
+    setDisplayValue(inputValue)
+    onChange(inputValue)
+  }
+
+  const handleFocus = () => {
+    // Clear "0" when focusing on the input
+    if (value === 0) {
+      setDisplayValue('')
+    }
+  }
+
+  const handleBlur = () => {
+    // If empty, set back to 0
+    if (displayValue === '') {
+      setDisplayValue('0')
+      onChange('0')
+    }
+  }
+
   return (
     <div className="grid gap-1.5">
       <Label htmlFor={id}>{label}</Label>
       <Input
         id={id}
         type="number"
-        value={value}
+        value={displayValue}
         step={step ?? '1'}
-        onChange={(e) => onChange(e.currentTarget.value)}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
     </div>
   )

@@ -16,8 +16,7 @@ export interface ViewerState {
   showGrid: boolean
 
   // Modal states
-  isMaterialsModalOpen: boolean
-  isPresetModalOpen: boolean
+  isOptionsModalOpen: boolean
   isAIModalOpen: boolean
   isRenderGalleryModalOpen: boolean
 
@@ -40,8 +39,7 @@ export function useViewerState(initialPreset = 'astoria-grand-55') {
   const [showGrid, setShowGrid] = useState(false)
 
   // Modal states
-  const [isMaterialsModalOpen, setIsMaterialsModalOpen] = useState(false)
-  const [isPresetModalOpen, setIsPresetModalOpen] = useState(false)
+  const [isOptionsModalOpen, setIsOptionsModalOpen] = useState(false)
   const [isAIModalOpen, setIsAIModalOpen] = useState(false)
   const [isRenderGalleryModalOpen, setIsRenderGalleryModalOpen] = useState(false)
 
@@ -73,10 +71,8 @@ export function useViewerState(initialPreset = 'astoria-grand-55') {
   const toggleGrid = useCallback(() => setShowGrid((prev) => !prev), [])
 
   // Modal handlers
-  const openMaterialsModal = useCallback(() => setIsMaterialsModalOpen(true), [])
-  const closeMaterialsModal = useCallback(() => setIsMaterialsModalOpen(false), [])
-  const openPresetModal = useCallback(() => setIsPresetModalOpen(true), [])
-  const closePresetModal = useCallback(() => setIsPresetModalOpen(false), [])
+  const openOptionsModal = useCallback(() => setIsOptionsModalOpen(true), [])
+  const closeOptionsModal = useCallback(() => setIsOptionsModalOpen(false), [])
   const openAIModal = useCallback(() => setIsAIModalOpen(true), [])
   const closeAIModal = useCallback(() => setIsAIModalOpen(false), [])
   const openGalleryModal = useCallback(() => setIsRenderGalleryModalOpen(true), [])
@@ -94,8 +90,7 @@ export function useViewerState(initialPreset = 'astoria-grand-55') {
       showWireframe,
       showShadows,
       showGrid,
-      isMaterialsModalOpen,
-      isPresetModalOpen,
+      isOptionsModalOpen,
       isAIModalOpen,
       isRenderGalleryModalOpen,
       previewMode,
@@ -113,10 +108,8 @@ export function useViewerState(initialPreset = 'astoria-grand-55') {
     toggleWireframe,
     toggleShadows,
     toggleGrid,
-    openMaterialsModal,
-    closeMaterialsModal,
-    openPresetModal,
-    closePresetModal,
+    openOptionsModal,
+    closeOptionsModal,
     openAIModal,
     closeAIModal,
     openGalleryModal,

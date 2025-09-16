@@ -8,6 +8,7 @@ import { TOOLS } from '@/lib/tools'
 import { Input } from '@/components/ui/input'
 import Head from 'next/head'
 import { pageMetadata } from '@/lib/metadata'
+import { Clock } from 'lucide-react'
 
 function HomeContent() {
   const meta = pageMetadata.home
@@ -35,8 +36,8 @@ function HomeContent() {
 
           <div className="relative mx-auto max-w-6xl px-4 sm:px-6 md:px-8 pt-16 md:pt-24 pb-12 md:pb-20">
             <div className="text-center">
-              <div className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 px-4 py-2 text-sm font-medium ring-1 ring-blue-500/20 mb-6 text-[color:var(--color-primary)]">
-                🤖 AI-Powered Property Intelligence
+              <div className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 px-4 py-2 text-sm font-medium ring-1 ring-blue-500/20 mb-6 text-[color:var(--color-muted)]">
+                AI-Powered Property Intelligence
               </div>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6">
                 <span className="bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
@@ -68,26 +69,45 @@ function HomeContent() {
                 </div>
               </div>
 
-              <form
-                className="flex flex-col sm:flex-row w-full max-w-lg mx-auto items-center gap-3 mb-6"
-                action="/signup"
-              >
-                <Input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="Enter your professional email"
-                  className="h-12 bg-white/95 text-[color:var(--color-foreground)] placeholder:text-[color:var(--color-muted-foreground)] border-0 focus:ring-2 focus:ring-[color:var(--color-secondary)] flex-1"
-                />
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="h-12 bg-gradient-to-r from-[color:var(--color-secondary)] to-[color:var(--color-accent)] hover:from-[color:var(--color-secondary-hover)] hover:to-[color:var(--color-accent-hover)] text-white font-semibold px-8"
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <div className="text-center mb-4">
+                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-3">
+                    <Clock className="h-4 w-4" />
+                    Sign Up Coming Soon
+                  </div>
+                  <p className="text-white/90 text-sm mb-4">
+                    We&apos;re building something amazing for property investors.
+                    <br />
+                    Get notified when we launch!
+                  </p>
+                </div>
+
+                <form
+                  className="flex flex-col sm:flex-row w-full max-w-lg mx-auto items-center gap-3 mb-4"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    alert("Sign up coming soon! We'll notify you when it's ready.")
+                  }}
                 >
-                  🚀 Start Free Trial
-                </Button>
-              </form>
-              <p className="text-sm text-white mb-8">14-day free trial • No credit card required</p>
+                  <Input
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="Enter your professional email"
+                    className="h-12 bg-white/95 text-gray-900 placeholder:text-gray-500 border-0 focus:ring-2 focus:ring-orange-400 flex-1"
+                  />
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="h-12 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-semibold px-8"
+                  >
+                    🚀 Get Notified
+                  </Button>
+                </form>
+                <p className="text-sm text-white/80 text-center">
+                  We&apos;ll email you when sign up is ready
+                </p>
+              </div>
 
               {/* Tech stack badges */}
               <div className="flex flex-wrap items-center justify-center gap-6 opacity-75">
@@ -116,9 +136,9 @@ function HomeContent() {
         <section className="bg-white border-t">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-12 md:py-16">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold tracking-tight mb-4 text-[color:var(--color-foreground)]">
+              <div className="text-3xl font-bold tracking-tight mb-4">
                 AI-Powered Financial Tools
-              </h2>
+              </div>
               <p className="text-lg text-[color:var(--color-muted-foreground)] max-w-2xl mx-auto">
                 Advanced algorithms and machine learning for property investment decisions
               </p>

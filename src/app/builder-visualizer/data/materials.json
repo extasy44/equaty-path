@@ -1,255 +1,645 @@
 {
-  "roof": [
-    {
-      "id": "concrete-silver",
-      "name": "Silver Gum (Designer)",
-      "category": "roof",
-      "color": "#C0C0C0",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Modern silver concrete roof tiles with excellent durability"
+  "sections": {
+    "foundation": {
+      "category": "structural",
+      "costMultiplier": 1.0,
+      "materials": {
+        "concrete_foundation": {
+          "id": "concrete_foundation",
+          "name": "Concrete Foundation",
+          "color": "#8B7355",
+          "textureUrl": "/textures/concrete/concrete-diffuse.jpg",
+          "normalMapUrl": "/textures/concrete/concrete-normal.jpg",
+          "roughnessMapUrl": "/textures/concrete/concrete-roughness.jpg",
+          "aoMapUrl": "/textures/concrete/concrete-ao.jpg",
+          "displacementMapUrl": "/textures/concrete/concrete-displacement.jpg",
+          "roughness": 0.9,
+          "metalness": 0.1,
+          "baseCost": 45,
+          "properties": {
+            "finish": "rough",
+            "texture": "concrete",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "description": "Standard concrete foundation with thermal mass benefits"
+          }
+        },
+        "premium_concrete_foundation": {
+          "id": "premium_concrete_foundation",
+          "name": "Premium Concrete Foundation",
+          "color": "#696969",
+          "textureUrl": "/textures/concrete/premium-concrete-diffuse.jpg",
+          "normalMapUrl": "/textures/concrete/premium-concrete-normal.jpg",
+          "roughnessMapUrl": "/textures/concrete/premium-concrete-roughness.jpg",
+          "aoMapUrl": "/textures/concrete/premium-concrete-ao.jpg",
+          "displacementMapUrl": "/textures/concrete/premium-concrete-displacement.jpg",
+          "roughness": 0.8,
+          "metalness": 0.1,
+          "baseCost": 65,
+          "properties": {
+            "finish": "smooth",
+            "texture": "concrete",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "description": "High-strength concrete foundation with superior finish"
+          }
+        }
+      }
     },
-    {
-      "id": "concrete-linen",
-      "name": "Linen (Designer)",
-      "category": "roof",
-      "color": "#F5E6D3",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Warm linen-colored concrete tiles for a classic look"
+    "walls": {
+      "category": "structural",
+      "costMultiplier": 1.2,
+      "materials": {
+        "australian_weatherboard": {
+          "id": "australian_weatherboard",
+          "name": "Australian Weatherboard",
+          "color": "#F5F1E8",
+          "textureUrl": "/textures/australian_weatherboard_diffuse.jpg",
+          "normalMapUrl": "/textures/australian_weatherboard_normal.jpg",
+          "aoMapUrl": "/textures/australian_weatherboard_ao.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "baseCost": 45,
+          "properties": {
+            "finish": "matte",
+            "texture": "timber_cladding",
+            "durability": "high",
+            "maintenance": "low",
+            "fire_rating": "Bushfire_Attack_Level_40",
+            "insulation": "good",
+            "description": "Traditional Australian weatherboard cladding, perfect for coastal and suburban homes"
+          }
+        },
+        "premium_white_marble": {
+          "id": "premium_white_marble",
+          "name": "Premium White Marble",
+          "color": "#F8F8F8",
+          "textureUrl": "/textures/premium_white_marble_diffuse.jpg",
+          "normalMapUrl": "/textures/premium_white_marble_normal.jpg",
+          "aoMapUrl": "/textures/premium_white_marble_ao.jpg",
+          "roughness": 0.3,
+          "metalness": 0.0,
+          "baseCost": 180,
+          "properties": {
+            "finish": "polished",
+            "texture": "natural_stone",
+            "durability": "very_high",
+            "maintenance": "medium",
+            "fire_rating": "Non_combustible",
+            "insulation": "poor",
+            "description": "Luxury Carrara marble imported from Italy, ideal for high-end contemporary homes"
+          }
+        },
+        "charcoal_concrete_panel": {
+          "id": "charcoal_concrete_panel",
+          "name": "Charcoal Concrete Panel",
+          "color": "#2F3133",
+          "textureUrl": "/textures/charcoal_concrete_panel_diffuse.jpg",
+          "normalMapUrl": "/textures/charcoal_concrete_panel_normal.jpg",
+          "aoMapUrl": "/textures/charcoal_concrete_panel_ao.jpg",
+          "roughness": 0.95,
+          "metalness": 0.0,
+          "baseCost": 85,
+          "properties": {
+            "finish": "rough",
+            "texture": "concrete",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "description": "Modern precast concrete panels with thermal mass benefits"
+          }
+        },
+        "red_brick_veneer": {
+          "id": "red_brick_veneer",
+          "name": "Red Brick Veneer",
+          "color": "#9B2C2C",
+          "textureUrl": "/textures/red_brick_veneer_diffuse.jpg",
+          "normalMapUrl": "/textures/red_brick_veneer_normal.jpg",
+          "aoMapUrl": "/textures/red_brick_veneer_ao.jpg",
+          "displacementMapUrl": "/textures/red_brick_veneer_displacement.jpg",
+          "roughness": 0.85,
+          "metalness": 0.0,
+          "baseCost": 65,
+          "properties": {
+            "finish": "matte",
+            "texture": "brick",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "good",
+            "description": "Traditional Australian red brick with modern veneer application"
+          }
+        },
+        "cream_render_finish": {
+          "id": "cream_render_finish",
+          "name": "Cream Render Finish",
+          "color": "#F5F1E8",
+          "textureUrl": "/textures/cream_render_finish_diffuse.jpg",
+          "normalMapUrl": "/textures/cream_render_finish_normal.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "baseCost": 35,
+          "properties": {
+            "finish": "smooth",
+            "texture": "render",
+            "durability": "high",
+            "maintenance": "medium",
+            "fire_rating": "Non_combustible",
+            "insulation": "good",
+            "description": "Smooth cement render with cream pigment, popular in Mediterranean-style homes"
+          }
+        },
+        "cedar_cladding": {
+          "id": "cedar_cladding",
+          "name": "Western Red Cedar Cladding",
+          "color": "#8B4513",
+          "textureUrl": "/textures/cedar_cladding_diffuse.jpg",
+          "normalMapUrl": "/textures/cedar_cladding_normal.jpg",
+          "aoMapUrl": "/textures/cedar_cladding_ao.jpg",
+          "displacementMapUrl": "/textures/cedar_cladding_displacement.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "baseCost": 95,
+          "properties": {
+            "finish": "natural",
+            "texture": "wood_grain",
+            "durability": "high",
+            "maintenance": "medium",
+            "fire_rating": "Bushfire_Attack_Level_29",
+            "insulation": "good",
+            "description": "Premium Western Red Cedar with natural weather resistance"
+          }
+        }
+      }
     },
-    {
-      "id": "concrete-alabaster",
-      "name": "Alabaster (Designer)",
-      "category": "roof",
-      "color": "#F8F8FF",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Pure white concrete tiles for a clean, modern aesthetic"
+    "roof": {
+      "category": "structural",
+      "costMultiplier": 1.5,
+      "materials": {
+        "terracotta_tiles": {
+          "id": "terracotta_tiles",
+          "name": "Terracotta Roof Tiles",
+          "color": "#B85450",
+          "textureUrl": "/textures/terracotta_tiles_diffuse.jpg",
+          "normalMapUrl": "/textures/terracotta_tiles_normal.jpg",
+          "aoMapUrl": "/textures/terracotta_tiles_ao.jpg",
+          "displacementMapUrl": "/textures/terracotta_tiles_displacement.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "baseCost": 75,
+          "properties": {
+            "finish": "matte",
+            "texture": "clay",
+            "durability": "very_high",
+            "maintenance": "low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "description": "Traditional Mediterranean terracotta tiles with excellent thermal properties"
+          }
+        },
+        "patina_copper": {
+          "id": "patina_copper",
+          "name": "Patina Copper Roof",
+          "color": "#B87333",
+          "textureUrl": "/textures/patina_copper_diffuse.jpg",
+          "normalMapUrl": "/textures/patina_copper_normal.jpg",
+          "roughness": 0.3,
+          "metalness": 0.9,
+          "baseCost": 220,
+          "properties": {
+            "finish": "patina",
+            "texture": "metal",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "poor",
+            "description": "Premium copper roofing with natural patina finish, develops character over time"
+          }
+        },
+        "colorbond_steel": {
+          "id": "colorbond_steel",
+          "name": "Colorbond Steel",
+          "color": "#2F4F4F",
+          "textureUrl": "/textures/colorbond_steel_diffuse.jpg",
+          "normalMapUrl": "/textures/colorbond_steel_normal.jpg",
+          "roughness": 0.4,
+          "metalness": 0.8,
+          "baseCost": 55,
+          "properties": {
+            "finish": "smooth",
+            "texture": "metal",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "poor",
+            "description": "Australian-made Colorbond steel roofing with superior weather resistance"
+          }
+        },
+        "natural_slate": {
+          "id": "natural_slate",
+          "name": "Natural Slate",
+          "color": "#2F4F4F",
+          "textureUrl": "/textures/natural_slate_diffuse.jpg",
+          "normalMapUrl": "/textures/natural_slate_normal.jpg",
+          "aoMapUrl": "/textures/natural_slate_ao.jpg",
+          "displacementMapUrl": "/textures/natural_slate_displacement.jpg",
+          "roughness": 0.7,
+          "metalness": 0.0,
+          "baseCost": 150,
+          "properties": {
+            "finish": "natural",
+            "texture": "stone",
+            "durability": "very_high",
+            "maintenance": "low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "description": "Premium Welsh slate roofing with exceptional longevity and thermal mass"
+          }
+        },
+        "solar_panel_integrated": {
+          "id": "solar_panel_integrated",
+          "name": "Solar Panel Integrated Roof",
+          "color": "#1E3A8A",
+          "textureUrl": "/textures/solar_panel_integrated_diffuse.jpg",
+          "normalMapUrl": "/textures/solar_panel_integrated_normal.jpg",
+          "roughness": 0.1,
+          "metalness": 0.9,
+          "baseCost": 180,
+          "properties": {
+            "finish": "glossy",
+            "texture": "solar_panel",
+            "durability": "very_high",
+            "maintenance": "low",
+            "fire_rating": "Non_combustible",
+            "insulation": "poor",
+            "energy_efficiency": "excellent",
+            "description": "Modern integrated solar panel roofing system with 25-year warranty"
+          }
+        },
+        "br_prestige_mattegrey": {
+          "id": "br_prestige_mattegrey",
+          "name": "BR Prestige Matte Grey",
+          "color": "#696969",
+          "textureUrl": "/textures/roof-tiles/br-prestige-mattegrey.jpg",
+          "normalMapUrl": "/textures/roof-tiles/br-prestige-mattegrey-normal.jpg",
+          "roughnessMapUrl": "/textures/roof-tiles/br-prestige-mattegrey-roughness.jpg",
+          "aoMapUrl": "/textures/roof-tiles/br-prestige-mattegrey-ao.jpg",
+          "displacementMapUrl": "/textures/roof-tiles/br-prestige-mattegrey-displacement.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "baseCost": 85,
+          "properties": {
+            "finish": "matte",
+            "texture": "concrete",
+            "durability": "very_high",
+            "maintenance": "low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "description": "Premium concrete roof tiles in matte grey finish with superior weather resistance and thermal properties"
+          }
+        }
+      }
     },
-    {
-      "id": "concrete-aspen",
-      "name": "Aspen (Designer)",
-      "category": "roof",
-      "color": "#F0E68C",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Light golden concrete tiles inspired by aspen trees"
+    "floor": {
+      "category": "finish",
+      "costMultiplier": 1.3,
+      "materials": {
+        "spotted_gum_hardwood": {
+          "id": "spotted_gum_hardwood",
+          "name": "Spotted Gum Hardwood",
+          "color": "#8B4513",
+          "textureUrl": "/textures/spotted_gum_hardwood_diffuse.jpg",
+          "normalMapUrl": "/textures/spotted_gum_hardwood_normal.jpg",
+          "aoMapUrl": "/textures/spotted_gum_hardwood_ao.jpg",
+          "roughness": 0.7,
+          "metalness": 0.0,
+          "baseCost": 120,
+          "properties": {
+            "finish": "matte",
+            "texture": "hardwood",
+            "durability": "very_high",
+            "maintenance": "medium",
+            "fire_rating": "Bushfire_Attack_Level_40",
+            "insulation": "good",
+            "description": "Premium Australian spotted gum hardwood flooring with distinctive grain patterns"
+          }
+        },
+        "polished_concrete": {
+          "id": "polished_concrete",
+          "name": "Polished Concrete",
+          "color": "#696969",
+          "textureUrl": "/textures/polished_concrete_diffuse.jpg",
+          "normalMapUrl": "/textures/polished_concrete_normal.jpg",
+          "aoMapUrl": "/textures/polished_concrete_ao.jpg",
+          "roughness": 0.2,
+          "metalness": 0.0,
+          "baseCost": 85,
+          "properties": {
+            "finish": "polished",
+            "texture": "concrete",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "description": "Modern polished concrete flooring with excellent thermal mass properties"
+          }
+        },
+        "italian_porcelain_tiles": {
+          "id": "italian_porcelain_tiles",
+          "name": "Italian Porcelain Tiles",
+          "color": "#F8F8F8",
+          "textureUrl": "/textures/italian_porcelain_tiles_diffuse.jpg",
+          "normalMapUrl": "/textures/italian_porcelain_tiles_normal.jpg",
+          "aoMapUrl": "/textures/italian_porcelain_tiles_ao.jpg",
+          "roughness": 0.1,
+          "metalness": 0.0,
+          "baseCost": 95,
+          "properties": {
+            "finish": "glossy",
+            "texture": "porcelain",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "poor",
+            "description": "Premium Italian porcelain tiles with marble-like appearance"
+          }
+        },
+        "bamboo_engineered": {
+          "id": "bamboo_engineered",
+          "name": "Engineered Bamboo",
+          "color": "#D4B08A",
+          "textureUrl": "/textures/bamboo_engineered_diffuse.jpg",
+          "normalMapUrl": "/textures/bamboo_engineered_normal.jpg",
+          "aoMapUrl": "/textures/bamboo_engineered_ao.jpg",
+          "roughness": 0.6,
+          "metalness": 0.0,
+          "baseCost": 65,
+          "properties": {
+            "finish": "semi_gloss",
+            "texture": "bamboo",
+            "durability": "high",
+            "maintenance": "low",
+            "fire_rating": "Bushfire_Attack_Level_29",
+            "insulation": "good",
+            "sustainability": "excellent",
+            "description": "Sustainable engineered bamboo flooring with rapid renewability"
+          }
+        }
+      }
     },
-    {
-      "id": "concrete-vanilla",
-      "name": "Vanilla (Designer)",
-      "category": "roof",
-      "color": "#F3E5AB",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Soft vanilla-colored concrete tiles for warmth"
-    },
-    {
-      "id": "concrete-late-mist",
-      "name": "Late Mist (Designer)",
-      "category": "roof",
-      "color": "#E6E6FA",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Subtle lavender-grey concrete tiles"
-    },
-    {
-      "id": "concrete-chestnut",
-      "name": "Chestnut (Designer)",
-      "category": "roof",
-      "color": "#954535",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Rich chestnut brown concrete tiles"
-    },
-    {
-      "id": "concrete-storm-grey",
-      "name": "Storm Grey (Designer)",
-      "category": "roof",
-      "color": "#708090",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Dramatic storm grey concrete tiles"
-    },
-    {
-      "id": "concrete-cool-smoke",
-      "name": "Cool Smoke (Designer)",
-      "category": "roof",
-      "color": "#848884",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Cool-toned smoke grey concrete tiles"
-    },
-    {
-      "id": "concrete-deep-shadow",
-      "name": "Deep Shadow (Designer)",
-      "category": "roof",
-      "color": "#2F4F4F",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Deep dark concrete tiles for dramatic contrast"
-    },
-    {
-      "id": "concrete-earth-red",
-      "name": "Earth Red (Designer)",
-      "category": "roof",
-      "color": "#8B4513",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Warm earth red concrete tiles"
-    },
-    {
-      "id": "concrete-bronze-duo",
-      "name": "Bronze Duo (Designer)",
-      "category": "roof",
-      "color": "#CD7F32",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Rich bronze concrete tiles with metallic finish"
-    },
-    {
-      "id": "concrete-sunset-duo",
-      "name": "Sunset Duo (Designer)",
-      "category": "roof",
-      "color": "#FF7F50",
-      "texture": "concrete",
-      "cost": 45,
-      "description": "Warm sunset orange concrete tiles"
+    "windows": {
+      "category": "glazing",
+      "costMultiplier": 2.0,
+      "materials": {
+        "double_glazed_clear": {
+          "id": "double_glazed_clear",
+          "name": "Double Glazed Clear Glass",
+          "color": "#FFFFFF",
+          "textureUrl": "/textures/double_glazed_clear_diffuse.jpg",
+          "roughness": 0.1,
+          "metalness": 0.0,
+          "baseCost": 180,
+          "properties": {
+            "finish": "transparent",
+            "texture": "glass",
+            "durability": "high",
+            "maintenance": "low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "u_value": "1.4",
+            "description": "Energy-efficient double glazed windows with low-E coating"
+          }
+        },
+        "tinted_glass": {
+          "id": "tinted_glass",
+          "name": "Solar Control Tinted Glass",
+          "color": "#87CEEB",
+          "textureUrl": "/textures/tinted_glass_diffuse.jpg",
+          "roughness": 0.1,
+          "metalness": 0.0,
+          "baseCost": 220,
+          "properties": {
+            "finish": "transparent",
+            "texture": "glass",
+            "durability": "high",
+            "maintenance": "low",
+            "fire_rating": "Non_combustible",
+            "insulation": "excellent",
+            "u_value": "1.2",
+            "solar_heat_gain": "0.35",
+            "description": "Solar control tinted glass reducing heat gain by 65%"
+          }
+        },
+        "frosted_glass": {
+          "id": "frosted_glass",
+          "name": "Frosted Privacy Glass",
+          "color": "#F0F0F0",
+          "textureUrl": "/textures/frosted_glass_diffuse.jpg",
+          "roughness": 0.8,
+          "metalness": 0.0,
+          "baseCost": 160,
+          "properties": {
+            "finish": "frosted",
+            "texture": "glass",
+            "durability": "high",
+            "maintenance": "low",
+            "fire_rating": "Non_combustible",
+            "insulation": "good",
+            "privacy": "excellent",
+            "description": "Frosted glass providing privacy while maintaining natural light"
+          }
+        }
+      }
     }
-  ],
-  "walls": [
-    {
-      "id": "brick-char",
-      "name": "Char Brick",
-      "category": "walls",
-      "color": "#36454F",
-      "texture": "brick",
-      "cost": 35,
-      "description": "Dark charcoal brick for modern exteriors"
+  },
+  "doors": {
+    "category": "hardware",
+    "costMultiplier": 1.8,
+    "materials": {
+      "solid_timber_door": {
+        "id": "solid_timber_door",
+        "name": "Solid Timber Door",
+        "color": "#8B4513",
+        "textureUrl": "/textures/solid_timber_door_diffuse.jpg",
+        "normalMapUrl": "/textures/solid_timber_door_normal.jpg",
+        "aoMapUrl": "/textures/solid_timber_door_ao.jpg",
+        "roughness": 0.6,
+        "metalness": 0.0,
+        "baseCost": 450,
+        "properties": {
+          "finish": "matte",
+          "texture": "timber",
+          "durability": "very_high",
+          "maintenance": "medium",
+          "fire_rating": "Bushfire_Attack_Level_40",
+          "insulation": "excellent",
+          "security": "high",
+          "description": "Solid hardwood door with premium hardware and security features"
+        }
+      },
+      "aluminum_sliding_door": {
+        "id": "aluminum_sliding_door",
+        "name": "Aluminum Sliding Door",
+        "color": "#C0C0C0",
+        "textureUrl": "/textures/aluminum_sliding_door_diffuse.jpg",
+        "normalMapUrl": "/textures/aluminum_sliding_door_normal.jpg",
+        "roughness": 0.4,
+        "metalness": 0.8,
+        "baseCost": 380,
+        "properties": {
+          "finish": "brushed",
+          "texture": "aluminum",
+          "durability": "very_high",
+          "maintenance": "very_low",
+          "fire_rating": "Non_combustible",
+          "insulation": "good",
+          "security": "high",
+          "description": "Modern aluminum sliding door with thermal break technology"
+        }
+      },
+      "glass_panel_door": {
+        "id": "glass_panel_door",
+        "name": "Glass Panel Door",
+        "color": "#FFFFFF",
+        "textureUrl": "/textures/glass_panel_door_diffuse.jpg",
+        "roughness": 0.1,
+        "metalness": 0.0,
+        "baseCost": 320,
+        "properties": {
+          "finish": "transparent",
+          "texture": "glass",
+          "durability": "high",
+          "maintenance": "low",
+          "fire_rating": "Non_combustible",
+          "insulation": "good",
+          "security": "medium",
+          "description": "Contemporary glass panel door maximizing natural light"
+        }
+      }
     },
-    {
-      "id": "render-lexicon",
-      "name": "Lexicon Half",
-      "category": "walls",
-      "color": "#F5F5F5",
-      "texture": "render",
-      "cost": 25,
-      "description": "Light grey render finish"
-    },
-    {
-      "id": "render-whisper",
-      "name": "Whisper White",
-      "category": "walls",
-      "color": "#FFFFFF",
-      "texture": "render",
-      "cost": 25,
-      "description": "Pure white render for clean modern look"
-    },
-    {
-      "id": "brick-terracotta",
-      "name": "Terracotta Brick",
-      "category": "walls",
-      "color": "#E2725B",
-      "texture": "brick",
-      "cost": 35,
-      "description": "Warm terracotta brick with traditional appeal"
-    },
-    {
-      "id": "cladding-cedar",
-      "name": "Cedar Cladding",
-      "category": "walls",
-      "color": "#8B4513",
-      "texture": "wood",
-      "cost": 55,
-      "description": "Natural cedar wood cladding"
+    "trim": {
+      "category": "finish",
+      "costMultiplier": 1.1,
+      "materials": {
+        "primed_pine_trim": {
+          "id": "primed_pine_trim",
+          "name": "Primed Pine Trim",
+          "color": "#FFFFFF",
+          "textureUrl": "/textures/primed_pine_trim_diffuse.jpg",
+          "normalMapUrl": "/textures/primed_pine_trim_normal.jpg",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "baseCost": 25,
+          "properties": {
+            "finish": "matte",
+            "texture": "timber",
+            "durability": "medium",
+            "maintenance": "high",
+            "fire_rating": "Bushfire_Attack_Level_29",
+            "insulation": "poor",
+            "description": "Primed pine trim ready for painting, cost-effective option"
+          }
+        },
+        "hardwood_trim": {
+          "id": "hardwood_trim",
+          "name": "Hardwood Trim",
+          "color": "#8B4513",
+          "textureUrl": "/textures/hardwood_trim_diffuse.jpg",
+          "normalMapUrl": "/textures/hardwood_trim_normal.jpg",
+          "aoMapUrl": "/textures/hardwood_trim_ao.jpg",
+          "roughness": 0.7,
+          "metalness": 0.0,
+          "baseCost": 55,
+          "properties": {
+            "finish": "natural",
+            "texture": "hardwood",
+            "durability": "very_high",
+            "maintenance": "low",
+            "fire_rating": "Bushfire_Attack_Level_40",
+            "insulation": "poor",
+            "description": "Premium hardwood trim with natural finish and superior durability"
+          }
+        },
+        "aluminum_trim": {
+          "id": "aluminum_trim",
+          "name": "Aluminum Trim",
+          "color": "#C0C0C0",
+          "textureUrl": "/textures/aluminum_trim_diffuse.jpg",
+          "normalMapUrl": "/textures/aluminum_trim_normal.jpg",
+          "roughness": 0.2,
+          "metalness": 0.9,
+          "baseCost": 45,
+          "properties": {
+            "finish": "brushed",
+            "texture": "aluminum",
+            "durability": "very_high",
+            "maintenance": "very_low",
+            "fire_rating": "Non_combustible",
+            "insulation": "poor",
+            "description": "Modern aluminum trim with powder coating for weather resistance"
+          }
+        }
+      }
     }
-  ],
-  "trim": [
-    {
-      "id": "trim-dover-white",
-      "name": "Dover White",
-      "category": "trim",
-      "color": "#F8F8FF",
-      "texture": "paint",
-      "cost": 15,
-      "description": "Clean white trim paint"
+  },
+  "costCategories": {
+    "structural": {
+      "description": "Structural elements including foundation, walls, and roof",
+      "baseMultiplier": 1.0,
+      "laborMultiplier": 1.5,
+      "complexityFactors": {
+        "simple": 1.0,
+        "moderate": 1.2,
+        "complex": 1.5
+      }
     },
-    {
-      "id": "trim-wallaby",
-      "name": "Wallaby",
-      "category": "trim",
-      "color": "#8B7355",
-      "texture": "paint",
-      "cost": 15,
-      "description": "Warm wallaby brown trim"
+    "finish": {
+      "description": "Finishing materials including floors and trim",
+      "baseMultiplier": 1.2,
+      "laborMultiplier": 1.3,
+      "complexityFactors": {
+        "simple": 1.0,
+        "moderate": 1.1,
+        "complex": 1.3
+      }
     },
-    {
-      "id": "trim-surfmist",
-      "name": "Surfmist",
-      "category": "trim",
-      "color": "#C0C0C0",
-      "texture": "paint",
-      "cost": 15,
-      "description": "Light grey trim paint"
+    "glazing": {
+      "description": "Windows and glass elements",
+      "baseMultiplier": 2.0,
+      "laborMultiplier": 1.8,
+      "complexityFactors": {
+        "simple": 1.0,
+        "moderate": 1.2,
+        "complex": 1.5
+      }
+    },
+    "hardware": {
+      "description": "Doors and hardware elements",
+      "baseMultiplier": 1.8,
+      "laborMultiplier": 1.6,
+      "complexityFactors": {
+        "simple": 1.0,
+        "moderate": 1.1,
+        "complex": 1.4
+      }
     }
-  ],
-  "doors": [
-    {
-      "id": "door-white",
-      "name": "White Door",
-      "category": "doors",
-      "color": "#FFFFFF",
-      "texture": "paint",
-      "cost": 200,
-      "description": "Classic white painted door"
+  },
+  "costCalculation": {
+    "formula": "baseCost * sectionCostMultiplier * categoryBaseMultiplier * laborMultiplier * complexityFactor",
+    "additionalCosts": {
+      "delivery": 0.05,
+      "waste": 0.1,
+      "installation": 1.0
     },
-    {
-      "id": "door-charcoal",
-      "name": "Charcoal Door",
-      "category": "doors",
-      "color": "#36454F",
-      "texture": "paint",
-      "cost": 200,
-      "description": "Modern charcoal painted door"
-    },
-    {
-      "id": "door-wood",
-      "name": "Wood Door",
-      "category": "doors",
-      "color": "#8B4513",
-      "texture": "wood",
-      "cost": 300,
-      "description": "Natural wood finish door"
+    "regionalAdjustments": {
+      "metro": 1.0,
+      "regional": 0.9,
+      "remote": 1.2
     }
-  ],
-  "windows": [
-    {
-      "id": "window-white",
-      "name": "White Frame",
-      "category": "windows",
-      "color": "#FFFFFF",
-      "texture": "metal",
-      "cost": 150,
-      "description": "White aluminum window frames"
-    },
-    {
-      "id": "window-black",
-      "name": "Black Frame",
-      "category": "windows",
-      "color": "#000000",
-      "texture": "metal",
-      "cost": 150,
-      "description": "Black aluminum window frames"
-    },
-    {
-      "id": "window-wood",
-      "name": "Wood Frame",
-      "category": "windows",
-      "color": "#8B4513",
-      "texture": "wood",
-      "cost": 200,
-      "description": "Natural wood window frames"
-    }
-  ]
+  }
 }

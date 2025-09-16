@@ -1,0 +1,1098 @@
+{
+  "id": "default-house",
+  "name": "Default House",
+  "builder": "Custom Builder",
+  "facade": "Modern Contemporary",
+  "description": "A modern double-storey family home with contemporary design, spacious living areas, and premium finishes throughout",
+  "style": "contemporary",
+  "budget": "premium",
+  "specifications": {
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "garage": 2,
+    "livingAreas": 3,
+    "totalArea": 280,
+    "landSize": "600-800m²"
+  },
+  "floorPlan": {
+    "groundFloor": {
+      "rooms": [
+        {
+          "id": "garage",
+          "name": "Double Garage",
+          "type": "garage",
+          "area": 40,
+          "position": [-8, 0, 0],
+          "dimensions": [8, 0, 5]
+        },
+        {
+          "id": "entry-foyer",
+          "name": "Entry Foyer",
+          "type": "entry",
+          "area": 12,
+          "position": [0, 0, 6],
+          "dimensions": [3, 0, 4]
+        },
+        {
+          "id": "living-room",
+          "name": "Living Room",
+          "type": "living",
+          "area": 35,
+          "position": [4, 0, 2],
+          "dimensions": [7, 0, 5]
+        },
+        {
+          "id": "kitchen",
+          "name": "Kitchen",
+          "type": "kitchen",
+          "area": 18,
+          "position": [4, 0, -3],
+          "dimensions": [6, 0, 3]
+        },
+        {
+          "id": "dining-room",
+          "name": "Dining Room",
+          "type": "dining",
+          "area": 16,
+          "position": [4, 0, -6],
+          "dimensions": [4, 0, 4]
+        },
+        {
+          "id": "family-room",
+          "name": "Family Room",
+          "type": "family",
+          "area": 28,
+          "position": [-4, 0, -2],
+          "dimensions": [7, 0, 4]
+        },
+        {
+          "id": "laundry",
+          "name": "Laundry",
+          "type": "utility",
+          "area": 8,
+          "position": [-2, 0, -6],
+          "dimensions": [2, 0, 4]
+        },
+        {
+          "id": "powder-room",
+          "name": "Powder Room",
+          "type": "bathroom",
+          "area": 4,
+          "position": [2, 0, -6],
+          "dimensions": [2, 0, 2]
+        },
+        {
+          "id": "study",
+          "name": "Study",
+          "type": "study",
+          "area": 12,
+          "position": [-6, 0, 4],
+          "dimensions": [3, 0, 4]
+        }
+      ]
+    },
+    "firstFloor": {
+      "rooms": [
+        {
+          "id": "master-bedroom",
+          "name": "Master Bedroom",
+          "type": "bedroom",
+          "area": 25,
+          "position": [4, 3, 4],
+          "dimensions": [5, 0, 5]
+        },
+        {
+          "id": "master-ensuite",
+          "name": "Master Ensuite",
+          "type": "bathroom",
+          "area": 10,
+          "position": [6, 3, 6],
+          "dimensions": [3, 0, 3.5]
+        },
+        {
+          "id": "master-walkin",
+          "name": "Master Walk-in Robe",
+          "type": "robe",
+          "area": 12,
+          "position": [8, 3, 4],
+          "dimensions": [3, 0, 4]
+        },
+        {
+          "id": "bedroom-2",
+          "name": "Bedroom 2",
+          "type": "bedroom",
+          "area": 16,
+          "position": [-4, 3, 4],
+          "dimensions": [4, 0, 4]
+        },
+        {
+          "id": "bedroom-3",
+          "name": "Bedroom 3",
+          "type": "bedroom",
+          "area": 14,
+          "position": [-4, 3, 0],
+          "dimensions": [3.5, 0, 4]
+        },
+        {
+          "id": "bedroom-4",
+          "name": "Bedroom 4",
+          "type": "bedroom",
+          "area": 15,
+          "position": [-4, 3, -4],
+          "dimensions": [3.5, 0, 4.5]
+        },
+        {
+          "id": "family-bathroom",
+          "name": "Family Bathroom",
+          "type": "bathroom",
+          "area": 8,
+          "position": [-6, 3, 2],
+          "dimensions": [2, 0, 4]
+        },
+        {
+          "id": "rumpus-room",
+          "name": "Rumpus Room",
+          "type": "rumpus",
+          "area": 20,
+          "position": [4, 3, -2],
+          "dimensions": [5, 0, 4]
+        },
+        {
+          "id": "balcony",
+          "name": "Balcony",
+          "type": "balcony",
+          "area": 15,
+          "position": [0, 3, 8],
+          "dimensions": [5, 0, 3]
+        }
+      ]
+    }
+  },
+  "facadeOptions": {
+    "modern-contemporary": {
+      "name": "Modern Contemporary",
+      "description": "Sleek contemporary design with clean lines and premium materials",
+      "imageUrl": "/facades/modern-minimalist-facade.jpg",
+      "features": [
+        "Render finish with feature stone",
+        "Aluminium windows and doors",
+        "Timber feature elements",
+        "Modern entry design",
+        "Premium landscaping package"
+      ],
+      "materials": {
+        "walls": "render-stone-combo",
+        "roof": "colorbond-steel",
+        "windows": "aluminium-black",
+        "doors": "aluminium-sliding",
+        "trim": "aluminium-silver"
+      },
+      "cost": {
+        "base": 750000,
+        "upgrades": {
+          "premium-materials": 45000,
+          "landscaping": 25000,
+          "smart-home": 15000
+        }
+      }
+    },
+    "traditional-classic": {
+      "name": "Traditional Classic",
+      "description": "Timeless traditional design with brick and stone features",
+      "imageUrl": "/facades/traditional-classic-facade.jpg",
+      "features": [
+        "Brick veneer with stone features",
+        "Traditional pitched roof",
+        "Classic window design",
+        "Traditional entry design",
+        "Heritage landscaping"
+      ],
+      "materials": {
+        "walls": "brick-stone",
+        "roof": "terracotta-tiles",
+        "windows": "timber-white",
+        "doors": "timber-traditional",
+        "trim": "timber-white"
+      },
+      "cost": {
+        "base": 720000,
+        "upgrades": {
+          "premium-materials": 40000,
+          "landscaping": 20000,
+          "smart-home": 12000
+        }
+      }
+    },
+    "hamptons-style": {
+      "name": "Hamptons Style",
+      "description": "Classic coastal-inspired design with weatherboard and stone features",
+      "imageUrl": "/facades/hamptons-facade.jpg",
+      "features": [
+        "Weatherboard cladding with stone accents",
+        "Traditional gable roof design",
+        "Timber windows and doors",
+        "Classic entry portico",
+        "Coastal landscaping theme"
+      ],
+      "materials": {
+        "walls": "weatherboard-stone",
+        "roof": "colorbond-steel",
+        "windows": "timber-white",
+        "doors": "timber-panel",
+        "trim": "timber-natural"
+      },
+      "cost": {
+        "base": 780000,
+        "upgrades": {
+          "premium-materials": 50000,
+          "landscaping": 28000,
+          "smart-home": 18000
+        }
+      }
+    }
+  },
+  "geometry": {
+    "dimensions": {
+      "width": 16,
+      "height": 8,
+      "depth": 12
+    },
+    "sections": [
+      {
+        "id": "foundation",
+        "name": "Foundation",
+        "type": "foundation",
+        "geometry": {
+          "type": "box",
+          "args": [16.2, 0.3, 12.2],
+          "position": [0, -0.15, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#8B7355",
+          "roughness": 0.9,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "displacementScale": 0.02,
+          "map": "/textures/concrete/concrete-diffuse.jpg",
+          "normalMap": "/textures/concrete/concrete-normal.jpg",
+          "roughnessMap": "/textures/concrete/concrete-roughness.jpg",
+          "aoMap": "/textures/concrete/concrete-ao.jpg",
+          "displacementMap": "/textures/concrete/concrete-displacement.jpg"
+        }
+      },
+      {
+        "id": "ground-floor-walls",
+        "name": "Ground Floor Walls",
+        "type": "wall",
+        "geometry": {
+          "type": "box",
+          "args": [16, 3, 12],
+          "position": [0, 1.5, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#F5F5DC",
+          "roughness": 0.8,
+          "metalness": 0.2,
+          "normalScale": [0.5, 0.5],
+          "map": "/textures/render/render-diffuse.jpg",
+          "normalMap": "/textures/render/render-normal.jpg",
+          "roughnessMap": "/textures/render/render-roughness.jpg",
+          "aoMap": "/textures/render/render-ao.jpg",
+          "envMapIntensity": 0.3
+        }
+      },
+      {
+        "id": "first-floor-walls",
+        "name": "First Floor Walls",
+        "type": "wall",
+        "geometry": {
+          "type": "box",
+          "args": [16, 3, 12],
+          "position": [0, 4.5, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#F5F5DC",
+          "roughness": 0.8,
+          "metalness": 0.2,
+          "normalScale": [0.5, 0.5],
+          "map": "/textures/render/render-diffuse.jpg",
+          "normalMap": "/textures/render/render-normal.jpg",
+          "roughnessMap": "/textures/render/render-roughness.jpg",
+          "aoMap": "/textures/render/render-ao.jpg",
+          "envMapIntensity": 0.3
+        }
+      },
+      {
+        "id": "garage-structure",
+        "name": "Garage Structure",
+        "type": "garage",
+        "geometry": {
+          "type": "box",
+          "args": [8, 3, 5],
+          "position": [-6, 1.5, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#D3D3D3",
+          "roughness": 0.7,
+          "metalness": 0.3,
+          "normalScale": [1, 1],
+          "map": "/textures/concrete/concrete-diffuse.jpg",
+          "normalMap": "/textures/concrete/concrete-normal.jpg",
+          "roughnessMap": "/textures/concrete/concrete-roughness.jpg",
+          "aoMap": "/textures/concrete/concrete-ao.jpg"
+        }
+      },
+      {
+        "id": "main-roof",
+        "name": "Main Roof",
+        "type": "roof",
+        "geometry": {
+          "type": "box",
+          "args": [16.2, 0.2, 12.2],
+          "position": [0, 7.1, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#2F4F4F",
+          "roughness": 0.3,
+          "metalness": 0.8,
+          "normalScale": [2, 2],
+          "map": "/textures/metal-roof/colorbond-diffuse.jpg",
+          "normalMap": "/textures/metal-roof/colorbond-normal.jpg",
+          "roughnessMap": "/textures/metal-roof/colorbond-roughness.jpg",
+          "metalnessMap": "/textures/metal-roof/colorbond-metalness.jpg",
+          "aoMap": "/textures/metal-roof/colorbond-ao.jpg",
+          "envMapIntensity": 0.5
+        }
+      },
+      {
+        "id": "garage-roof",
+        "name": "Garage Roof",
+        "type": "roof",
+        "geometry": {
+          "type": "box",
+          "args": [8.2, 0.2, 5.2],
+          "position": [-6, 3.1, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#2F4F4F",
+          "roughness": 0.3,
+          "metalness": 0.8,
+          "normalScale": [2, 2],
+          "map": "/textures/metal-roof/colorbond-diffuse.jpg",
+          "normalMap": "/textures/metal-roof/colorbond-normal.jpg",
+          "roughnessMap": "/textures/metal-roof/colorbond-roughness.jpg",
+          "metalnessMap": "/textures/metal-roof/colorbond-metalness.jpg",
+          "aoMap": "/textures/metal-roof/colorbond-ao.jpg",
+          "envMapIntensity": 0.5
+        }
+      },
+      {
+        "id": "front-windows",
+        "name": "Front Windows",
+        "type": "window",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 1.5, 2],
+          "position": [0, 2.25, 6.05],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshPhysicalMaterial",
+          "color": "#87CEEB",
+          "roughness": 0.0,
+          "metalness": 0.0,
+          "transparent": true,
+          "opacity": 0.85,
+          "transmission": 0.9,
+          "thickness": 0.1,
+          "ior": 1.52,
+          "reflectivity": 0.9,
+          "clearcoat": 1.0,
+          "clearcoatRoughness": 0.0,
+          "envMapIntensity": 1.0,
+          "map": "/textures/glass/glass-diffuse.jpg",
+          "normalMap": "/textures/glass/glass-normal.jpg",
+          "roughnessMap": "/textures/glass/glass-roughness.jpg"
+        }
+      },
+      {
+        "id": "front-windows-first-floor",
+        "name": "Front Windows First Floor",
+        "type": "window",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 1.5, 2],
+          "position": [0, 5.25, 6.05],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshPhysicalMaterial",
+          "color": "#87CEEB",
+          "roughness": 0.0,
+          "metalness": 0.0,
+          "transparent": true,
+          "opacity": 0.85,
+          "transmission": 0.9,
+          "thickness": 0.1,
+          "ior": 1.52,
+          "reflectivity": 0.9,
+          "clearcoat": 1.0,
+          "clearcoatRoughness": 0.0,
+          "envMapIntensity": 1.0,
+          "map": "/textures/glass/glass-diffuse.jpg",
+          "normalMap": "/textures/glass/glass-normal.jpg",
+          "roughnessMap": "/textures/glass/glass-roughness.jpg"
+        }
+      },
+      {
+        "id": "side-windows-living",
+        "name": "Side Windows Living Room",
+        "type": "window",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 1.5, 3],
+          "position": [7.55, 2.25, 2],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshPhysicalMaterial",
+          "color": "#87CEEB",
+          "roughness": 0.0,
+          "metalness": 0.0,
+          "transparent": true,
+          "opacity": 0.85,
+          "transmission": 0.9,
+          "thickness": 0.1,
+          "ior": 1.52,
+          "reflectivity": 0.9,
+          "clearcoat": 1.0,
+          "clearcoatRoughness": 0.0,
+          "envMapIntensity": 1.0,
+          "map": "/textures/glass/glass-diffuse.jpg",
+          "normalMap": "/textures/glass/glass-normal.jpg",
+          "roughnessMap": "/textures/glass/glass-roughness.jpg"
+        }
+      },
+      {
+        "id": "side-windows-kitchen",
+        "name": "Side Windows Kitchen",
+        "type": "window",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 1.5, 2],
+          "position": [7.55, 2.25, -3],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshPhysicalMaterial",
+          "color": "#87CEEB",
+          "roughness": 0.0,
+          "metalness": 0.0,
+          "transparent": true,
+          "opacity": 0.85,
+          "transmission": 0.9,
+          "thickness": 0.1,
+          "ior": 1.52,
+          "reflectivity": 0.9,
+          "clearcoat": 1.0,
+          "clearcoatRoughness": 0.0,
+          "envMapIntensity": 1.0,
+          "map": "/textures/glass/glass-diffuse.jpg",
+          "normalMap": "/textures/glass/glass-normal.jpg",
+          "roughnessMap": "/textures/glass/glass-roughness.jpg"
+        }
+      },
+      {
+        "id": "rear-windows-family",
+        "name": "Rear Windows Family Room",
+        "type": "window",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 1.5, 3],
+          "position": [-7.55, 2.25, -2],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshPhysicalMaterial",
+          "color": "#87CEEB",
+          "roughness": 0.0,
+          "metalness": 0.0,
+          "transparent": true,
+          "opacity": 0.85,
+          "transmission": 0.9,
+          "thickness": 0.1,
+          "ior": 1.52,
+          "reflectivity": 0.9,
+          "clearcoat": 1.0,
+          "clearcoatRoughness": 0.0,
+          "envMapIntensity": 1.0,
+          "map": "/textures/glass/glass-diffuse.jpg",
+          "normalMap": "/textures/glass/glass-normal.jpg",
+          "roughnessMap": "/textures/glass/glass-roughness.jpg"
+        }
+      },
+      {
+        "id": "rear-windows-first-floor",
+        "name": "Rear Windows First Floor",
+        "type": "window",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 1.5, 2],
+          "position": [-7.55, 5.25, -2],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshPhysicalMaterial",
+          "color": "#87CEEB",
+          "roughness": 0.0,
+          "metalness": 0.0,
+          "transparent": true,
+          "opacity": 0.85,
+          "transmission": 0.9,
+          "thickness": 0.1,
+          "ior": 1.52,
+          "reflectivity": 0.9,
+          "clearcoat": 1.0,
+          "clearcoatRoughness": 0.0,
+          "envMapIntensity": 1.0,
+          "map": "/textures/glass/glass-diffuse.jpg",
+          "normalMap": "/textures/glass/glass-normal.jpg",
+          "roughnessMap": "/textures/glass/glass-roughness.jpg"
+        }
+      },
+      {
+        "id": "front-door",
+        "name": "Front Door",
+        "type": "door",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 2.1, 0.9],
+          "position": [0, 1.05, 6.05],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#8B4513",
+          "roughness": 0.7,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/timber/timber-diffuse.jpg",
+          "normalMap": "/textures/timber/timber-normal.jpg",
+          "roughnessMap": "/textures/timber/timber-roughness.jpg",
+          "aoMap": "/textures/timber/timber-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "garage-door",
+        "name": "Garage Door",
+        "type": "door",
+        "geometry": {
+          "type": "box",
+          "args": [0.1, 2.5, 4.5],
+          "position": [-6, 1.25, 2.5],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#696969",
+          "roughness": 0.6,
+          "metalness": 0.3,
+          "normalScale": [1, 1],
+          "map": "/textures/metal/metal-diffuse.jpg",
+          "normalMap": "/textures/metal/metal-normal.jpg",
+          "roughnessMap": "/textures/metal/metal-roughness.jpg",
+          "metalnessMap": "/textures/metal/metal-metalness.jpg",
+          "aoMap": "/textures/metal/metal-ao.jpg",
+          "envMapIntensity": 0.4
+        }
+      },
+      {
+        "id": "balcony-railing",
+        "name": "Balcony Railing",
+        "type": "railing",
+        "geometry": {
+          "type": "box",
+          "args": [5, 1, 0.1],
+          "position": [0, 3.5, 8.05],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#C0C0C0",
+          "roughness": 0.5,
+          "metalness": 0.5,
+          "normalScale": [1, 1],
+          "map": "/textures/metal/metal-diffuse.jpg",
+          "normalMap": "/textures/metal/metal-normal.jpg",
+          "roughnessMap": "/textures/metal/metal-roughness.jpg",
+          "metalnessMap": "/textures/metal/metal-metalness.jpg",
+          "aoMap": "/textures/metal/metal-ao.jpg",
+          "envMapIntensity": 0.6
+        }
+      },
+      {
+        "id": "balcony-floor",
+        "name": "Balcony Floor",
+        "type": "floor",
+        "geometry": {
+          "type": "box",
+          "args": [5, 0.1, 3],
+          "position": [0, 2.95, 8],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#8B7355",
+          "roughness": 0.8,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/timber/timber-diffuse.jpg",
+          "normalMap": "/textures/timber/timber-normal.jpg",
+          "roughnessMap": "/textures/timber/timber-roughness.jpg",
+          "aoMap": "/textures/timber/timber-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "ground-floor-floor",
+        "name": "Ground Floor Floor",
+        "type": "floor",
+        "geometry": {
+          "type": "box",
+          "args": [16, 0.1, 12],
+          "position": [0, 0.05, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#DEB887",
+          "roughness": 0.7,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/timber/timber-diffuse.jpg",
+          "normalMap": "/textures/timber/timber-normal.jpg",
+          "roughnessMap": "/textures/timber/timber-roughness.jpg",
+          "aoMap": "/textures/timber/timber-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "first-floor-floor",
+        "name": "First Floor Floor",
+        "type": "floor",
+        "geometry": {
+          "type": "box",
+          "args": [16, 0.1, 12],
+          "position": [0, 3.05, 0],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#DEB887",
+          "roughness": 0.7,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/timber/timber-diffuse.jpg",
+          "normalMap": "/textures/timber/timber-normal.jpg",
+          "roughnessMap": "/textures/timber/timber-roughness.jpg",
+          "aoMap": "/textures/timber/timber-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "chimney",
+        "name": "Chimney",
+        "type": "chimney",
+        "geometry": {
+          "type": "box",
+          "args": [1, 2, 1],
+          "position": [-2, 5, 4],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#8B4513",
+          "roughness": 0.8,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/brick/brick-diffuse.jpg",
+          "normalMap": "/textures/brick/brick-normal.jpg",
+          "roughnessMap": "/textures/brick/brick-roughness.jpg",
+          "aoMap": "/textures/brick/brick-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "front-porch",
+        "name": "Front Porch",
+        "type": "porch",
+        "geometry": {
+          "type": "box",
+          "args": [3, 0.1, 2],
+          "position": [0, 0.05, 7],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#8B7355",
+          "roughness": 0.8,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/concrete/concrete-diffuse.jpg",
+          "normalMap": "/textures/concrete/concrete-normal.jpg",
+          "roughnessMap": "/textures/concrete/concrete-roughness.jpg",
+          "aoMap": "/textures/concrete/concrete-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "porch-roof",
+        "name": "Porch Roof",
+        "type": "roof",
+        "geometry": {
+          "type": "box",
+          "args": [3.2, 0.1, 2.2],
+          "position": [0, 2.55, 7],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#2F4F4F",
+          "roughness": 0.3,
+          "metalness": 0.8,
+          "normalScale": [2, 2],
+          "map": "/textures/metal-roof/colorbond-diffuse.jpg",
+          "normalMap": "/textures/metal-roof/colorbond-normal.jpg",
+          "roughnessMap": "/textures/metal-roof/colorbond-roughness.jpg",
+          "metalnessMap": "/textures/metal-roof/colorbond-metalness.jpg",
+          "aoMap": "/textures/metal-roof/colorbond-ao.jpg",
+          "envMapIntensity": 0.5
+        }
+      },
+      {
+        "id": "porch-columns",
+        "name": "Porch Columns",
+        "type": "column",
+        "geometry": {
+          "type": "box",
+          "args": [0.2, 2.5, 0.2],
+          "position": [-1, 1.25, 7.9],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#F5F5DC",
+          "roughness": 0.8,
+          "metalness": 0.2,
+          "normalScale": [0.5, 0.5],
+          "map": "/textures/render/render-diffuse.jpg",
+          "normalMap": "/textures/render/render-normal.jpg",
+          "roughnessMap": "/textures/render/render-roughness.jpg",
+          "aoMap": "/textures/render/render-ao.jpg",
+          "envMapIntensity": 0.3
+        }
+      },
+      {
+        "id": "porch-columns-2",
+        "name": "Porch Columns 2",
+        "type": "column",
+        "geometry": {
+          "type": "box",
+          "args": [0.2, 2.5, 0.2],
+          "position": [1, 1.25, 7.9],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#F5F5DC",
+          "roughness": 0.8,
+          "metalness": 0.2,
+          "normalScale": [0.5, 0.5],
+          "map": "/textures/render/render-diffuse.jpg",
+          "normalMap": "/textures/render/render-normal.jpg",
+          "roughnessMap": "/textures/render/render-roughness.jpg",
+          "aoMap": "/textures/render/render-ao.jpg",
+          "envMapIntensity": 0.3
+        }
+      },
+      {
+        "id": "feature-stone-wall",
+        "name": "Feature Stone Wall",
+        "type": "wall",
+        "geometry": {
+          "type": "box",
+          "args": [0.2, 3, 4],
+          "position": [2, 1.5, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#A0522D",
+          "roughness": 0.9,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/stone/stone-diffuse.jpg",
+          "normalMap": "/textures/stone/stone-normal.jpg",
+          "roughnessMap": "/textures/stone/stone-roughness.jpg",
+          "aoMap": "/textures/stone/stone-ao.jpg",
+          "displacementMap": "/textures/stone/stone-displacement.jpg",
+          "displacementScale": 0.05,
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "feature-stone-wall-first-floor",
+        "name": "Feature Stone Wall First Floor",
+        "type": "wall",
+        "geometry": {
+          "type": "box",
+          "args": [0.2, 3, 4],
+          "position": [2, 4.5, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#A0522D",
+          "roughness": 0.9,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/stone/stone-diffuse.jpg",
+          "normalMap": "/textures/stone/stone-normal.jpg",
+          "roughnessMap": "/textures/stone/stone-roughness.jpg",
+          "aoMap": "/textures/stone/stone-ao.jpg",
+          "displacementMap": "/textures/stone/stone-displacement.jpg",
+          "displacementScale": 0.05,
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "timber-feature-wall",
+        "name": "Timber Feature Wall",
+        "type": "wall",
+        "geometry": {
+          "type": "box",
+          "args": [0.2, 3, 3],
+          "position": [-2, 1.5, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#8B4513",
+          "roughness": 0.8,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/timber/timber-diffuse.jpg",
+          "normalMap": "/textures/timber/timber-normal.jpg",
+          "roughnessMap": "/textures/timber/timber-roughness.jpg",
+          "aoMap": "/textures/timber/timber-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "timber-feature-wall-first-floor",
+        "name": "Timber Feature Wall First Floor",
+        "type": "wall",
+        "geometry": {
+          "type": "box",
+          "args": [0.2, 3, 3],
+          "position": [-2, 4.5, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#8B4513",
+          "roughness": 0.8,
+          "metalness": 0.1,
+          "normalScale": [1, 1],
+          "map": "/textures/timber/timber-diffuse.jpg",
+          "normalMap": "/textures/timber/timber-normal.jpg",
+          "roughnessMap": "/textures/timber/timber-roughness.jpg",
+          "aoMap": "/textures/timber/timber-ao.jpg",
+          "envMapIntensity": 0.2
+        }
+      },
+      {
+        "id": "window-frames",
+        "name": "Window Frames",
+        "type": "frame",
+        "geometry": {
+          "type": "box",
+          "args": [0.15, 1.6, 2.1],
+          "position": [0, 2.3, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#2F4F4F",
+          "roughness": 0.4,
+          "metalness": 0.6,
+          "normalScale": [1, 1],
+          "map": "/textures/aluminum/aluminum-diffuse.jpg",
+          "normalMap": "/textures/aluminum/aluminum-normal.jpg",
+          "roughnessMap": "/textures/aluminum/aluminum-roughness.jpg",
+          "metalnessMap": "/textures/aluminum/aluminum-metalness.jpg",
+          "aoMap": "/textures/aluminum/aluminum-ao.jpg",
+          "envMapIntensity": 0.7
+        }
+      },
+      {
+        "id": "door-frame",
+        "name": "Door Frame",
+        "type": "frame",
+        "geometry": {
+          "type": "box",
+          "args": [0.15, 2.2, 1.0],
+          "position": [0, 1.1, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#2F4F4F",
+          "roughness": 0.4,
+          "metalness": 0.6,
+          "normalScale": [1, 1],
+          "map": "/textures/aluminum/aluminum-diffuse.jpg",
+          "normalMap": "/textures/aluminum/aluminum-normal.jpg",
+          "roughnessMap": "/textures/aluminum/aluminum-roughness.jpg",
+          "metalnessMap": "/textures/aluminum/aluminum-metalness.jpg",
+          "aoMap": "/textures/aluminum/aluminum-ao.jpg",
+          "envMapIntensity": 0.7
+        }
+      },
+      {
+        "id": "gutters",
+        "name": "Gutters",
+        "type": "gutter",
+        "geometry": {
+          "type": "box",
+          "args": [16.4, 0.1, 0.3],
+          "position": [0, 7.2, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#696969",
+          "roughness": 0.6,
+          "metalness": 0.4,
+          "normalScale": [1, 1],
+          "map": "/textures/metal/metal-diffuse.jpg",
+          "normalMap": "/textures/metal/metal-normal.jpg",
+          "roughnessMap": "/textures/metal/metal-roughness.jpg",
+          "metalnessMap": "/textures/metal/metal-metalness.jpg",
+          "aoMap": "/textures/metal/metal-ao.jpg",
+          "envMapIntensity": 0.5
+        }
+      },
+      {
+        "id": "downpipes",
+        "name": "Downpipes",
+        "type": "downpipe",
+        "geometry": {
+          "type": "cylinder",
+          "args": [0.05, 0.05, 7.5],
+          "position": [7, 3.75, 6.1],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#696969",
+          "roughness": 0.6,
+          "metalness": 0.4,
+          "normalScale": [1, 1],
+          "map": "/textures/metal/metal-diffuse.jpg",
+          "normalMap": "/textures/metal/metal-normal.jpg",
+          "roughnessMap": "/textures/metal/metal-roughness.jpg",
+          "metalnessMap": "/textures/metal/metal-metalness.jpg",
+          "aoMap": "/textures/metal/metal-ao.jpg",
+          "envMapIntensity": 0.5
+        }
+      },
+      {
+        "id": "landscaping-garden",
+        "name": "Front Garden",
+        "type": "landscaping",
+        "geometry": {
+          "type": "box",
+          "args": [16, 0.05, 4],
+          "position": [0, -0.025, 8],
+          "rotation": [0, 0, 0]
+        },
+        "material": {
+          "type": "MeshStandardMaterial",
+          "color": "#228B22",
+          "roughness": 0.9,
+          "metalness": 0.0,
+          "normalScale": [2, 2],
+          "map": "/textures/grass/grass-diffuse.jpg",
+          "normalMap": "/textures/grass/grass-normal.jpg",
+          "roughnessMap": "/textures/grass/grass-roughness.jpg",
+          "aoMap": "/textures/grass/grass-ao.jpg",
+          "envMapIntensity": 0.1
+        }
+      }
+    ]
+  },
+  "lighting": {
+    "ambient": {
+      "intensity": 0.3,
+      "color": "#ffffff"
+    },
+    "directional": {
+      "position": [10, 10, 5],
+      "intensity": 1.2,
+      "color": "#ffffff",
+      "castShadow": true,
+      "shadowMapSize": 2048,
+      "shadowCameraNear": 0.1,
+      "shadowCameraFar": 50,
+      "shadowCameraLeft": -20,
+      "shadowCameraRight": 20,
+      "shadowCameraTop": 20,
+      "shadowCameraBottom": -20
+    },
+    "hemisphere": {
+      "skyColor": "#87CEEB",
+      "groundColor": "#8B7355",
+      "intensity": 0.6
+    },
+    "pointLights": [
+      {
+        "position": [0, 3, 7],
+        "intensity": 0.8,
+        "color": "#ffffff",
+        "distance": 10,
+        "decay": 2
+      },
+      {
+        "position": [-6, 2, 2],
+        "intensity": 0.6,
+        "color": "#ffffff",
+        "distance": 8,
+        "decay": 2
+      }
+    ],
+    "environment": "sunset",
+    "toneMapping": {
+      "exposure": 1.0,
+      "whitePoint": 1.0
+    },
+    "shadowMap": {
+      "enabled": true,
+      "type": "PCFSoftShadowMap",
+      "bias": -0.0001
+    }
+  }
+}

@@ -1,7 +1,8 @@
-import materialsData from './materials-enhanced.json'
+import materialsData from './materials.json'
 import housePresetsData from './house-presets.json'
 import viewSettingsData from './view-settings.json'
 import housePlansData from './house-plans.json'
+import defaultHouseData from './default-house.json'
 
 export interface MaterialSelection {
   id: string
@@ -283,7 +284,7 @@ export function getMaterialsByBudget(
   const filteredMaterials: Record<string, MaterialSelection[]> = {}
 
   for (const [category, categoryMaterials] of Object.entries(
-    materialsData as Record<string, Record<string, MaterialSelection>>
+    materialsData as unknown as Record<string, Record<string, MaterialSelection>>
   )) {
     filteredMaterials[category] = Object.values(categoryMaterials).filter((material) => {
       const cost = material.cost || 0
@@ -335,7 +336,7 @@ export function getMaterialsByStyle(
   const filteredMaterials: Record<string, MaterialSelection[]> = {}
 
   for (const [category, categoryMaterials] of Object.entries(
-    materialsData as Record<string, Record<string, MaterialSelection>>
+    materialsData as unknown as Record<string, Record<string, MaterialSelection>>
   )) {
     filteredMaterials[category] = Object.values(categoryMaterials).filter((material) =>
       preferredIds.includes(material.id)
@@ -554,10 +555,14 @@ export async function saveCustomPreset(preset: HousePreset): Promise<boolean> {
 
 // House Plan functions
 export function getHousePlans(): HousePlan[] {
-  return housePlansData.plans as unknown as HousePlan[]
+  const allPlans = [...housePlansData.plans, defaultHouseData] as unknown as HousePlan[]
+  return allPlans
 }
 
 export function getHousePlanById(id: string): HousePlan | null {
+  if (id === 'default-house') {
+    return defaultHouseData as unknown as HousePlan
+  }
   return (housePlansData.plans.find((plan) => plan.id === id) as unknown as HousePlan) || null
 }
 

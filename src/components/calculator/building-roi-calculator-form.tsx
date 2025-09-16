@@ -95,7 +95,7 @@ export function BuildRoiCalculatorForm({
     form: ReturnType<typeof useForm<CalculatorInputs>>
   }) {
     return (
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-6">
         {fields.map((f) => (
           <Field
             key={String(f.name)}
@@ -112,11 +112,13 @@ export function BuildRoiCalculatorForm({
 
   function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
     return (
-      <Card className="ring-1 ring-black/5 mt-4">
-        <CardHeader>
-          <CardTitle>{title}</CardTitle>
+      <Card className="bg-gradient-to-br from-white to-gray-50/50 border-0 shadow-lg ring-1 ring-gray-200/60 backdrop-blur-sm mt-4 hover:shadow-xl transition-all duration-300">
+        <CardHeader className="pb-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/60">
+          <CardTitle className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+            {title}
+          </CardTitle>
         </CardHeader>
-        <CardContent>{children}</CardContent>
+        <CardContent className="pt-6">{children}</CardContent>
       </Card>
     )
   }
@@ -408,13 +410,23 @@ export function BuildRoiCalculatorForm({
         <div className="flex items-center gap-2">
           <Label htmlFor="state">State</Label>
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
-                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-muted text-xs cursor-help">
+                <button
+                  type="button"
+                  className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-200 touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  onClick={(e) => e.preventDefault()}
+                >
                   i
-                </span>
+                </button>
               </TooltipTrigger>
-              <TooltipContent>Used to estimate stamp duty automatically.</TooltipContent>
+              <TooltipContent
+                className="bg-gray-900 text-white border-gray-700 shadow-xl max-w-xs z-50"
+                side="top"
+                align="center"
+              >
+                Used to estimate stamp duty automatically.
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </div>
@@ -594,26 +606,28 @@ export function BuildRoiCalculatorForm({
               <div className="grid gap-1.5 md:col-span-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipContent>
-                          Government transfer duty on land purchase. You can override.
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    {/* Tooltip removed - malformed instance */}
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Label htmlFor="stamp_duty">Stamp duty</Label>
                     <TooltipProvider>
-                      <Tooltip>
+                      <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
-                          <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-muted text-xs cursor-help">
+                          <button
+                            type="button"
+                            className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-200 touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                            onClick={(e) => e.preventDefault()}
+                          >
                             i
-                          </span>
+                          </button>
                         </TooltipTrigger>
-                        <TooltipContent>
+                        <TooltipContent
+                          className="bg-gray-900 text-white border-gray-700 shadow-xl max-w-xs z-50"
+                          side="top"
+                          align="center"
+                        >
                           Government transfer duty on land purchase. You can override.
                         </TooltipContent>
                       </Tooltip>
@@ -716,27 +730,45 @@ function Field({
   return (
     <div className="grid gap-2">
       <div className="flex items-center gap-2">
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id} className="text-sm font-medium text-gray-700">
+          {label}
+        </Label>
         {hint ? (
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
-                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-muted text-xs cursor-help">
+                <button
+                  type="button"
+                  className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-200 touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  onClick={(e) => e.preventDefault()}
+                >
                   i
-                </span>
+                </button>
               </TooltipTrigger>
-              <TooltipContent>{hint}</TooltipContent>
+              <TooltipContent
+                className="bg-gray-900 text-white border-gray-700 shadow-xl max-w-xs z-50"
+                side="top"
+                align="center"
+              >
+                {hint}
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         ) : null}
       </div>
       {registerAs === 'checkbox' ? (
-        <input id={id} type="checkbox" className="h-4 w-4" {...register(name)} />
+        <input
+          id={id}
+          type="checkbox"
+          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2"
+          {...register(name)}
+        />
       ) : (
         <Input
           id={id}
           type="number"
           step="any"
+          className="h-10 bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 shadow-sm hover:shadow-md transition-all duration-200"
           {...register(name, {
             valueAsNumber: true,
             onBlur: (e) => {

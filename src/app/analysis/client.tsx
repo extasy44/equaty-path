@@ -32,7 +32,12 @@ interface ApiResponse {
   }
 }
 
-export default function AnalysisClient() {
+interface AnalysisClientProps {
+  onExit?: () => void
+  previewMode?: boolean
+}
+
+export default function AnalysisClient({ onExit, previewMode = false }: AnalysisClientProps) {
   const [address, setAddress] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

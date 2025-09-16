@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 'use client'
 import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -57,11 +56,11 @@ export function UpgradeRoiGuide({
   return (
     <div ref={rootRef} className={className}>
       {showHeader ? (
-        <header className="mb-6 md:mb-8 text-center md:text-left">
-          <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-[color:var(--color-primary)]">
+        <header className="mb-3 sm:mb-4 md:mb-6 text-center md:text-left">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-[color:var(--color-primary)]">
             Upgrade ROI Guide
           </h1>
-          <p className="mt-3 text-muted-foreground">
+          <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-muted-foreground">
             Indicative return-on-investment ranges for common new‑build upgrades. Values are general
             guidance only and vary by market, build quality and buyer segment.
           </p>
@@ -69,14 +68,14 @@ export function UpgradeRoiGuide({
       ) : null}
 
       {showToc ? (
-        <nav ref={navRef} aria-label="Contents" className="mb-6 md:mb-8">
-          <div className="text-sm font-semibold mb-2">On this page</div>
-          <div className="grid gap-3">
+        <nav ref={navRef} aria-label="Contents" className="mb-3 sm:mb-4 md:mb-6">
+          <div className="text-xs sm:text-sm font-semibold mb-1.5">On this page</div>
+          <div className="grid gap-1.5 sm:gap-2">
             <div>
-              <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+              <div className="text-xs uppercase tracking-wide text-muted-foreground mb-0.5">
                 By area
               </div>
-              <ul className="flex flex-wrap gap-2 text-sm">
+              <ul className="flex flex-wrap gap-0.5 sm:gap-1 text-xs sm:text-sm">
                 <li>
                   <a className="underline underline-offset-4 hover:no-underline" href="#bathrooms">
                     Bathrooms
@@ -135,10 +134,10 @@ export function UpgradeRoiGuide({
               </ul>
             </div>
             <div>
-              <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+              <div className="text-xs uppercase tracking-wide text-muted-foreground mb-0.5">
                 By feature
               </div>
-              <ul className="flex flex-wrap gap-2 text-sm">
+              <ul className="flex flex-wrap gap-0.5 sm:gap-1 text-xs sm:text-sm">
                 <li>
                   <a
                     className="underline underline-offset-4 hover:no-underline"
@@ -294,7 +293,7 @@ export function UpgradeRoiGuide({
         </nav>
       ) : null}
 
-      <div className="grid gap-6">
+      <div className="grid gap-4 sm:gap-5 md:gap-6">
         <RoiCategory
           id="kitchen"
           title="Kitchen"
@@ -1019,26 +1018,33 @@ export function UpgradeRoiGuide({
             <CardTitle>A–Z index</CardTitle>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[45%]">Item</TableHead>
-                  <TableHead>Section</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {azItems.map((x) => (
-                  <TableRow key={x.href}>
-                    <TableCell>
-                      <a href={x.href} className="underline underline-offset-4 hover:no-underline">
-                        {x.item}
-                      </a>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">{x.sectionTitle}</TableCell>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[200px] sm:w-[45%]">Item</TableHead>
+                    <TableHead className="min-w-[150px]">Section</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {azItems.map((x) => (
+                    <TableRow key={x.href}>
+                      <TableCell>
+                        <a
+                          href={x.href}
+                          className="underline underline-offset-4 hover:no-underline text-xs sm:text-sm"
+                        >
+                          {x.item}
+                        </a>
+                      </TableCell>
+                      <TableCell className="text-xs sm:text-sm text-muted-foreground">
+                        {x.sectionTitle}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -1056,41 +1062,65 @@ function toSlug(s: string): string {
 function RoiCategory({ id, title, items }: { id?: string; title: string; items: RoiItem[] }) {
   const sortedItems = [...items].sort((a, b) => a.item.localeCompare(b.item))
   return (
-    <Card className="ring-1 ring-black/5 scroll-mt-24" id={id}>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
+    <Card
+      className="px-0 g-gradient-to-br from-white to-gray-50/50 border-0 shadow-lg ring-1 ring-gray-200/60 backdrop-blur-sm scroll-mt-24 hover:shadow-xl transition-all duration-300"
+      id={id}
+    >
+      <CardHeader className="pb-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-200/60">
+        <CardTitle className="text-lg font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+          {title}
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <Table>
-          <TableCaption className="sr-only">Indicative ROI ranges</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[45%]">Item</TableHead>
-              <TableHead className="w-[20%]">Cost impact</TableHead>
-              <TableHead className="w-[20%]">ROI range</TableHead>
-              <TableHead>Notes</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sortedItems.map((r) => {
-              const rowId = `${id ?? toSlug(title)}-${toSlug(r.item)}`
-              return (
-                <TableRow
-                  key={r.item}
-                  id={rowId}
-                  data-roi-item={r.item}
-                  data-roi-section={id ?? toSlug(title)}
-                  data-roi-section-title={title}
-                >
-                  <TableCell>{r.item}</TableCell>
-                  <TableCell>{r.costImpact}</TableCell>
-                  <TableCell>{r.roiRange}</TableCell>
-                  <TableCell className="text-muted-foreground">{r.notes}</TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
+      <CardContent className="pt-6">
+        <div className="overflow-x-auto">
+          <Table className="border-separate border-spacing-0">
+            <TableCaption className="sr-only">Indicative ROI ranges</TableCaption>
+            <TableHeader>
+              <TableRow className="bg-gradient-to-r from-gray-50 to-gray-100">
+                <TableHead className="min-w-[80px] sm:w-[30%] text-sm font-semibold text-gray-700 border-b border-gray-200">
+                  Item
+                </TableHead>
+                <TableHead className="min-w-[40px] sm:w-[15%] text-sm font-semibold text-gray-700 border-b border-gray-200">
+                  Cost impact
+                </TableHead>
+                <TableHead className="min-w-[40px] sm:w-[15%] text-sm font-semibold text-gray-700 border-b border-gray-200">
+                  ROI range
+                </TableHead>
+                <TableHead className="min-w-[60px] sm:w-[30%] text-sm font-semibold text-gray-700 border-b border-gray-200">
+                  Notes
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sortedItems.map((r) => {
+                const rowId = `${id ?? toSlug(title)}-${toSlug(r.item)}`
+                return (
+                  <TableRow
+                    key={r.item}
+                    id={rowId}
+                    data-roi-item={r.item}
+                    data-roi-section={id ?? toSlug(title)}
+                    data-roi-section-title={title}
+                    className="hover:bg-gray-50/50 transition-colors duration-200"
+                  >
+                    <TableCell className="text-sm font-medium text-gray-800 border-b border-gray-100">
+                      {r.item}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-700 border-b border-gray-100">
+                      {r.costImpact}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-700 border-b border-gray-100">
+                      {r.roiRange}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-600 border-b border-gray-100">
+                      {r.notes}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </Card>
   )

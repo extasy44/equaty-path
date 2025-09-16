@@ -2,32 +2,91 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Clock, ArrowLeft, Rocket } from 'lucide-react'
+import Link from 'next/link'
 
 export default function SignupPage() {
   return (
     <div className="mx-auto max-w-md px-4 py-10">
-      <Card>
-        <CardHeader>
-          <CardTitle>Sign Up</CardTitle>
-          <CardDescription>
-            Sign up is coming soon. We’re finalizing authentication; check back shortly.
+      <div className="mb-6">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Link>
+      </div>
+
+      <Card className="border-2 border-dashed border-blue-200 bg-gradient-to-br from-blue-50 to-purple-50">
+        <CardHeader className="text-center pb-4">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500">
+            <Rocket className="h-8 w-8 text-white" />
+          </div>
+          <CardTitle className="text-2xl font-bold text-gray-800">Sign Up Coming Soon</CardTitle>
+          <CardDescription className="text-base text-gray-600 mt-2">
+            We&apos;re building something amazing for property investors.
+            <br />
+            <span className="font-semibold text-blue-600">Get ready to launch!</span>
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
+          <div className="bg-white/70 rounded-lg p-4 border border-blue-200">
+            <h4 className="font-semibold text-gray-800 mb-2">What You&apos;ll Get:</h4>
+            <ul className="text-sm text-gray-600 space-y-1">
+              <li>• Save and manage multiple projects</li>
+              <li>• Export detailed reports & analysis</li>
+              <li>• Access to premium calculators</li>
+              <li>• Personalized investment insights</li>
+              <li>• 14-day free trial (no credit card)</li>
+            </ul>
+          </div>
+
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" />
+            <Label htmlFor="email" className="text-gray-500">
+              Email (Preview)
+            </Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="your@email.com"
+              disabled
+              className="bg-gray-100 text-gray-400"
+            />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <Label htmlFor="password" className="text-gray-500">
+              Password (Preview)
+            </Label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              disabled
+              className="bg-gray-100 text-gray-400"
+            />
           </div>
-          <Button disabled title="Coming soon">
-            Create Account
+
+          <Button
+            disabled
+            className="bg-gray-400 text-white cursor-not-allowed"
+            title="Sign up functionality coming soon"
+          >
+            <Rocket className="h-4 w-4 mr-2" />
+            Create Account (Coming Soon)
           </Button>
-          <Button variant="outline" disabled title="Coming soon">
-            Continue with Google
+          <Button
+            variant="outline"
+            disabled
+            className="border-gray-300 text-gray-400 cursor-not-allowed"
+            title="Google signup coming soon"
+          >
+            Continue with Google (Coming Soon)
           </Button>
+
+          <div className="text-center pt-2">
+            <p className="text-xs text-gray-500">Start exploring our free tools while you wait!</p>
+          </div>
         </CardContent>
       </Card>
     </div>

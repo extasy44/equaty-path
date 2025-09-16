@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { getHousePlanById } from '../data'
 import type { MaterialSelection } from '../types'
 import { TextureLoader } from 'three'
 
 interface House3DRendererProps {
-  materials: Record<string, MaterialSelection>
-  viewMode: 'exterior' | 'interior'
-  selectedPreset?: string
-  onSectionClick?: (sectionId: string, sectionName: string, event: React.MouseEvent) => void
+  housePlan?: any
+  selectedMaterials?: MaterialSelection[] | Record<string, MaterialSelection>
+  selectedFacade?: string
+  viewMode?: '3d' | 'preview'
+  showWireframe?: boolean
+  showShadows?: boolean
+  showGrid?: boolean
+  onSectionClick?: (sectionId: string) => void
 }
 
 interface SectionConfig {
@@ -399,47 +403,84 @@ const HOUSE_GEOMETRIES = {
 }
 
 export function House3DRenderer({
-  materials,
-  viewMode,
-  selectedPreset = 'astoria-grand-55',
+  housePlan,
+  selectedMaterials = [],
   onSectionClick,
 }: House3DRendererProps) {
-  // Get house plan data based on selection
-  const housePlan = useMemo(() => {
-    try {
-      return getHousePlanById(selectedPreset) || getHousePlanById('astoria-grand-55')
-    } catch {
-      return getHousePlanById('astoria-grand-55')
+  // Add error boundary for WebGL issues
+  const [hasError, setHasError] = useState(false)
+  const [webglSupported, setWebglSupported] = useState(true)
+
+  // Check WebGL support on mount
+  useEffect(() => {
+    const canvas = document.createElement('canvas')
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+    if (!gl) {
+      console.warn('WebGL not supported, falling back to basic rendering')
+      setWebglSupported(false)
     }
-  }, [selectedPreset])
+  }, [])
+
+  // Get house plan data
+  const currentHousePlan = useMemo(() => {
+    if (housePlan) return housePlan
+    return getHousePlanById('default-house')
+  }, [housePlan])
+
+  // Get materials for each section
+  const materialsMap = useMemo(() => {
+    const map: Record<string, any> = {}
+
+    if (selectedMaterials) {
+      if (Array.isArray(selectedMaterials)) {
+        // Handle array format
+        selectedMaterials.forEach((material) => {
+          if (material && material.sectionId) {
+            map[material.sectionId] = material
+          }
+        })
+      } else if (typeof selectedMaterials === 'object') {
+        // Handle object format (Record<string, MaterialSelection>)
+        Object.entries(selectedMaterials).forEach(([key, material]) => {
+          if (material && typeof material === 'object') {
+            map[key] = material
+          }
+        })
+      }
+    }
+
+    return map
+  }, [selectedMaterials])
 
   // Get the geometry configuration from the house plan
   const houseGeometry = useMemo(() => {
-    if (!housePlan) return HOUSE_GEOMETRIES['modern-minimalist']
+    if (!currentHousePlan) return HOUSE_GEOMETRIES['modern-minimalist']
 
     return {
-      name: housePlan.name,
-      description: housePlan.description,
-      sections: housePlan.geometry.sections,
+      name: currentHousePlan.name,
+      description: currentHousePlan.description,
+      sections: currentHousePlan.geometry?.sections || [],
     }
-  }, [housePlan])
+  }, [currentHousePlan])
 
   // Material mapping system
   const getMaterialForSection = useMemo(() => {
     return (sectionId: string, sectionType: string): MaterialSelection | null => {
-      // First check if user has selected a material for this category
-      if (materials[sectionType]) {
-        return materials[sectionType]
+      // First check if user has selected a material for this section
+      if (materialsMap[sectionId]) {
+        return materialsMap[sectionId]
       }
 
       // Fall back to house plan facade materials
-      if (housePlan?.facadeOptions?.hyatt?.materials) {
-        const facadeMaterial = housePlan.facadeOptions.hyatt.materials[sectionType]
+      if (currentHousePlan?.facadeOptions?.hyatt?.materials) {
+        const facadeMaterial = currentHousePlan.facadeOptions.hyatt.materials[sectionType]
         if (facadeMaterial) {
           // Return a basic material selection based on facade
           return {
             id: facadeMaterial,
-            name: facadeMaterial.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
+            name: facadeMaterial
+              .replace(/-/g, ' ')
+              .replace(/\b\w/g, (l: string) => l.toUpperCase()),
             color: getDefaultColorForType(sectionType),
             roughness: getDefaultRoughnessForType(sectionType),
             metalness: getDefaultMetalnessForType(sectionType),
@@ -460,7 +501,7 @@ export function House3DRenderer({
 
       return null
     }
-  }, [materials, housePlan])
+  }, [materialsMap, currentHousePlan])
 
   // Helper function to safely get material properties
   const getMaterialProperty = (
@@ -477,41 +518,48 @@ export function House3DRenderer({
     const configs: SectionConfig[] = []
 
     // Convert house geometry sections to SectionConfig
-    houseGeometry.sections.forEach((section) => {
-      const material = getMaterialForSection(section.id, section.type)
+    houseGeometry.sections.forEach(
+      (section: {
+        id: string
+        type: string
+        name: any
+        geometry: { type: string; args: any; position: [number, number, number] }
+      }) => {
+        const material = getMaterialForSection(section.id, section.type)
 
-      configs.push({
-        id: section.id,
-        name: section.name,
-        type: section.type,
-        geometry: {
-          type: section.geometry.type as 'box' | 'cone' | 'cylinder' | 'plane',
-          args: section.geometry.args,
-          position: section.geometry.position as [number, number, number],
-          rotation: (section.geometry as any).rotation as [number, number, number] | undefined,
-          scale: (section.geometry as any).scale as [number, number, number] | undefined,
-        },
-        material: {
-          color: getMaterialProperty(
-            material,
-            'color',
-            getDefaultColorForType(section.type)
-          ) as string,
-          roughness: getMaterialProperty(
-            material,
-            'roughness',
-            getDefaultRoughnessForType(section.type)
-          ) as number,
-          metalness: getMaterialProperty(
-            material,
-            'metalness',
-            getDefaultMetalnessForType(section.type)
-          ) as number,
-          castShadow: true,
-          receiveShadow: section.type === 'wall' || section.type === 'floor',
-        },
-      })
-    })
+        configs.push({
+          id: section.id,
+          name: section.name,
+          type: section.type,
+          geometry: {
+            type: section.geometry.type as 'box' | 'cone' | 'cylinder' | 'plane',
+            args: section.geometry.args,
+            position: section.geometry.position as [number, number, number],
+            rotation: (section.geometry as any).rotation as [number, number, number] | undefined,
+            scale: (section.geometry as any).scale as [number, number, number] | undefined,
+          },
+          material: {
+            color: getMaterialProperty(
+              material,
+              'color',
+              getDefaultColorForType(section.type)
+            ) as string,
+            roughness: getMaterialProperty(
+              material,
+              'roughness',
+              getDefaultRoughnessForType(section.type)
+            ) as number,
+            metalness: getMaterialProperty(
+              material,
+              'metalness',
+              getDefaultMetalnessForType(section.type)
+            ) as number,
+            castShadow: true,
+            receiveShadow: section.type === 'wall' || section.type === 'floor',
+          },
+        })
+      }
+    )
 
     // Add ground plane
     configs.push({
@@ -574,72 +622,113 @@ export function House3DRenderer({
 
   // Render individual section component
   const renderSection = (config: SectionConfig) => {
-    const handleClick = (event: React.MouseEvent) => {
-      if (onSectionClick) {
-        onSectionClick(config.id, config.name, event)
+    try {
+      const handleClick = () => {
+        if (onSectionClick) {
+          onSectionClick(config.id)
+        }
       }
-    }
 
-    const materialProps = {
-      color: config.material.color,
-      roughness: config.material.roughness,
-      metalness: config.material.metalness,
-    }
+      const materialProps: any = {
+        color: config.material.color,
+        roughness: config.material.roughness,
+        metalness: config.material.metalness,
+      }
 
-    // Add texture if available
-    const sectionMaterial = getMaterialForSection(config.id, config.type)
-    if (sectionMaterial?.textureUrl) {
-      const textureLoader = new TextureLoader()
-      const texture = textureLoader.load(sectionMaterial.textureUrl)
-      materialProps.map = texture
-    }
+      // Add texture if available
+      const sectionMaterial = getMaterialForSection(config.id, config.type)
+      if (sectionMaterial?.textureUrl) {
+        try {
+          const textureLoader = new TextureLoader()
+          const texture = textureLoader.load(sectionMaterial.textureUrl)
+          materialProps.map = texture
+        } catch (error) {
+          console.warn('Failed to load texture:', sectionMaterial.textureUrl, error)
+          // Continue without texture
+        }
+      }
 
+      return (
+        <mesh
+          key={config.id}
+          position={config.geometry.position}
+          rotation={config.geometry.rotation}
+          scale={config.geometry.scale}
+          castShadow={config.material.castShadow}
+          receiveShadow={config.material.receiveShadow}
+          onClick={handleClick}
+          onPointerOver={(e) => {
+            e.stopPropagation()
+            document.body.style.cursor = 'pointer'
+          }}
+          onPointerOut={() => {
+            document.body.style.cursor = 'default'
+          }}
+        >
+          {config.geometry.type === 'box' && (
+            <boxGeometry args={config.geometry.args as [number, number, number]} />
+          )}
+          {config.geometry.type === 'cone' && (
+            <coneGeometry args={config.geometry.args as [number, number, number]} />
+          )}
+          {config.geometry.type === 'cylinder' && (
+            <cylinderGeometry args={config.geometry.args as [number, number, number]} />
+          )}
+          {config.geometry.type === 'plane' && (
+            <planeGeometry args={config.geometry.args as [number, number, number, number]} />
+          )}
+          <meshStandardMaterial {...materialProps} />
+        </mesh>
+      )
+    } catch (error) {
+      console.error('Error rendering section:', config.id, error)
+      setHasError(true)
+      return null
+    }
+  }
+
+  // If WebGL is not supported, show fallback
+  if (!webglSupported) {
     return (
-      <mesh
-        key={config.id}
-        position={config.geometry.position}
-        rotation={config.geometry.rotation}
-        scale={config.geometry.scale}
-        castShadow={config.material.castShadow}
-        receiveShadow={config.material.receiveShadow}
-        onClick={handleClick}
-        onPointerOver={(e) => {
-          e.stopPropagation()
-          document.body.style.cursor = 'pointer'
-        }}
-        onPointerOut={() => {
-          document.body.style.cursor = 'default'
-        }}
-      >
-        {config.geometry.type === 'box' && (
-          <boxGeometry args={config.geometry.args as [number, number, number]} />
-        )}
-        {config.geometry.type === 'cone' && (
-          <coneGeometry args={config.geometry.args as [number, number, number]} />
-        )}
-        {config.geometry.type === 'cylinder' && (
-          <cylinderGeometry args={config.geometry.args as [number, number, number]} />
-        )}
-        {config.geometry.type === 'plane' && (
-          <planeGeometry args={config.geometry.args as [number, number, number, number]} />
-        )}
-        <meshStandardMaterial {...materialProps} />
-      </mesh>
+      <group position={[0, 0, 0]}>
+        <mesh position={[0, 2, 0]}>
+          <boxGeometry args={[6, 4, 4]} />
+          <meshBasicMaterial color="#e5e7eb" />
+        </mesh>
+        <mesh position={[0, 4, 0]}>
+          <coneGeometry args={[3, 2, 8]} />
+          <meshBasicMaterial color="#4b5563" />
+        </mesh>
+        <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[20, 20]} />
+          <meshBasicMaterial color="#90EE90" />
+        </mesh>
+      </group>
     )
   }
 
-  // Filter sections based on view mode
-  const visibleSections = useMemo(() => {
-    if (viewMode === 'interior') {
-      return sectionConfigs.filter(
-        (section) =>
-          section.type === 'floor' || section.type === 'wall' || section.id === 'ground-plane'
-      )
-    }
-    return sectionConfigs
-  }, [sectionConfigs, viewMode])
+  // If there's a WebGL error, show fallback
+  if (hasError) {
+    return (
+      <group position={[0, 0, 0]}>
+        <mesh position={[0, 2, 0]}>
+          <boxGeometry args={[4, 4, 4]} />
+          <meshBasicMaterial color="#ff6b6b" />
+        </mesh>
+        <mesh position={[0, 4, 0]}>
+          <coneGeometry args={[2, 2, 8]} />
+          <meshBasicMaterial color="#4ecdc4" />
+        </mesh>
+      </group>
+    )
+  }
 
-  return <group position={[0, 0, 0]}>{visibleSections.map(renderSection)}</group>
+  // If no sections are available, show default house
+  if (sectionConfigs.length === 0) {
+    return <DefaultHouse />
+  }
+
+  return <group position={[0, 0, 0]}>{sectionConfigs.map(renderSection)}</group>
 }
 
 // Default House when no model is loaded

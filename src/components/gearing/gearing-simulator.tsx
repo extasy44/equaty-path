@@ -1,5 +1,4 @@
-'use client' // eslint-disable-line prettier/prettier
-/* eslint-disable prettier/prettier */
+'use client'
 
 import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

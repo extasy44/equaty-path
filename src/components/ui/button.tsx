@@ -10,15 +10,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-[color:var(--color-foreground)] text-white hover:bg-[color:var(--color-primary-hover)] hover:brightness-105',
+          'bg-[color:var(--color-foreground)] text-white hover:bg-[color:var(--color-muted-foreground)]',
         destructive:
           'bg-[color:var(--color-error)] text-white hover:bg-[color:var(--color-error)]/90',
         outline:
-          'border border-[color:var(--border)] bg-[color:var(--surface)] text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-hover)] hover:text-[color:var(--color-foreground)] hover:border-[color:var(--border-hover)]',
+          'border border-[color:var(--border)] bg-[color:var(--surface)] text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)] hover:border-[color:var(--border-hover)]',
         secondary:
-          'bg-[color:var(--color-muted)] text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-hover)]',
+          'bg-[color:var(--color-muted)] text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-foreground)]',
         ghost:
-          'text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-hover)] hover:text-[color:var(--color-foreground)]',
+          'text-[color:var(--color-foreground)] hover:bg-[color:var(--color-muted-foreground)] hover:text-[color:var(--color-foreground)]',
         link: 'text-[color:var(--color-primary)] underline-offset-4 hover:underline hover:text-[color:var(--color-primary-hover)]',
       },
       size: {

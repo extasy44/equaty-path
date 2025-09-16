@@ -67,13 +67,23 @@ export function RentalRoiForm({
         <Label htmlFor={id}>{label}</Label>
         {hint ? (
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
-                <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-muted text-xs cursor-help">
+                <button
+                  type="button"
+                  className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-200 touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  onClick={(e) => e.preventDefault()}
+                >
                   i
-                </span>
+                </button>
               </TooltipTrigger>
-              <TooltipContent>{hint}</TooltipContent>
+              <TooltipContent
+                className="bg-gray-900 text-white border-gray-700 shadow-xl max-w-xs z-50"
+                side="top"
+                align="center"
+              >
+                {hint}
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         ) : null}
