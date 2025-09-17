@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { PiggyBank, TrendingUp, LineChart, Map } from 'lucide-react'
 import { StrategySimulator, type StrategySnapshot } from '@/components/pathways/strategy-simulator'
 import { SavingsPlanner, type SavingsSnapshot } from '@/components/pathways/savings-planner'
@@ -45,28 +44,79 @@ function PathwaysContent() {
         )}
       </Head>
 
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
-        <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-[color:var(--color-primary)]">
+      <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-8 py-4 sm:py-6 md:py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs sm:text-sm font-medium mb-4">
+            <PiggyBank className="h-3 w-3 sm:h-4 sm:w-4" />
+            Financial Planning Tools
+          </div>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gradient mb-3">
             EquityPath Pathways
           </h1>
-          <p className="mt-2 sm:mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
-            Plan savings, loan readiness and your broader financial roadmap.
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Plan savings, loan readiness and your broader financial roadmap with our comprehensive
+            suite of planning tools.
           </p>
         </div>
 
-        <div className="mt-6 sm:mt-8 grid gap-4 sm:gap-6">
-          <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle>Overview</CardTitle>
-            </CardHeader>
-            <CardContent className="text-xs sm:text-sm text-muted-foreground">
-              EquityPath Pathways helps you understand your financial position today and map out the
-              steps toward your property and investment goals. It&apos;s more than a calculator —
-              it&apos;s a roadmap for how your savings, loan capacity, and investment strategies
-              come together.
-            </CardContent>
-          </Card>
+        {/* Quick Stats */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6 sm:mb-8">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3 sm:p-4 text-center">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold text-blue-600 mb-1">4</div>
+            <div className="text-xs sm:text-sm text-blue-700 font-medium">Planning Tools</div>
+          </div>
+          <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-3 sm:p-4 text-center">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 mb-1">
+              100%
+            </div>
+            <div className="text-xs sm:text-sm text-purple-700 font-medium">Free to Use</div>
+          </div>
+          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-3 sm:p-4 text-center">
+            <div className="text-lg sm:text-xl md:text-2xl font-bold text-green-600 mb-1">
+              Real-time
+            </div>
+            <div className="text-xs sm:text-sm text-green-700 font-medium">Calculations</div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid gap-4 sm:gap-6">
+          {/* Overview Section */}
+          <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-4 sm:p-6 border border-slate-200/50">
+            <div className="text-center mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-2">How It Works</h2>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                EquityPath Pathways helps you understand your financial position today and map out
+                the steps toward your property and investment goals. It&apos;s more than a
+                calculator — it&apos;s a roadmap for how your savings, loan capacity, and investment
+                strategies come together.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              <Step
+                index={1}
+                text="Enter current savings, income, debts and target goals"
+                icon={<PiggyBank className="h-4 w-4" />}
+              />
+              <Step
+                index={2}
+                text="Estimate loan readiness and buffers"
+                icon={<TrendingUp className="h-4 w-4" />}
+              />
+              <Step
+                index={3}
+                text="Lay out your roadmap milestones and timelines"
+                icon={<Map className="h-4 w-4" />}
+              />
+              <Step
+                index={4}
+                text="Simulate strategies and iterate your plan"
+                icon={<LineChart className="h-4 w-4" />}
+              />
+            </div>
+          </div>
 
           <Section>
             <SavingsPlanner onSnapshot={(s) => setSavingsSnapshot(s)} />
@@ -78,37 +128,6 @@ function PathwaysContent() {
 
           <Section>
             <StrategySimulator onSnapshot={(s) => setStrategySnapshot(s)} />
-          </Section>
-          <Section>
-            <Card className="ring-1 ring-black/5">
-              <CardHeader>
-                <CardTitle>How It Works</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ol className="grid gap-3 sm:gap-4">
-                  <Step
-                    index={1}
-                    text="Enter current savings, income, debts and target goals"
-                    icon={<PiggyBank className="h-4 w-4" />}
-                  />
-                  <Step
-                    index={2}
-                    text="Estimate loan readiness and buffers"
-                    icon={<TrendingUp className="h-4 w-4" />}
-                  />
-                  <Step
-                    index={3}
-                    text="Lay out your roadmap milestones and timelines"
-                    icon={<Map className="h-4 w-4" />}
-                  />
-                  <Step
-                    index={4}
-                    text="Simulate strategies and iterate your plan"
-                    icon={<LineChart className="h-4 w-4" />}
-                  />
-                </ol>
-              </CardContent>
-            </Card>
           </Section>
 
           <Section>
@@ -138,17 +157,23 @@ function Section({ children }: { children: React.ReactNode }) {
 
 function Step({ index, text, icon }: { index: number; text: string; icon?: React.ReactNode }) {
   return (
-    <div className="flex items-start gap-2 sm:gap-3">
-      <div className="h-5 w-5 sm:h-6 sm:w-6 shrink-0 grid place-items-center rounded-full bg-[color:var(--color-primary)] text-white text-xs font-semibold">
-        {index}
-      </div>
-      <div className="flex items-center gap-2 min-w-0 flex-1">
-        {icon ? (
-          <span className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-md bg-muted text-foreground shrink-0">
-            {icon}
-          </span>
-        ) : null}
-        <div className="text-xs sm:text-sm leading-relaxed">{text}</div>
+    <div className="bg-white rounded-lg p-3 sm:p-4 border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-start gap-2 sm:gap-3">
+        <div className="h-6 w-6 sm:h-8 sm:w-8 shrink-0 grid place-items-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 text-white text-xs sm:text-sm font-bold">
+          {index}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            {icon ? (
+              <span className="inline-flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center rounded-md bg-slate-100 text-slate-600 shrink-0">
+                {icon}
+              </span>
+            ) : null}
+          </div>
+          <div className="text-xs sm:text-sm leading-relaxed text-slate-700 font-medium">
+            {text}
+          </div>
+        </div>
       </div>
     </div>
   )

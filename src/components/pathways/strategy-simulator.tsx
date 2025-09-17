@@ -121,26 +121,42 @@ export function StrategySimulator({ onSnapshot }: { onSnapshot?: (s: StrategySna
 
   return (
     <Card className="ring-1 ring-black/5">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center justify-between text-base sm:text-lg">
           Strategy Simulator
-          <div className="flex items-center gap-2">
-            <Button variant="outline" className="h-7 px-2" onClick={() => setInputs(DEFAULTS)}>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Button
+              variant="outline"
+              className="h-6 px-2 text-xs"
+              onClick={() => setInputs(DEFAULTS)}
+            >
               Reset
             </Button>
-            <Button variant="outline" className="h-7 px-2" onClick={() => applyPreset('buy_hold')}>
+            <Button
+              variant="outline"
+              className="h-6 px-2 text-xs"
+              onClick={() => applyPreset('buy_hold')}
+            >
               Buy + Hold
             </Button>
-            <Button variant="outline" className="h-7 px-2" onClick={() => applyPreset('rentvest')}>
+            <Button
+              variant="outline"
+              className="h-6 px-2 text-xs"
+              onClick={() => applyPreset('rentvest')}
+            >
               Rentvesting
             </Button>
-            <Button variant="outline" className="h-7 px-2" onClick={() => applyPreset('kdr')}>
+            <Button
+              variant="outline"
+              className="h-6 px-2 text-xs"
+              onClick={() => applyPreset('kdr')}
+            >
               KDR
             </Button>
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid md:grid-cols-2 gap-6">
+      <CardContent className="grid md:grid-cols-2 gap-4 sm:gap-6 pt-0">
         <div className="grid gap-3">
           <Field
             label="Current savings"
@@ -195,12 +211,12 @@ export function StrategySimulator({ onSnapshot }: { onSnapshot?: (s: StrategySna
           />
         </div>
 
-        <div className="grid gap-4">
+        <div className="grid gap-3">
           <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle className="text-base">Deposit runway</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm sm:text-base">Deposit runway</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-2 text-sm">
+            <CardContent className="grid gap-1.5 text-xs sm:text-sm pt-0">
               <div className="flex justify-between">
                 <span>Target</span>
                 <span>{formatCurrency(inputs.targetDeposit)}</span>
@@ -237,10 +253,10 @@ export function StrategySimulator({ onSnapshot }: { onSnapshot?: (s: StrategySna
           </Card>
 
           <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle className="text-base">Equity projection</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm sm:text-base">Equity projection</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-2 text-sm">
+            <CardContent className="grid gap-1.5 text-xs sm:text-sm pt-0">
               <div className="flex justify-between">
                 <span>Initial equity</span>
                 <span>{formatCurrency(outputs.initialEquity)}</span>
@@ -285,14 +301,17 @@ function Field({
   step?: string
 }) {
   return (
-    <div className="grid gap-1.5">
-      <Label htmlFor={id}>{label}</Label>
+    <div className="grid gap-1">
+      <Label htmlFor={id} className="text-sm">
+        {label}
+      </Label>
       <Input
         id={id}
         type="number"
         value={value}
         step={step ?? '1'}
         onChange={(e) => onChange(e.currentTarget.value)}
+        className="h-8 text-sm"
       />
     </div>
   )

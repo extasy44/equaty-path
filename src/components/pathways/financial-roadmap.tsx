@@ -105,10 +105,12 @@ export function FinancialRoadmap({
 
   return (
     <Card className="ring-1 ring-black/5">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">Financial Roadmap</CardTitle>
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center justify-between text-base sm:text-lg">
+          Financial Roadmap
+        </CardTitle>
       </CardHeader>
-      <CardContent className="text-sm text-muted-foreground grid gap-2">
+      <CardContent className="text-xs sm:text-sm text-muted-foreground grid gap-2 pt-0">
         <div>Summarize your Savings, Loan Readiness, and Strategy into a shareable report.</div>
         <div>Use Export PDF to generate a simple roadmap you can send to stakeholders.</div>
         <div className="pt-2">

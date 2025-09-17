@@ -288,140 +288,140 @@ export function SiteHeader() {
       {/* Mobile menu */}
       {isMobileOpen ? (
         <div className="md:hidden border-t border-gray-200/60 bg-white/95 backdrop-blur-md shadow-lg">
-          <div className="mx-auto max-w-6xl px-2 py-1.5 grid gap-1 text-xs">
+          <div className="mx-auto max-w-6xl px-3 py-2 grid gap-1.5 text-sm">
             <Link
               href="/"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Home
             </Link>
             <Link
               href="/features"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Features
             </Link>
             <Link
               href="/analysis"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               <span>AI Analysis</span>
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-1 py-0.5 text-xs font-semibold text-white">
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-2 py-1 text-xs font-semibold text-white">
                 AI
               </span>
             </Link>
             {/* AI-Powered Tools */}
-            <div className="mt-1.5 px-1.5 py-0.5 text-xs font-semibold text-blue-600 uppercase tracking-wide bg-gradient-to-r from-blue-50 to-purple-50 rounded-sm border-l-2 border-blue-500">
+            <div className="mt-2 px-3 py-1.5 text-sm font-semibold text-blue-600 uppercase tracking-wide bg-gradient-to-r from-blue-50 to-purple-50 rounded-md border-l-2 border-blue-500">
               AI-Powered Tools
             </div>
             <Link
               href="/builder-visualizer"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               <span>Builder Visualizer</span>
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-1 py-0.5 text-xs font-semibold text-white">
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-2 py-1 text-xs font-semibold text-white">
                 AI
               </span>
             </Link>
             <Link
               href="/landscaping-visualizer"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               <span>Landscaping Visualizer</span>
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-1 py-0.5 text-xs font-semibold text-white">
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-2 py-1 text-xs font-semibold text-white">
                 AI
               </span>
             </Link>
             <Link
               href="/analysis"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 flex items-center justify-between font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               <span>Property Analysis</span>
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-1 py-0.5 text-xs font-semibold text-white">
+              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-2 py-1 text-xs font-semibold text-white">
                 AI
               </span>
             </Link>
 
             {/* Financial Calculators */}
-            <div className="mt-1.5 px-1.5 py-0.5 text-xs font-semibold text-emerald-600 uppercase tracking-wide bg-gradient-to-r from-emerald-50 to-teal-50 rounded-sm border-l-2 border-emerald-500">
+            <div className="mt-2 px-3 py-1.5 text-sm font-semibold text-emerald-600 uppercase tracking-wide bg-gradient-to-r from-emerald-50 to-teal-50 rounded-md border-l-2 border-emerald-500">
               Financial Calculators
             </div>
             <Link
               href="/build-roi"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Build ROI Calculator
             </Link>
             <Link
               href="/rental-roi"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Rental ROI Calculator
             </Link>
             <Link
               href="/negative-gearing"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Gearing Simulator
             </Link>
 
             {/* Planning & Strategy */}
-            <div className="mt-1.5 px-1.5 py-0.5 text-xs font-semibold text-orange-600 uppercase tracking-wide bg-gradient-to-r from-orange-50 to-amber-50 rounded-sm border-l-2 border-orange-500">
+            <div className="mt-2 px-3 py-1.5 text-sm font-semibold text-orange-600 uppercase tracking-wide bg-gradient-to-r from-orange-50 to-amber-50 rounded-md border-l-2 border-orange-500">
               Planning & Strategy
             </div>
             <Link
               href="/pathways"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Financial Pathways
             </Link>
             <Link
               href="/compare"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Project Comparator
             </Link>
 
             {/* Reports & Export */}
-            <div className="mt-1.5 px-1.5 py-0.5 text-xs font-semibold text-indigo-600 uppercase tracking-wide bg-gradient-to-r from-indigo-50 to-purple-50 rounded-sm border-l-2 border-indigo-500">
+            <div className="mt-2 px-3 py-1.5 text-sm font-semibold text-indigo-600 uppercase tracking-wide bg-gradient-to-r from-indigo-50 to-purple-50 rounded-md border-l-2 border-indigo-500">
               Reports & Export
             </div>
             <Link
               href="/reports"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Premium Reports
             </Link>
             <Link
               href="/build-roi?tab=upgrades"
-              className="px-1.5 py-1 rounded-sm hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900"
+              className="px-3 py-2 rounded-md hover:bg-gray-50 transition-all duration-200 text-gray-700 hover:text-gray-900 font-medium"
               onClick={() => setIsMobileOpen(false)}
             >
               Upgrade ROI Guide
             </Link>
-            <div className="mt-2 flex gap-1.5">
+            <div className="mt-3 flex gap-2">
               <button
                 disabled
-                className="flex-1 inline-flex items-center justify-center h-7 rounded-sm border border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed text-xs"
+                className="flex-1 inline-flex items-center justify-center h-9 rounded-md border border-gray-200 bg-gray-100 text-gray-400 cursor-not-allowed text-sm font-medium"
                 title="Login coming soon"
               >
                 Login
               </button>
               <button
                 disabled
-                className="flex-1 inline-flex items-center justify-center h-7 rounded-sm bg-gray-400 text-white cursor-not-allowed text-xs"
+                className="flex-1 inline-flex items-center justify-center h-9 rounded-md bg-gray-400 text-white cursor-not-allowed text-sm font-medium"
                 title="Sign up coming soon"
               >
                 Sign Up

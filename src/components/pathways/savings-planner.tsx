@@ -90,16 +90,20 @@ export function SavingsPlanner({ onSnapshot }: { onSnapshot?: (s: SavingsSnapsho
 
   return (
     <Card className="ring-1 ring-black/5">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center justify-between text-base sm:text-lg">
           Savings Planner
-          <div className="flex items-center gap-2">
-            <Button variant="outline" className="h-7 px-2" onClick={() => setInputs(DEFAULTS)}>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Button
+              variant="outline"
+              className="h-6 px-2 text-xs"
+              onClick={() => setInputs(DEFAULTS)}
+            >
               Reset
             </Button>
             <Button
               variant="outline"
-              className="h-7 px-2"
+              className="h-6 px-2 text-xs"
               onClick={() => setInputs((p) => ({ ...p, monthlySavings: p.monthlySavings + 500 }))}
             >
               +$500/mo
@@ -107,7 +111,7 @@ export function SavingsPlanner({ onSnapshot }: { onSnapshot?: (s: SavingsSnapsho
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid md:grid-cols-2 gap-6">
+      <CardContent className="grid md:grid-cols-2 gap-4 sm:gap-6 pt-0">
         <div className="grid gap-3">
           <Field
             label="Current savings"
@@ -142,12 +146,12 @@ export function SavingsPlanner({ onSnapshot }: { onSnapshot?: (s: SavingsSnapsho
           />
         </div>
 
-        <div className="grid gap-4">
+        <div className="grid gap-3">
           <Card className="ring-1 ring-black/5">
-            <CardHeader>
-              <CardTitle className="text-base">Progress to target</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm sm:text-base">Progress to target</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-2 text-sm">
+            <CardContent className="grid gap-1.5 text-xs sm:text-sm pt-0">
               <div className="flex justify-between">
                 <span>Target</span>
                 <span>{formatCurrency(inputs.targetAmount)}</span>
@@ -228,8 +232,10 @@ function Field({
   }
 
   return (
-    <div className="grid gap-1.5">
-      <Label htmlFor={id}>{label}</Label>
+    <div className="grid gap-1">
+      <Label htmlFor={id} className="text-sm">
+        {label}
+      </Label>
       <Input
         id={id}
         type="number"
@@ -238,6 +244,7 @@ function Field({
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        className="h-8 text-sm"
       />
     </div>
   )
