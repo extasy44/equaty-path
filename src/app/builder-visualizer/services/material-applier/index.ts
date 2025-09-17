@@ -445,28 +445,28 @@ export class MaterialApplier {
       case 'floor':
         return materials.filter(
           (m) =>
-            m.properties.texture === 'laminate' ||
-            m.properties.texture === 'natural_stone' ||
+            m.properties?.texture === 'laminate' ||
+            m.properties?.texture === 'natural_stone' ||
             m.name.toLowerCase().includes('wood') ||
             m.name.toLowerCase().includes('tile')
         )
       case 'wall':
         return materials.filter(
           (m) =>
-            m.properties.texture === 'brick' ||
-            m.properties.texture === 'render' ||
-            m.properties.finish === 'smooth'
+            m.properties?.texture === 'brick' ||
+            m.properties?.texture === 'render' ||
+            m.properties?.finish === 'smooth'
         )
       case 'roof':
         return materials.filter(
           (m) =>
             m.name.toLowerCase().includes('tile') ||
-            m.properties.texture === 'ceramic' ||
-            m.properties.durability === 'high'
+            m.properties?.texture === 'ceramic' ||
+            m.properties?.durability === 'high'
         )
       case 'ceiling':
         return materials.filter(
-          (m) => m.properties.finish === 'smooth' || m.properties.finish === 'matte'
+          (m) => m.properties?.finish === 'smooth' || m.properties?.finish === 'matte'
         )
       default:
         return materials

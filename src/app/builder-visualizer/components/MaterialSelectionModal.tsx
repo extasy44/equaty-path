@@ -172,21 +172,22 @@ export function MaterialSelectionModal({
                           <div className="flex items-center justify-between text-xs">
                             <span className="text-gray-600">Finish:</span>
                             <span className="text-gray-800 capitalize">
-                              {material.properties.finish}
+                              {material.properties?.finish || 'Standard'}
                             </span>
                           </div>
 
                           <div className="flex items-center justify-between text-xs">
                             <span className="text-gray-600">Durability:</span>
                             <Badge variant="outline" className="text-xs px-1 py-0">
-                              {material.properties.durability}
+                              {material.properties?.durability || 'Good'}
                             </Badge>
                           </div>
                         </div>
 
                         {/* Material Description */}
                         <p className="text-xs text-gray-600 line-clamp-2">
-                          {material.properties.description}
+                          {material.properties?.description ||
+                            'High-quality material for construction.'}
                         </p>
 
                         {/* Action Button */}

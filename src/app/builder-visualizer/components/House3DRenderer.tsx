@@ -3,7 +3,7 @@
 
 import { useMemo, useState, useEffect } from 'react'
 import type { MaterialSelection } from '../types'
-import { MeshStandardMaterial } from 'three'
+// import { MeshStandardMaterial } from 'three'
 import { useGLTF } from '@react-three/drei'
 
 // Utility function to preload GLB models
@@ -102,67 +102,77 @@ function GLBHouse({
     }
   }, [scene, modelError, onModelError])
 
-  // Apply materials to the model
-  useEffect(() => {
-    if (!selectedMaterials || !clonedScene) return
-
-    const materialsMap: Record<string, any> = {}
-
-    // Process selected materials
-    if (Array.isArray(selectedMaterials)) {
-      selectedMaterials.forEach((material) => {
-        if (material && material.sectionId) {
-          materialsMap[material.sectionId] = material
-        }
-      })
-    } else if (typeof selectedMaterials === 'object') {
-      Object.entries(selectedMaterials).forEach(([key, material]) => {
-        if (material && typeof material === 'object') {
-          materialsMap[key] = material
-        }
-      })
-    }
-
-    // Apply materials to mesh objects and make them clickable
+  // Build a lookup map for meshes by sectionId (one-time per cloned scene)
+  const sectionMeshMap = useMemo(() => {
+    if (!clonedScene || modelError) return {} as Record<string, any>
+    const map: Record<string, any> = {}
     let meshIndex = 0
+
     clonedScene.traverse((child: any) => {
-      if (child.isMesh) {
-        // Generate a unique section ID if the mesh doesn't have a name
-        const sectionId = child.name || `mesh-${meshIndex++}`
+      if (!child.isMesh) return
 
-        // Make the mesh clickable
-        child.userData = {
-          sectionId: sectionId,
-          isClickable: true,
-          meshName: child.name || `Mesh ${meshIndex}`,
-        }
+      const sectionId = child.name || `mesh-${meshIndex++}`
+      child.userData = {
+        ...(child.userData || {}),
+        sectionId,
+        isClickable: true,
+        meshName: child.name || `Mesh ${meshIndex}`,
+      }
 
-        // Apply material if available
-        const material = materialsMap[sectionId] || materialsMap['default-section']
-        if (material) {
-          child.material = new MeshStandardMaterial({
-            color: material.color || '#e5e7eb',
-            roughness: material.roughness || 0.7,
-            metalness: material.metalness || 0.1,
-          })
-        }
+      // Cache original color for cheap hover/highlight without reallocating materials
+      if (!child.userData.originalColor && child.material?.color?.clone) {
+        child.userData.originalColor = child.material.color.clone()
+      }
 
-        // Enable shadows and make sure the mesh is interactive
-        child.castShadow = true
-        child.receiveShadow = true
+      child.castShadow = true
+      child.receiveShadow = true
 
-        // Ensure the mesh can receive pointer events
-        child.userData.originalMaterial = child.material
+      map[sectionId] = child
 
+      if (process.env.NODE_ENV !== 'production') {
         console.log('Mesh prepared for interaction:', {
           name: child.name,
-          sectionId: sectionId,
+          sectionId,
           position: child.position,
           userData: child.userData,
         })
       }
     })
-  }, [clonedScene, selectedMaterials])
+
+    return map
+  }, [clonedScene, modelError])
+
+  // Apply materials to the model
+  useEffect(() => {
+    if (!clonedScene || !selectedMaterials) return
+
+    const materialsMap: Record<string, any> = {}
+
+    // Normalize selected materials into a map
+    if (Array.isArray(selectedMaterials)) {
+      selectedMaterials.forEach((material) => {
+        if (material && material.sectionId) materialsMap[material.sectionId] = material
+      })
+    } else if (typeof selectedMaterials === 'object') {
+      Object.entries(selectedMaterials).forEach(([key, material]) => {
+        if (material && typeof material === 'object') materialsMap[key] = material
+      })
+    }
+
+    // Apply only to meshes that changed
+    Object.entries(materialsMap).forEach(([sectionId, mat]) => {
+      const mesh = (sectionMeshMap as Record<string, any>)[sectionId]
+      if (!mesh) return
+
+      const m: any = mesh.material
+      if (!m) return
+
+      if (m.color && mat.color) m.color.set(mat.color)
+      if (typeof mat.roughness === 'number' && 'roughness' in m) m.roughness = mat.roughness
+      if (typeof mat.metalness === 'number' && 'metalness' in m) m.metalness = mat.metalness
+      m.needsUpdate = true
+    })
+  }, [clonedScene, selectedMaterials, sectionMeshMap])
 
   // Handle clicks on the model
   const handleClick = (event: any) => {
@@ -212,18 +222,12 @@ function GLBHouse({
 
     // Add hover effect to the mesh
     if (event.object.userData?.isClickable) {
-      const originalMaterial = event.object.userData.originalMaterial
-      if (originalMaterial) {
-        // Create a slightly brighter version for hover - only copy compatible properties
-        event.object.material = new MeshStandardMaterial({
-          color: originalMaterial.color.clone().multiplyScalar(1.2),
-          map: originalMaterial.map,
-          normalMap: originalMaterial.normalMap,
-          roughness: originalMaterial.roughness,
-          metalness: originalMaterial.metalness,
-          transparent: originalMaterial.transparent,
-          opacity: originalMaterial.opacity,
-        })
+      const originalColor = event.object.userData.originalColor
+      const mat: any = event.object.material
+      if (originalColor && mat?.color) {
+        // Cheap highlight without reallocating material
+        mat.color.copy(originalColor).multiplyScalar(1.15)
+        mat.needsUpdate = true
       }
     }
   }
@@ -235,9 +239,11 @@ function GLBHouse({
 
     // Restore original material
     if (event.object.userData?.isClickable) {
-      const originalMaterial = event.object.userData.originalMaterial
-      if (originalMaterial) {
-        event.object.material = originalMaterial
+      const originalColor = event.object.userData.originalColor
+      const mat: any = event.object.material
+      if (originalColor && mat?.color) {
+        mat.color.copy(originalColor)
+        mat.needsUpdate = true
       }
     }
   }
