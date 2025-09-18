@@ -65,33 +65,34 @@ export function UnifiedOptionsPanel({
 
   return (
     <div
-      className="fixed inset-y-0 right-0 w-full max-w-lg h-full bg-white border-l border-gray-200/80 shadow-xl z-50"
+      className="fixed inset-y-0 right-0 w-full max-w-lg h-full bg-white/95 backdrop-blur rounded-l-2xl border-l border-slate-200/70 shadow-2xl z-50 overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-labelledby="unified-panel-title"
     >
       <div className="flex flex-col h-full">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-              <Building2 className="h-6 w-6 text-gray-800" />
-            </div>
+        <div className="flex items-center justify-between px-5 py-4 border-b bg-white/80 backdrop-blur">
+          <div className="flex items-center gap-3">
+            <span className="inline-grid h-9 w-9 place-items-center rounded-md bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow">
+              <Building2 className="h-5 w-5" />
+            </span>
             <div>
-              <div id="unified-panel-title" className="text-xl font-bold text-white">
+              <div id="unified-panel-title" className="text-base font-semibold text-slate-900">
                 Design Settings
               </div>
-              <p className="text-gray-100 text-sm">Customize your home design</p>
+              <p className="text-slate-600 text-xs">Customize your home design</p>
             </div>
           </div>
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={onClose}
-            className="h-8 w-8 p-0 text-white hover:bg-white/10 rounded-full"
+            className="h-8 px-2 text-slate-700 hover:bg-slate-100"
             aria-label="Close options panel"
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4 mr-1" />
+            Close
           </Button>
         </div>
 
@@ -102,7 +103,7 @@ export function UnifiedOptionsPanel({
               size="sm"
               variant="outline"
               onClick={() => setShowAI(true)}
-              className="flex-1 h-9 font-medium"
+              className="flex-1 h-8 font-medium hover:shadow-sm"
             >
               <Wand2 className="h-4 w-4 mr-2" />
               AI Assistant
@@ -111,7 +112,7 @@ export function UnifiedOptionsPanel({
               size="sm"
               variant="outline"
               onClick={onGalleryOpen}
-              className="flex-1 h-9 font-medium"
+              className="flex-1 h-8 font-medium hover:shadow-sm"
             >
               <Camera className="h-4 w-4 mr-2" />
               Gallery
@@ -120,25 +121,25 @@ export function UnifiedOptionsPanel({
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-hidden bg-gray-50">
+        <div className="flex-1 overflow-hidden bg-slate-50/60">
           {showAI ? (
             <div className="h-full flex flex-col">
               {/* AI Assistant Header */}
-              <div className="flex items-center justify-between p-4 border-b bg-white">
+              <div className="flex items-center justify-between p-4 border-b bg-white/90 backdrop-blur">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-purple-100 rounded-lg">
-                    <Wand2 className="h-5 w-5 text-purple-600" />
+                  <div className="inline-grid h-8 w-8 place-items-center rounded-md bg-purple-600 text-white">
+                    <Wand2 className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">AI Assistant</h3>
-                    <p className="text-sm text-gray-600">Generate custom designs with AI</p>
+                    <h3 className="text-sm font-semibold text-slate-900">AI Assistant</h3>
+                    <p className="text-xs text-slate-600">Generate custom designs with AI</p>
                   </div>
                 </div>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setShowAI(false)}
-                  className="h-8 px-3"
+                  className="h-8 px-3 hover:shadow-sm"
                 >
                   <ArrowLeft className="h-4 w-4 mr-1" />
                   Back to Options
@@ -156,25 +157,25 @@ export function UnifiedOptionsPanel({
             </div>
           ) : (
             <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-              <div className="bg-white border-b">
-                <TabsList className="grid w-full grid-cols-3 mx-4 mt-4 mb-0 bg-transparent p-0">
+              <div className="bg-white/90 backdrop-blur border-b">
+                <TabsList className="grid w-full grid-cols-3 mx-4 mt-4 mb-2 bg-slate-100/80 border border-slate-200 rounded-md p-1">
                   <TabsTrigger
                     value="plans"
-                    className="text-sm font-medium data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                    className="text-xs sm:text-sm font-medium rounded data-[state=active]:bg-blue-600 data-[state=active]:text-white"
                   >
                     <Home className="h-4 w-4 mr-1" />
                     Plans
                   </TabsTrigger>
                   <TabsTrigger
                     value="facades"
-                    className="text-sm font-medium data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                    className="text-xs sm:text-sm font-medium rounded data-[state=active]:bg-blue-600 data-[state=active]:text-white"
                   >
                     <Palette className="h-4 w-4 mr-1" />
                     Facades
                   </TabsTrigger>
                   <TabsTrigger
                     value="materials"
-                    className="text-sm font-medium data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                    className="text-xs sm:text-sm font-medium rounded data-[state=active]:bg-blue-600 data-[state=active]:text-white"
                   >
                     <Sparkles className="h-4 w-4 mr-1" />
                     Materials
@@ -196,56 +197,52 @@ export function UnifiedOptionsPanel({
                     {housePlans.map((plan) => (
                       <Card
                         key={plan.id}
-                        className={`group cursor-pointer transition-all duration-200 hover:shadow-lg ${
-                          selectedPreset === plan.id
-                            ? 'ring-2 ring-blue-500 bg-blue-50/50 border-blue-200'
-                            : 'hover:border-blue-300 hover:shadow-md'
-                        }`}
+                        className={`group cursor-pointer transition-all duration-200 border border-slate-200/70 hover:border-slate-300 hover:shadow-md rounded-xl ${selectedPreset === plan.id ? 'ring-2 ring-blue-600 bg-blue-50/60' : ''}`}
                         onClick={() => onPresetSelect(plan.id)}
                       >
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center gap-2">
                               <Home className="h-4 w-4 text-blue-600" />
-                              <h4 className="font-semibold text-gray-900">{plan.name}</h4>
+                              <h4 className="font-semibold text-slate-900">{plan.name}</h4>
                               {selectedPreset === plan.id && (
                                 <div className="p-1 bg-blue-600 rounded-full">
                                   <CheckCircle className="h-3 w-3 text-white" />
                                 </div>
                               )}
                             </div>
-                            <Badge className="bg-white/90 text-gray-700 border-0 shadow-sm">
+                            <Badge className="bg-white/90 text-slate-700 border-0 shadow-sm">
                               <Square className="h-3 w-3 mr-1 text-green-500" />
                               {plan.specifications.totalArea}m²
                             </Badge>
                           </div>
 
-                          <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+                          <p className="text-sm text-slate-600 mb-3 line-clamp-2">
                             {plan.description}
                           </p>
 
                           <div className="grid grid-cols-2 gap-2 mb-3">
                             <div className="flex items-center gap-1 text-xs">
-                              <Users className="h-3 w-3 text-gray-500" />
-                              <span className="text-gray-600">
+                              <Users className="h-3 w-3 text-slate-500" />
+                              <span className="text-slate-600">
                                 {plan.specifications.bedrooms} beds
                               </span>
                             </div>
                             <div className="flex items-center gap-1 text-xs">
-                              <Home className="h-3 w-3 text-gray-500" />
-                              <span className="text-gray-600">
+                              <Home className="h-3 w-3 text-slate-500" />
+                              <span className="text-slate-600">
                                 {plan.specifications.bathrooms} baths
                               </span>
                             </div>
                             <div className="flex items-center gap-1 text-xs">
-                              <Car className="h-3 w-3 text-gray-500" />
-                              <span className="text-gray-600">
+                              <Car className="h-3 w-3 text-slate-500" />
+                              <span className="text-slate-600">
                                 {plan.specifications.garage} garage
                               </span>
                             </div>
                             <div className="flex items-center gap-1 text-xs">
-                              <Square className="h-3 w-3 text-gray-500" />
-                              <span className="text-gray-600">
+                              <Square className="h-3 w-3 text-slate-500" />
+                              <span className="text-slate-600">
                                 {plan.specifications.totalArea}m²
                               </span>
                             </div>
@@ -255,7 +252,7 @@ export function UnifiedOptionsPanel({
                             <div className="text-sm font-bold text-green-600">
                               ${plan.facadeOptions.hyatt?.cost.base.toLocaleString()}
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-slate-500">
                               {Object.keys(plan.facadeOptions).length} facades
                             </div>
                           </div>
@@ -283,10 +280,10 @@ export function UnifiedOptionsPanel({
                           <Tooltip delayDuration={0}>
                             <TooltipTrigger asChild>
                               <Card
-                                className={`group cursor-pointer transition-all duration-200 hover:shadow-lg ${
+                                className={`group cursor-pointer transition-all duration-200 border border-slate-200/70 hover:border-slate-300 hover:shadow-md rounded-xl ${
                                   selectedFacade === facadeId
-                                    ? 'ring-2 ring-blue-500 bg-blue-50/50 border-blue-200'
-                                    : 'hover:border-blue-300 hover:shadow-md'
+                                    ? 'ring-2 ring-blue-600 bg-blue-50/60'
+                                    : ''
                                 }`}
                                 onClick={() => onFacadeSelect(facadeId)}
                               >
@@ -320,10 +317,10 @@ export function UnifiedOptionsPanel({
                                     <div className="flex-1 min-w-0">
                                       <div className="flex items-start justify-between mb-1">
                                         <div className="min-w-0 flex-1">
-                                          <div className="text-lg font-semibold text-gray-900">
+                                          <div className="text-lg font-semibold text-slate-900">
                                             {facade.name}
                                           </div>
-                                          <p className="text-xs text-gray-600 line-clamp-1 mt-0.5">
+                                          <p className="text-xs text-slate-600 line-clamp-1 mt-0.5">
                                             {facade.description}
                                           </p>
                                         </div>
@@ -339,7 +336,7 @@ export function UnifiedOptionsPanel({
                                           <Badge
                                             key={index}
                                             variant="outline"
-                                            className="text-xs px-1.5 py-0.5 bg-gray-50 text-gray-600"
+                                            className="text-xs px-1.5 py-0.5 bg-gray-50 text-slate-600"
                                           >
                                             {feature}
                                           </Badge>
@@ -347,7 +344,7 @@ export function UnifiedOptionsPanel({
                                         {facade.features.length > 2 && (
                                           <Badge
                                             variant="outline"
-                                            className="text-xs px-1.5 py-0.5 bg-gray-50 text-gray-600"
+                                            className="text-xs px-1.5 py-0.5 bg-gray-50 text-slate-600"
                                           >
                                             +{facade.features.length - 2}
                                           </Badge>
@@ -360,12 +357,12 @@ export function UnifiedOptionsPanel({
                                             Selected
                                           </Badge>
                                         ) : (
-                                          <div className="text-xs text-gray-500">
+                                          <div className="text-xs text-slate-500">
                                             Click to select
                                           </div>
                                         )}
                                         <div className="flex items-center gap-1">
-                                          <Badge className="bg-white/90 text-gray-700 border-0 shadow-sm text-xs px-1.5 py-0.5">
+                                          <Badge className="bg-white/90 text-slate-700 border-0 shadow-sm text-xs px-1.5 py-0.5">
                                             <Star className="h-2.5 w-2.5 mr-0.5 text-yellow-500" />
                                             Featured
                                           </Badge>

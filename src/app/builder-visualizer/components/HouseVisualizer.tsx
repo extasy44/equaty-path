@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useMemo, useCallback } from 'react'
+import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Environment, CameraControls } from '@react-three/drei'
 import { Settings, Maximize2, Minimize2, RotateCcw, ZoomIn, ZoomOut, Target } from 'lucide-react'
@@ -17,7 +17,11 @@ import { useViewerState } from '../hooks/useViewerState'
 import { getHousePlanById, calculateTotalCost, generateAIPrompt } from '../data'
 import type { MaterialSelection } from '../data'
 
-export default function HouseVisualizer() {
+interface HouseVisualizerProps {
+  doesShowHeader?: boolean
+}
+
+export default function HouseVisualizer({ doesShowHeader = true }: HouseVisualizerProps) {
   const canvasRef = useRef<HTMLDivElement>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
@@ -33,6 +37,7 @@ export default function HouseVisualizer() {
   const [currentView, setCurrentView] = useState<
     'front' | 'back' | 'left' | 'right' | 'top' | 'iso'
   >('iso')
+  const [webglContextLost, setWebglContextLost] = useState(false)
 
   // Use existing hooks
   const { state, setSelectedPreset, setSelectedFacade, handleMaterialSelect } = useViewerState()
@@ -67,16 +72,6 @@ export default function HouseVisualizer() {
     console.log('Model path would be:', customPath, '(using default for now)')
     return defaultModel
   }, [state.selectedPreset, state.selectedFacade])
-
-  // Debug logging
-  console.log('HouseVisualizer Debug:', {
-    selectedPreset: state.selectedPreset,
-    selectedFacade: state.selectedFacade,
-    currentHousePlan: currentHousePlan?.name,
-    modelPath: modelPath,
-    hasGeometry: !!currentHousePlan?.geometry?.sections,
-    sectionsCount: currentHousePlan?.geometry?.sections?.length || 0,
-  })
 
   // Calculate costs
   const totalCost = useMemo(() => {
@@ -284,92 +279,122 @@ export default function HouseVisualizer() {
     cameraControls.dolly(2, true)
   }, [cameraControls])
 
-  return (
-    <main className="h-screen bg-gray-900 text-white flex flex-col overflow-hidden">
-      {/* Top Navigation Bar */}
-      <header className="h-16 bg-gray-800 border-b border-gray-700 flex items-center justify-between px-6 flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="text-2xl font-bold text-white">Builder Visualizer</div>
-        </div>
-      </header>
+  // Handle WebGL context loss
+  const handleWebGLContextLost = useCallback(() => {
+    console.warn('WebGL context lost')
+    setWebglContextLost(true)
+  }, [])
 
+  const handleWebGLContextRestored = useCallback(() => {
+    console.log('WebGL context restored')
+    setWebglContextLost(false)
+  }, [])
+
+  // Add event listeners for WebGL context events
+  useEffect(() => {
+    const canvas = canvasRef.current?.querySelector('canvas')
+    if (canvas) {
+      canvas.addEventListener('webglcontextlost', handleWebGLContextLost)
+      canvas.addEventListener('webglcontextrestored', handleWebGLContextRestored)
+
+      return () => {
+        canvas.removeEventListener('webglcontextlost', handleWebGLContextLost)
+        canvas.removeEventListener('webglcontextrestored', handleWebGLContextRestored)
+      }
+    }
+  }, [handleWebGLContextLost, handleWebGLContextRestored])
+
+  const viewPresetTopClass = doesShowHeader ? 'top-14' : 'top-2'
+
+  return (
+    <div className="h-screen bg-gray-900 text-white flex flex-col overflow-hidden">
       {/* Full Screen 3D Canvas */}
       <section className="flex-1 flex flex-col bg-gray-900 relative">
         {/* Canvas Header */}
-        <header className="h-12 bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-700 flex items-center justify-between px-4">
-          <div className="flex items-center gap-4">
-            <div className="text-xl font-medium text-white">3D Viewport</div>
-            <Badge
-              variant="secondary"
-              className="bg-green-500/20 text-green-400 border-green-500/30"
-            >
-              Live Preview
-            </Badge>
-          </div>
-
-          <div className="flex gap-2">
-            {/* View Controls */}
-            <div className="flex items-center gap-1 mr-4">
-              <Button
-                size="sm"
-                onClick={handleResetCamera}
-                className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
-                title="Reset Camera to Default View"
+        {doesShowHeader && (
+          <header className="h-12 bg-gradient-to-r from-gray-800 to-gray-900 border-b border-gray-700 flex items-center justify-between px-4">
+            <div className="flex items-center gap-4">
+              <div className="text-xl font-medium text-white">Builder Visualizer 3D</div>
+              <Badge
+                variant="secondary"
+                className={`${
+                  webglContextLost
+                    ? 'bg-red-500/20 text-red-400 border-red-500/30'
+                    : 'bg-green-500/20 text-green-400 border-green-500/30'
+                }`}
               >
-                <RotateCcw className="h-4 w-4" />
-              </Button>
-              <Button
-                size="sm"
-                onClick={handleCenterView}
-                className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
-                title="Center View on House"
-              >
-                <Target className="h-4 w-4" />
-              </Button>
-              <Button
-                size="sm"
-                onClick={handleZoomIn}
-                className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
-                title="Zoom In"
-              >
-                <ZoomIn className="h-4 w-4" />
-              </Button>
-              <Button
-                size="sm"
-                onClick={handleZoomOut}
-                className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
-                title="Zoom Out"
-              >
-                <ZoomOut className="h-4 w-4" />
-              </Button>
+                {webglContextLost ? 'Context Lost' : 'Live Preview'}
+              </Badge>
             </div>
 
-            <Button
-              size="sm"
-              onClick={() => setShowSettings(!showSettings)}
-              className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
-            >
-              <Settings className="h-4 w-4 mr-2" />
-              Settings
-            </Button>
+            <div className="flex gap-2">
+              {/* View Controls */}
+              <div className="flex items-center gap-1 mr-4">
+                <Button
+                  size="sm"
+                  onClick={handleResetCamera}
+                  className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
+                  title="Reset Camera to Default View"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleCenterView}
+                  className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
+                  title="Center View on House"
+                >
+                  <Target className="h-4 w-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleZoomIn}
+                  className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
+                  title="Zoom In"
+                >
+                  <ZoomIn className="h-4 w-4" />
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleZoomOut}
+                  className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
+                  title="Zoom Out"
+                >
+                  <ZoomOut className="h-4 w-4" />
+                </Button>
+              </div>
 
-            <Button
-              size="sm"
-              onClick={() => setShowWebGLDiagnostic(!showWebGLDiagnostic)}
-              className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
-            >
-              Debug
-            </Button>
+              <Button
+                size="sm"
+                onClick={() => setShowSettings(!showSettings)}
+                className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </Button>
 
-            <Button
-              size="sm"
-              onClick={toggleFullscreen}
-              className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
-            >
-              {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-            </Button>
-          </div>
-        </header>
+              <Button
+                size="sm"
+                onClick={() => setShowWebGLDiagnostic(!showWebGLDiagnostic)}
+                className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
+              >
+                Debug
+              </Button>
+
+              <Button
+                size="sm"
+                onClick={toggleFullscreen}
+                className="bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700/90 text-gray-300 hover:text-white transition-colors"
+              >
+                {isFullscreen ? (
+                  <Minimize2 className="h-4 w-4" />
+                ) : (
+                  <Maximize2 className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          </header>
+        )}
 
         {/* 3D Canvas */}
         <div ref={canvasRef} className="flex-1 relative">
@@ -475,7 +500,9 @@ export default function HouseVisualizer() {
       />
 
       {/* View Preset Panel - Always Visible */}
-      <div className="absolute top-30 left-2 bg-gray-800/95 backdrop-blur-sm rounded-lg p-2 border border-gray-700 shadow-xl z-50">
+      <div
+        className={`absolute ${viewPresetTopClass} left-2 bg-gray-800/95 backdrop-blur-sm rounded-lg p-2 border border-gray-700 shadow-xl z-50`}
+      >
         <div className="flex items-center gap-1">
           {[
             { id: 'front', label: 'F', icon: '→', title: 'Front View' },
@@ -542,6 +569,6 @@ export default function HouseVisualizer() {
           </div>
         </div>
       )}
-    </main>
+    </div>
   )
 }

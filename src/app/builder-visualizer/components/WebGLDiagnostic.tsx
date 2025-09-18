@@ -62,13 +62,13 @@ export function WebGLDiagnostic() {
 
   if (error) {
     return (
-      <Card className="w-full max-w-2xl">
+      <Card className="w-full max-w-2xl bg-white/95 backdrop-blur border border-slate-200/70 shadow-xl rounded-xl">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-red-600">
             <AlertTriangle className="h-5 w-5" />
             WebGL Error
           </CardTitle>
-          <CardDescription>{error}</CardDescription>
+          <CardDescription className="text-slate-600">{error}</CardDescription>
         </CardHeader>
       </Card>
     )
@@ -76,9 +76,9 @@ export function WebGLDiagnostic() {
 
   if (!diagnostics) {
     return (
-      <Card className="w-full max-w-2xl">
+      <Card className="w-full max-w-2xl bg-white/95 backdrop-blur border border-slate-200/70 shadow-xl rounded-xl">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-slate-900">
             <Info className="h-5 w-5" />
             Loading WebGL Diagnostics...
           </CardTitle>
@@ -88,16 +88,18 @@ export function WebGLDiagnostic() {
   }
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="w-full max-w-2xl bg-white/95 backdrop-blur border border-slate-200/70 shadow-xl rounded-xl">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-slate-900">
           <CheckCircle className="h-5 w-5 text-green-600" />
           WebGL Diagnostics
         </CardTitle>
-        <CardDescription>WebGL support and capabilities information</CardDescription>
+        <CardDescription className="text-slate-600">
+          WebGL support and capabilities information
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <h4 className="font-semibold text-sm mb-2">Support</h4>
             <div className="space-y-1">
@@ -151,12 +153,12 @@ export function WebGLDiagnostic() {
           <div className="max-h-32 overflow-y-auto">
             <div className="flex flex-wrap gap-1">
               {diagnostics.extensions.slice(0, 20).map((ext) => (
-                <Badge key={ext} variant="outline" className="text-xs">
+                <Badge key={ext} variant="outline" className="text-[11px]">
                   {ext}
                 </Badge>
               ))}
               {diagnostics.extensions.length > 20 && (
-                <Badge variant="outline" className="text-xs">
+                <Badge variant="outline" className="text-[11px]">
                   +{diagnostics.extensions.length - 20} more
                 </Badge>
               )}

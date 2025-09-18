@@ -1,16 +1,30 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import HouseVisualizer from '../components/HouseVisualizer'
-import Head from 'next/head'
-import { pageMetadata } from '@/lib/metadata'
+import { BuilderVisualizerErrorBoundary } from '../components/BuilderVisualizerErrorBoundary'
+
+function LoadingFallback() {
+  return (
+    <div className="h-screen bg-gray-900 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+        <div className="text-white text-lg">Loading Builder Visualizer...</div>
+        <div className="text-gray-400 text-sm mt-2">Initializing 3D engine...</div>
+      </div>
+    </div>
+  )
+}
 
 export default function BuilderVisualizerLaunch() {
-  const meta = pageMetadata.builderVisualizer
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
     // Prevent scrolling on the body when in fullscreen mode
     document.body.style.overflow = 'hidden'
+
+    // Set mounted state to prevent hydration issues
+    setIsMounted(true)
 
     // Cleanup function to restore scrolling when component unmounts
     return () => {
@@ -18,29 +32,18 @@ export default function BuilderVisualizerLaunch() {
     }
   }, [])
 
+  // Prevent hydration mismatch by only rendering after mount
+  if (!isMounted) {
+    return <LoadingFallback />
+  }
+
   return (
-    <>
-      <Head>
-        <title>{meta.title} | EquityPath</title>
-        <meta name="description" content={meta.description} />
-        {meta.keywords && <meta name="keywords" content={meta.keywords.join(', ')} />}
-        <meta property="og:title" content={meta.openGraph?.title || meta.title} />
-        <meta property="og:description" content={meta.openGraph?.description || meta.description} />
-        {meta.openGraph?.images && (
-          <meta property="og:image" content={meta.openGraph.images[0].url} />
-        )}
-        <meta name="twitter:title" content={meta.openGraph?.title || meta.title} />
-        <meta
-          name="twitter:description"
-          content={meta.openGraph?.description || meta.description}
-        />
-        {meta.openGraph?.images && (
-          <meta name="twitter:image" content={meta.openGraph.images[0].url} />
-        )}
-      </Head>
-      <div className="fixed inset-0 z-50 bg-white">
-        <HouseVisualizer />
-      </div>
-    </>
+    <BuilderVisualizerErrorBoundary>
+      <Suspense fallback={<LoadingFallback />}>
+        <div className="h-screen w-screen bg-gray-900">
+          <HouseVisualizer />
+        </div>
+      </Suspense>
+    </BuilderVisualizerErrorBoundary>
   )
 }

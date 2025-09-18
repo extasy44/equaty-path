@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { X, Check, Palette, Star } from 'lucide-react'
+import { X, Check, Palette } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -79,44 +79,66 @@ export function MaterialSelectionModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] bg-white">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Palette className="h-5 w-5 text-blue-600" />
-            Select Material for {sectionName}
+      <DialogContent className="max-w-6xl max-h-[80vh] bg-white/95 backdrop-blur rounded-xl border border-slate-200/60 shadow-2xl p-0">
+        <DialogHeader className="px-4 pt-3 pb-2 border-b border-slate-100">
+          <DialogTitle className="flex items-center gap-2 text-slate-900">
+            <span className="inline-grid h-6 w-6 place-items-center rounded-md bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+              <Palette className="h-3.5 w-3.5" />
+            </span>
+            <span className="text-sm sm:text-base font-semibold">
+              Select material for {sectionName}
+            </span>
           </DialogTitle>
-          <DialogDescription>
-            Choose a material for the {sectionType} section. Changes will be applied immediately to
-            the 3D model.
+          <DialogDescription className="text-[11px] sm:text-xs text-slate-500">
+            Choose a material for the{' '}
+            <span className="font-medium text-slate-700">{sectionType}</span>.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 px-4 py-3">
           {/* Category Filter */}
-          <div className="w-48 flex-shrink-0">
+          <div className="w-full lg:w-44 flex-shrink-0">
             <div className="space-y-2">
-              <h4 className="font-semibold text-sm text-gray-700">Categories</h4>
-              <div className="space-y-1">
-                <Button
-                  variant={selectedCategory === 'all' ? 'default' : 'ghost'}
-                  size="sm"
-                  className="w-full justify-start text-xs"
-                  onClick={() => setSelectedCategory('all')}
-                >
-                  All Materials ({availableMaterials.length})
-                </Button>
-                {categories.map((category) => (
+              <h4 className="font-semibold text-[10px] tracking-wide text-slate-600 uppercase">
+                Categories
+              </h4>
+              <ScrollArea className="h-[38vh] lg:h-[60vh] pr-1">
+                <div className="space-y-1">
                   <Button
-                    key={category}
-                    variant={selectedCategory === category ? 'default' : 'ghost'}
+                    variant={selectedCategory === 'all' ? 'default' : 'ghost'}
                     size="sm"
-                    className="w-full justify-start text-xs capitalize"
-                    onClick={() => setSelectedCategory(category)}
+                    className={`h-7 w-full justify-between text-[11px] ${
+                      selectedCategory === 'all'
+                        ? 'bg-slate-900 text-white hover:bg-slate-800'
+                        : 'text-slate-700 hover:bg-slate-100'
+                    }`}
+                    onClick={() => setSelectedCategory('all')}
                   >
-                    {category} ({materialsByCategory[category].length})
+                    <span className="truncate">All materials</span>
+                    <Badge variant="outline" className="ml-2 text-[10px] px-1 py-0">
+                      {availableMaterials.length}
+                    </Badge>
                   </Button>
-                ))}
-              </div>
+                  {categories.map((category) => (
+                    <Button
+                      key={category}
+                      variant={selectedCategory === category ? 'default' : 'ghost'}
+                      size="sm"
+                      className={`h-7 w-full justify-between text-[11px] capitalize ${
+                        selectedCategory === category
+                          ? 'bg-slate-900 text-white hover:bg-slate-800'
+                          : 'text-slate-700 hover:bg-slate-100'
+                      }`}
+                      onClick={() => setSelectedCategory(category)}
+                    >
+                      <span className="truncate">{category}</span>
+                      <Badge variant="outline" className="ml-2 text-[10px] px-1 py-0">
+                        {materialsByCategory[category].length}
+                      </Badge>
+                    </Button>
+                  ))}
+                </div>
+              </ScrollArea>
             </div>
           </div>
 
@@ -124,94 +146,51 @@ export function MaterialSelectionModal({
 
           {/* Materials Grid */}
           <div className="flex-1">
-            <ScrollArea className="h-[60vh]">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <ScrollArea className="h-[56vh] lg:h-[60vh]">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
                 {(selectedCategory === 'all'
                   ? availableMaterials
                   : materialsByCategory[selectedCategory] || []
                 ).map((material) => (
                   <Card
                     key={material.id}
-                    className={`cursor-pointer transition-all duration-200 hover:shadow-md ${
+                    className={`group relative cursor-pointer transition-all duration-200 border border-slate-200/60 hover:border-slate-300 shadow-sm hover:shadow-md rounded-lg ${
                       currentMaterial?.id === material.id
-                        ? 'ring-2 ring-blue-500 bg-blue-50'
-                        : 'hover:shadow-sm'
+                        ? 'ring-2 ring-blue-600 bg-blue-50/60'
+                        : ''
                     }`}
                     onClick={() => handleMaterialClick(material)}
                   >
-                    <CardContent className="p-3">
-                      <div className="space-y-2">
+                    <CardContent className="p-2">
+                      {currentMaterial?.id === material.id && (
+                        <span className="absolute right-1.5 top-1.5 inline-grid h-4 w-4 place-items-center rounded-full bg-blue-600 text-white shadow">
+                          <Check className="h-2.5 w-2.5" />
+                        </span>
+                      )}
+                      <div className="space-y-1.5">
                         {/* Material Preview */}
                         <div className="flex items-center gap-2">
                           <div
-                            className="w-8 h-8 rounded border border-gray-200 flex-shrink-0"
+                            className="w-8 h-8 rounded-md border border-slate-200 flex-shrink-0 shadow-inner"
                             style={{ backgroundColor: material.color }}
                           />
                           <div className="flex-1 min-w-0">
-                            <h5 className="font-medium text-sm text-gray-900 truncate">
+                            <h5 className="font-medium text-[12px] text-slate-900 truncate leading-tight">
                               {material.name}
                             </h5>
-                            <p className="text-xs text-gray-500 truncate">
+                            <p className="text-[10px] text-slate-500 truncate">
                               {material.materialType?.name || 'Material'}
                             </p>
                           </div>
-                          {currentMaterial?.id === material.id && (
-                            <Check className="h-4 w-4 text-blue-600 flex-shrink-0" />
-                          )}
                         </div>
 
-                        {/* Material Properties */}
-                        <div className="space-y-1">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-gray-600">Cost:</span>
-                            <span className="font-medium text-green-600">
-                              ${(material.cost || 0).toLocaleString()}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-gray-600">Finish:</span>
-                            <span className="text-gray-800 capitalize">
-                              {material.properties?.finish || 'Standard'}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="text-gray-600">Durability:</span>
-                            <Badge variant="outline" className="text-xs px-1 py-0">
-                              {material.properties?.durability || 'Good'}
-                            </Badge>
-                          </div>
+                        {/* Material Properties (compact) */}
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="text-slate-600">Cost</span>
+                          <span className="font-semibold text-green-600">
+                            ${(material.cost || 0).toLocaleString()}
+                          </span>
                         </div>
-
-                        {/* Material Description */}
-                        <p className="text-xs text-gray-600 line-clamp-2">
-                          {material.properties?.description ||
-                            'High-quality material for construction.'}
-                        </p>
-
-                        {/* Action Button */}
-                        <Button
-                          size="sm"
-                          variant={currentMaterial?.id === material.id ? 'default' : 'outline'}
-                          className="w-full text-xs"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleMaterialClick(material)
-                          }}
-                        >
-                          {currentMaterial?.id === material.id ? (
-                            <>
-                              <Check className="h-3 w-3 mr-1" />
-                              Selected
-                            </>
-                          ) : (
-                            <>
-                              <Star className="h-3 w-3 mr-1" />
-                              Select
-                            </>
-                          )}
-                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -221,20 +200,23 @@ export function MaterialSelectionModal({
           </div>
         </div>
 
-        <div className="flex justify-between items-center pt-4 border-t">
-          <div className="text-sm text-gray-600">
+        <div className="flex justify-between items-center px-4 py-2 border-t bg-white/70 backdrop-blur rounded-b-xl">
+          <div className="text-xs text-slate-600">
             {currentMaterial ? (
               <span>
-                Current: <span className="font-medium">{currentMaterial.name}</span>
+                Current:{' '}
+                <span className="font-semibold text-slate-900">{currentMaterial.name}</span>
               </span>
             ) : (
-              <span className="text-gray-500">No material selected</span>
+              <span className="text-slate-500">No material selected</span>
             )}
           </div>
-          <Button variant="outline" onClick={onClose}>
-            <X className="h-4 w-4 mr-2" />
-            Close
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" className="h-7 text-xs" onClick={onClose}>
+              <X className="h-3.5 w-3.5 mr-1.5" />
+              Close
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
